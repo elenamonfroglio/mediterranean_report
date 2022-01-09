@@ -50,6 +50,38 @@ public class Settimana {
 			System.out.print(m + ";\n");
 		}
 	}
+	
+	public ArrayList<Macronutriente> getAllMoreIsBetter() {
+		ArrayList<Macronutriente> ret = new ArrayList<Macronutriente>(7);
+		for(Macronutriente m: macronutrienti){
+			if(m.moreIsBetter) {
+				ret.add(m);
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<Macronutriente> getAllLessIsBetter() {
+		ArrayList<Macronutriente> ret = new ArrayList<Macronutriente>(7);
+		for(Macronutriente m: macronutrienti){
+			if(!m.moreIsBetter) {
+				ret.add(m);
+			}
+		}
+		return ret;
+	}
+	
+	public int countBadEnvironment() {
+		int ret = 0;
+		
+		for (Macronutriente m: macronutrienti) {
+			if (!m.goodForEnvironment) {
+				ret += m.punteggio;
+			}
+		}
+		
+		return ret;
+	}
 	/*
 	public Settimana(DatabaseManager dbmgr, int idtest, String cf) {
 		try {

@@ -3,17 +3,19 @@ package monfroglio.elena.model;
 public class Macronutriente {
 	public String nome;
 	public int punteggio;
-	public boolean moreisbetter;
+	public boolean moreIsBetter;
+	public boolean goodForEnvironment;
 	
-	public Macronutriente(String nome, int punteggio, boolean moreisbetter) {
+	public Macronutriente(String nome, int punteggio, boolean moreisbetter, boolean goodForEnvironment) {
 		this.nome = nome;
 		this.punteggio = punteggio;
-		this.moreisbetter = moreisbetter;
+		this.moreIsBetter = moreisbetter;
+		this.goodForEnvironment = goodForEnvironment;
 	}
 	
 	public String toString() {
 		String ret = nome + ": "+punteggio;
-		if(moreisbetter) ret += ", more is better";
+		if(moreIsBetter) ret += ", more is better";
 		else	ret += ", less is better";
 		return ret;
 	}

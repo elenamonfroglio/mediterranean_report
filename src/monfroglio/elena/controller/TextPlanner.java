@@ -1,5 +1,7 @@
 package monfroglio.elena.controller;
 
+import java.io.FileWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import monfroglio.elena.model.Macronutriente;
@@ -30,18 +32,30 @@ public class TextPlanner {
 	public void getTextPlan() {
 		ArrayList<Macronutriente> mores = settimana.getAllMoreIsBetter();
 		ArrayList<Macronutriente> lesses = settimana.getAllLessIsBetter();
-		
+		int index = 0;
 		//
 		if (user.interesseAmbientale) {
 			int count = settimana.countBadEnvironment();
-			int index = 0;
-			//classifico il TextPlan con 4 diverse classi di gravità (0-5,5-10,10-15,15-20)
-			if(count<5) index = 0;
-			else if(count<10) index = 1;
-			else if(count<15) index = 2;
-			else index = 3;
+			
+			//classifico il TextPlan con 4 diverse classi di gravità (0-4,4-8,8-12,12-16,16-20)
+			if(count<4) index = 0;
+			else if(count<8) index = 1;
+			else if(count<12) index = 2;
+			else if(count<16) index = 3;
+			else index = 4;
 		}
-		
+		/*
+		//EXAMPLE WITH STRINGWRITER
+		JsonObject value = Json.createObjectBuilder()
+				.add("indexEnvironment", index)
+				.build();
+		StringWriter stringWriter = new StringWriter();
+	    JsonWriter writer = Json.createWriter(stringWriter);
+	 
+	    writer.writeObject(value);
+	    writer.close();
+	    System.out.println(stringWriter.getBuffer().toString());
+	    */
 	}
 	
 }

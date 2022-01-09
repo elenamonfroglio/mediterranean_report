@@ -103,25 +103,25 @@ public class DatabaseManager{
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while (rs.next()) {
-			Macronutriente cereali = new Macronutriente("Cereali",rs.getInt("Cereali"),true);
+			Macronutriente cereali = new Macronutriente("Cereali",rs.getInt("Cereali"),true,true);
 			ret.add(cereali);
-			Macronutriente patate = new Macronutriente("Patate",rs.getInt("Patate"),true);
+			Macronutriente patate = new Macronutriente("Patate",rs.getInt("Patate"),true,true);
 			ret.add(patate);
-			Macronutriente frutta = new Macronutriente("Frutta",rs.getInt("Frutta"),true);
+			Macronutriente frutta = new Macronutriente("Frutta",rs.getInt("Frutta"),true,true);
 			ret.add(frutta);
-			Macronutriente verdura = new Macronutriente("Verdura",rs.getInt("Verdura"),true);
+			Macronutriente verdura = new Macronutriente("Verdura",rs.getInt("Verdura"),true,true);
 			ret.add(verdura);
-			Macronutriente legumi = new Macronutriente("Legumi",rs.getInt("Legumi"),true);
+			Macronutriente legumi = new Macronutriente("Legumi",rs.getInt("Legumi"),true,true);
 			ret.add(legumi);
-			Macronutriente pesce = new Macronutriente("Pesce",rs.getInt("Pesce"),true);
+			Macronutriente pesce = new Macronutriente("Pesce",rs.getInt("Pesce"),true,false);
 			ret.add(pesce);
-			Macronutriente carneRossa = new Macronutriente("CarneRossa",rs.getInt("CarneRossa"),false);
+			Macronutriente carneRossa = new Macronutriente("CarneRossa",rs.getInt("CarneRossa"),false,false);
 			ret.add(carneRossa);
-			Macronutriente pollame = new Macronutriente("Pollame",rs.getInt("Pollame"),false);
+			Macronutriente pollame = new Macronutriente("Pollame",rs.getInt("Pollame"),false,false);
 			ret.add(pollame);
-			Macronutriente latticini = new Macronutriente("Latticini",rs.getInt("Latticini"),false);
+			Macronutriente latticini = new Macronutriente("Latticini",rs.getInt("Latticini"),false,false);
 			ret.add(latticini);
-			Macronutriente usoOlioOliva = new Macronutriente("UsoOlioOliva",rs.getInt("UsoOlioOliva"),true);
+			Macronutriente usoOlioOliva = new Macronutriente("UsoOlioOliva",rs.getInt("UsoOlioOliva"),true,true);
 			ret.add(usoOlioOliva);
 			
 		}
