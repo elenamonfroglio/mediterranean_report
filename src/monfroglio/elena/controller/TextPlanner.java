@@ -1,8 +1,13 @@
 package monfroglio.elena.controller;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 
 import monfroglio.elena.model.Macronutriente;
 import monfroglio.elena.model.Settimana;
@@ -32,6 +37,19 @@ public class TextPlanner {
 	public void getTextPlan() {
 		ArrayList<Macronutriente> mores = settimana.getAllMoreIsBetter();
 		ArrayList<Macronutriente> lesses = settimana.getAllLessIsBetter();
+		
+		int indexAmbientale = getIndexAmbientale();
+		
+		//EXAMPLE WITH STRINGWRITER
+		JsonObject value = Json.createObjectBuilder()
+				.add("indexEnvironment", indexAmbientale)
+				.build();
+		
+		createJsonFile(value);
+	    
+	}
+	
+	public int getIndexAmbientale() {
 		int index = 0;
 		//
 		if (user.interesseAmbientale) {
@@ -44,18 +62,32 @@ public class TextPlanner {
 			else if(count<16) index = 3;
 			else index = 4;
 		}
-		/*
-		//EXAMPLE WITH STRINGWRITER
-		JsonObject value = Json.createObjectBuilder()
-				.add("indexEnvironment", index)
-				.build();
-		StringWriter stringWriter = new StringWriter();
-	    JsonWriter writer = Json.createWriter(stringWriter);
-	 
-	    writer.writeObject(value);
-	    writer.close();
-	    System.out.println(stringWriter.getBuffer().toString());
-	    */
+		return index;
+	}
+	
+	public void createJsonFile(JsonObject value) {
+		FileWriter file = null;
+		try {
+			
+			String fileName = new SimpleDateFormat("yyyyMMdd HH:mm:ss'.json'", Locale.getDefault()).format(new Date());
+			file = new FileWriter("src/monfroglio/elena/files/"+user.cognome+" "+fileName);
+			file.write(value.toString());
+			
+		} catch (IOException e) {
+			
+            e.printStackTrace(); 
+            
+        } finally {
+ 
+            try {
+                file.flush();
+                file.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+        }
 	}
 	
 }

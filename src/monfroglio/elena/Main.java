@@ -7,13 +7,21 @@ import java.time.Month;
 import java.util.ArrayList;
 
 import monfroglio.elena.controller.DatabaseManager;
+import monfroglio.elena.controller.TextPlanner;
 import monfroglio.elena.model.Settimana;
 import monfroglio.elena.model.Utente;
 
 public class Main {
 	public static void main(String[] args) {
 		DatabaseManager dbmgr = new DatabaseManager();
-
+		test1(dbmgr);
+		
+	}
+	
+	public static void test2(DatabaseManager dbmgr) {
+	}
+	
+	public static void test1(DatabaseManager dbmgr) {
 		try {
 			//recupero user model dal codice fiscale
 			Utente u = dbmgr.getUtente("prmdnn75b44l219r");
@@ -28,7 +36,12 @@ public class Main {
 			sem.indiceMed = dbmgr.getIndiceMed(sem);
 			sem.macronutrienti = dbmgr.getPunteggiComponenti(sem);
 			
-			sem.print();
+			sem.print();			
+			
+			//Create a textPlanner
+			TextPlanner tp = new TextPlanner("it",u,sem);
+			tp.getTextPlan();
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
