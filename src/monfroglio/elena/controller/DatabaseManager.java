@@ -51,7 +51,7 @@ public class DatabaseManager{
 	
 	
 	public ArrayList<Pasto> getPasti(Settimana sem) throws SQLException{
-		int idTest = sem.idTest;
+		int idTest = sem.getIdTest();
 		ArrayList<Pasto> ret = new ArrayList<>();
 		
 		String query = "SELECT ricetta.nome "+
@@ -86,14 +86,14 @@ public class DatabaseManager{
 			int eta = rs.getInt("età");
 			String sesso = rs.getString("sesso");
 			ret = new Utente(nome,cognome,cf,eta,sesso);
-			ret.print();
+			//ret.print();
 		}
 		return ret;
 	}
 	
 	
 	public ArrayList<Macronutriente> getPunteggiComponenti(Settimana sem) throws SQLException{
-		int idTest = sem.idTest;
+		int idTest = sem.getIdTest();
 		ArrayList<Macronutriente> ret = new ArrayList<Macronutriente>(10);
 		
 		String query = "SELECT * "
@@ -130,7 +130,7 @@ public class DatabaseManager{
 	}
 	
 	public int getIndiceMed(Settimana sem) throws SQLException{
-		int idTest = sem.idTest;
+		int idTest = sem.getIdTest();
 		int ret = 0;
 		
 		String query = "SELECT * "

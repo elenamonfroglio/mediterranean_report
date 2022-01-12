@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Pasto {
-	public String alimento;
-	public LocalTime orario;
-	public LocalDate giorno;
-	public int slot;
+	private String alimento;
+	private LocalTime orario;
+	private LocalDate giorno;
+	private int slot;
 	//https://jdbc.postgresql.org/documentation/head/8-date-time.html
 	
 	public Pasto(String alimento, LocalTime orario, LocalDate giorno, int slot) {

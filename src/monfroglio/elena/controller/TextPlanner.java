@@ -2,13 +2,9 @@ package monfroglio.elena.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 
 import monfroglio.elena.model.Macronutriente;
 import monfroglio.elena.model.Settimana;
@@ -18,6 +14,7 @@ import javax.json.*;
 
 public class TextPlanner {
 	public String lingua;
+	public String fileName;
 	public Utente user;
 	public Settimana settimana;
 	
@@ -35,18 +32,22 @@ public class TextPlanner {
 		this.settimana = settimana;
 	}
 	
+	//what to says
 	public void contentDetermination() {
-
-		int indexAmbientale = getIndexAmbientale();
-		
-		//add indexAmbientale
+		//add lingua
 		JsonObjectBuilder builder = Json.createObjectBuilder()
-				.add("indexEnvironment", indexAmbientale);
-
+				.add("lingua", lingua);
+		
 		//add macronutrienti
-		for (Macronutriente m:settimana.macronutrienti) {
-			builder.add(m.nome, m.punteggio);
+		for (Macronutriente m:settimana.getMacronutrienti()) {
+			builder.add(m.getNome(), m.getPunteggio());
 		}
+		
+
+		//add indexAmbientale
+		
+		int indexAmbientale = getIndexAmbientale();
+		builder.add("indexEnvironment", indexAmbientale);
 		
 		JsonObject value = builder.build();
 		
@@ -60,7 +61,7 @@ public class TextPlanner {
 	public int getIndexAmbientale() {
 		int index = 0;
 		//
-		if (user.interesseAmbientale) {
+		if (user.getInteresseAmbientale()) {
 			int count = settimana.countBadEnvironment();
 			
 			//classifico il TextPlan con 4 diverse classi di gravità (0-4,4-8,8-12,12-16,16-20)
@@ -75,15 +76,16 @@ public class TextPlanner {
 	
 
 	public void textStructuring() {
-		//in questo modo imposterò l'ordine e la struttura in base allo user model
+		//in questo metodo imposterò l'ordine e la struttura in base allo user model
 	}
 	
 	public void createJsonFile(JsonObject value) {
 		FileWriter file = null;
 		try {
 			
-			String fileName = new SimpleDateFormat("yyyyMMdd HH:mm:ss'.json'", Locale.getDefault()).format(new Date());
-			file = new FileWriter("src/monfroglio/elena/files/"+user.cognome+" "+fileName);
+			String fileFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss'.json'", Locale.getDefault()).format(new Date());
+			this.fileName = "src/monfroglio/elena/files/"+user.getCognome()+" "+fileFormat;
+			file = new FileWriter(this.fileName);
 			file.write(value.toString());
 			
 		} catch (IOException e) {

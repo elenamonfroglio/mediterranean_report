@@ -1,21 +1,21 @@
 package monfroglio.elena.model;
 
 public class Utente {
-	public String nome;//*
-	public String cognome;//*
-	public String cf;
-	public int eta;//*
-	public float peso;
-	public int altezza;
-	public float bmi;
-	public String categoriaPeso;//TBC
-	public String attivitaComplessiva;//TBC
-	public String valutazioneComplessiva;//TBC
-	public String sesso;//*
-	public int conoscenzaDominio;//*
-	public int stress;//*
-	public boolean interesseAmbientale;//*
-	public int willness;//TBC
+	private String nome;//*
+	private String cognome;//*
+	private String cf;
+	private int eta;//*
+	private float peso;
+	private int altezza;
+	private float bmi;
+	private String categoriaPeso;//TBC
+	private String attivitaComplessiva;//TBC
+	private String valutazioneComplessiva;//TBC
+	private String sesso;//*
+	private int conoscenzaDominio;//*
+	private int stress;//*
+	private boolean interesseAmbientale;//*
+	private int willness;//TBC
 	
 	public Utente(String nome, String cognome, String cf, int eta, float peso, int altezza, float bmi,
 			String categoriaPeso, String attivitaComplessiva, String valutazioneComplessiva,
@@ -82,5 +82,13 @@ public class Utente {
 	
 	public String toString() {
 		return nome+" "+cognome+", CF: "+cf+" \n";//TBC
+	}
+	
+	public String getCognome() {
+		return cognome;
+	}
+	
+	public boolean getInteresseAmbientale() {
+		return interesseAmbientale;
 	}
 }

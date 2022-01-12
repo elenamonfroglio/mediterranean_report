@@ -1,10 +1,10 @@
 package monfroglio.elena.model;
 
 public class Macronutriente {
-	public String nome;
-	public int punteggio;
-	public boolean moreIsBetter;
-	public boolean goodForEnvironment;
+	private String nome;
+	private int punteggio;
+	private boolean moreIsBetter;
+	private boolean goodForEnvironment;
 	
 	public Macronutriente(String nome, int punteggio, boolean moreisbetter, boolean goodForEnvironment) {
 		this.nome = nome;
@@ -22,6 +22,22 @@ public class Macronutriente {
 	
 	public void print() {
 		System.out.println(this);
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public int getPunteggio() {
+		return punteggio;
+	}
+	
+	public boolean getMoreIsBetter() {
+		return moreIsBetter;
+	}
+	
+	public boolean getGoodForEnvironment() {
+		return goodForEnvironment;
 	}
 	
 }

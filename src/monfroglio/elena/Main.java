@@ -7,6 +7,7 @@ import java.time.Month;
 import java.util.ArrayList;
 
 import monfroglio.elena.controller.DatabaseManager;
+import monfroglio.elena.controller.SentencePlanner;
 import monfroglio.elena.controller.TextPlanner;
 import monfroglio.elena.model.Settimana;
 import monfroglio.elena.model.Utente;
@@ -32,9 +33,9 @@ public class Main {
 			LocalDate end = LocalDate.of(2022, Month.JANUARY, 9);
 			Settimana sem = new Settimana(start,end,idTest);
 			//recupero i pasti della settimana e l'indice di mediterraneità
-			sem.pasti = dbmgr.getPasti(sem);
-			sem.indiceMed = dbmgr.getIndiceMed(sem);
-			sem.macronutrienti = dbmgr.getPunteggiComponenti(sem);
+			sem.setPasti(dbmgr.getPasti(sem));
+			sem.setIndiceMed(dbmgr.getIndiceMed(sem));
+			sem.setMacronutrienti(dbmgr.getPunteggiComponenti(sem));
 			
 			sem.print();			
 			
@@ -43,6 +44,8 @@ public class Main {
 			tp.contentDetermination();
 			tp.textStructuring();
 			
+			SentencePlanner sp = new SentencePlanner(tp.fileName);
+			sp.readJson();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
