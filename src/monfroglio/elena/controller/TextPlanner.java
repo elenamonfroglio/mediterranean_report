@@ -40,12 +40,11 @@ public class TextPlanner {
 		
 		//add macronutrienti
 		for (Macronutriente m:settimana.getMacronutrienti()) {
-			builder.add(m.getNome(), m.getPunteggio());
-		}
-		
+			String content = getContentFromPunteggio(m);
+			builder.add(m.getNome(), content);
+		}		
 
-		//add indexAmbientale
-		
+		//add indexAmbientale		
 		int indexAmbientale = getIndexAmbientale();
 		builder.add("indexEnvironment", indexAmbientale);
 		
@@ -55,10 +54,24 @@ public class TextPlanner {
 	    
 	}
 	
+	private String getContentFromPunteggio(Macronutriente m) {
+		if(m.getMoreIsBetter()) {
+			if(m.getPunteggio()==5) 	return "very good";
+			else if(m.getPunteggio()==4 || m.getPunteggio()==3)		return "good";
+			else if(m.getPunteggio()==2 || m.getPunteggio()==1)		return "bad";
+			else	return "very bad";
+		}else {
+			if(m.getPunteggio()==5)		return "very bad";
+			else if(m.getPunteggio()==4 || m.getPunteggio()==3)		return "bad";
+			else if(m.getPunteggio()==2 || m.getPunteggio()==1)		return "good";
+			else	return "very good";
+		}
+	}
+	
 	//=====================================================
 	//       TO BE CHANGED AFTER ARTICLES READING
 	//=====================================================
-	public int getIndexAmbientale() {
+	private int getIndexAmbientale() {
 		int index = 0;
 		//
 		if (user.getInteresseAmbientale()) {
@@ -79,7 +92,7 @@ public class TextPlanner {
 		//in questo metodo imposterò l'ordine e la struttura in base allo user model
 	}
 	
-	public void createJsonFile(JsonObject value) {
+	private void createJsonFile(JsonObject value) {
 		FileWriter file = null;
 		try {
 			

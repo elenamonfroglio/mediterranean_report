@@ -17,23 +17,27 @@ public class SentencePlanner {
 		this.filename = filename;
 	}
 	
+	//which information to present in individual sentences 
 	public void sentenceAggregation() {
+		JsonObject object = readJson();
+		String evaluation = object.getString("Cereali");
+	}
+	
+	//finding the right words and phrases to express information --> senticnet
+	public void lexicalisation() {
 		
 	}
 	
-	public void Lexicalisation() {
-		
-	}
-	
-	public void readJson() {
+	public JsonObject readJson() {
 		File initialFile = new File(filename);
 	    InputStream targetStream;
+	    JsonObject object = null;
 		try {
 			targetStream = new FileInputStream(initialFile);
 
 			JsonReaderFactory factory = Json.createReaderFactory(null);
 			JsonReader reader = factory.createReader(targetStream);
-			JsonObject object = reader.readObject();
+			object = reader.readObject();
             reader.close();
             //read string data
             //System.out.println("\n\nCereali: " + object.getInt("Cereali"));
@@ -42,5 +46,6 @@ public class SentencePlanner {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return object;
 	}
 }
