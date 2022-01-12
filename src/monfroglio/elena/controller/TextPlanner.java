@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
-
+import java.util.Map;
 
 import monfroglio.elena.model.Macronutriente;
 import monfroglio.elena.model.Settimana;
@@ -34,21 +35,28 @@ public class TextPlanner {
 		this.settimana = settimana;
 	}
 	
-	public void getTextPlan() {
-		ArrayList<Macronutriente> mores = settimana.getAllMoreIsBetter();
-		ArrayList<Macronutriente> lesses = settimana.getAllLessIsBetter();
-		
+	public void contentDetermination() {
+
 		int indexAmbientale = getIndexAmbientale();
 		
-		//EXAMPLE WITH STRINGWRITER
-		JsonObject value = Json.createObjectBuilder()
-				.add("indexEnvironment", indexAmbientale)
-				.build();
+		//add indexAmbientale
+		JsonObjectBuilder builder = Json.createObjectBuilder()
+				.add("indexEnvironment", indexAmbientale);
+
+		//add macronutrienti
+		for (Macronutriente m:settimana.macronutrienti) {
+			builder.add(m.nome, m.punteggio);
+		}
+		
+		JsonObject value = builder.build();
 		
 		createJsonFile(value);
 	    
 	}
 	
+	//=====================================================
+	//       TO BE CHANGED AFTER ARTICLES READING
+	//=====================================================
 	public int getIndexAmbientale() {
 		int index = 0;
 		//
@@ -63,6 +71,11 @@ public class TextPlanner {
 			else index = 4;
 		}
 		return index;
+	}
+	
+
+	public void textStructuring() {
+		//in questo modo imposterò l'ordine e la struttura in base allo user model
 	}
 	
 	public void createJsonFile(JsonObject value) {

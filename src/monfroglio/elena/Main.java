@@ -40,7 +40,8 @@ public class Main {
 			
 			//Create a textPlanner
 			TextPlanner tp = new TextPlanner("it",u,sem);
-			tp.getTextPlan();
+			tp.contentDetermination();
+			tp.textStructuring();
 			
 			
 		} catch (SQLException e) {
