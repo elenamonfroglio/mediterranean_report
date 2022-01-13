@@ -45,7 +45,8 @@ public class TextPlanner {
 		}		
 
 		//add indexAmbientale		
-		int indexAmbientale = getIndexAmbientale();
+		//int indexAmbientale = getIndexAmbientale_v0();
+		double indexAmbientale = getIndexAmbientalePerEmissioni();
 		builder.add("indexEnvironment", indexAmbientale);
 		
 		JsonObject value = builder.build();
@@ -71,7 +72,8 @@ public class TextPlanner {
 	//=====================================================
 	//       TO BE CHANGED AFTER ARTICLES READING
 	//=====================================================
-	private int getIndexAmbientale() {
+	//Valore compreso tra 0 e 20
+	private int getIndexAmbientale_v0() {
 		int index = 0;
 		//
 		if (user.getInteresseAmbientale()) {
@@ -84,6 +86,20 @@ public class TextPlanner {
 			else if(count<16) index = 3;
 			else index = 4;
 		}
+		return index;
+	}
+	
+	//Valore compreso tra 0 e 40
+	private double getIndexAmbientalePerEmissioni() {
+		double index = 0;
+		double indexTemp = 0;
+		int count = 0;
+		for(Macronutriente m:settimana.getMacronutrienti()) {
+			indexTemp = m.getPunteggioEnvironment();
+			count = m.getPunteggio();
+			index += indexTemp*count;
+		}
+
 		return index;
 	}
 	

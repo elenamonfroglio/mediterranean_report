@@ -16,6 +16,19 @@ import monfroglio.elena.model.Utente;
 
 
 public class DatabaseManager{
+	//valori normalizzati tra 1 e 2
+	private static double emissioniCarneRossa = 2.00;
+	private static double emissioniLatticini = 1.29;
+	private static double emissioniPesce = 1.23;
+	private static double emissioniPollame = 1.20;
+	private static double emissioniOlioOliva = 1.20;
+	private static double emissioniCereali = 1.06;
+	private static double emissioniVerdura = 1.04;
+	private static double emissioniLegumi = 1.02;
+	private static double emissioniFrutta = 1.02;
+	private static double emissioniPatate = 1.00;
+	
+	
 	public String url = "jdbc:postgresql://localhost:5432/dietdb2.0";
 	public String usr = "elena";
 	public String psw = "MealDB";
@@ -103,25 +116,25 @@ public class DatabaseManager{
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while (rs.next()) {
-			Macronutriente cereali = new Macronutriente("Cereali",rs.getInt("Cereali"),true,true);
+			Macronutriente cereali = new Macronutriente("Cereali",rs.getInt("Cereali"),emissioniCereali,true,true);
 			ret.add(cereali);
-			Macronutriente patate = new Macronutriente("Patate",rs.getInt("Patate"),true,true);
+			Macronutriente patate = new Macronutriente("Patate",rs.getInt("Patate"),emissioniPatate,true,true);
 			ret.add(patate);
-			Macronutriente frutta = new Macronutriente("Frutta",rs.getInt("Frutta"),true,true);
+			Macronutriente frutta = new Macronutriente("Frutta",rs.getInt("Frutta"),emissioniFrutta,true,true);
 			ret.add(frutta);
-			Macronutriente verdura = new Macronutriente("Verdura",rs.getInt("Verdura"),true,true);
+			Macronutriente verdura = new Macronutriente("Verdura",rs.getInt("Verdura"),emissioniVerdura,true,true);
 			ret.add(verdura);
-			Macronutriente legumi = new Macronutriente("Legumi",rs.getInt("Legumi"),true,true);
+			Macronutriente legumi = new Macronutriente("Legumi",rs.getInt("Legumi"),emissioniLegumi,true,true);
 			ret.add(legumi);
-			Macronutriente pesce = new Macronutriente("Pesce",rs.getInt("Pesce"),true,false);
+			Macronutriente pesce = new Macronutriente("Pesce",rs.getInt("Pesce"),emissioniPesce,true,false);
 			ret.add(pesce);
-			Macronutriente carneRossa = new Macronutriente("CarneRossa",rs.getInt("CarneRossa"),false,false);
+			Macronutriente carneRossa = new Macronutriente("CarneRossa",rs.getInt("CarneRossa"),emissioniCarneRossa,false,false);
 			ret.add(carneRossa);
-			Macronutriente pollame = new Macronutriente("Pollame",rs.getInt("Pollame"),false,false);
+			Macronutriente pollame = new Macronutriente("Pollame",rs.getInt("Pollame"),emissioniPollame,false,false);
 			ret.add(pollame);
-			Macronutriente latticini = new Macronutriente("Latticini",rs.getInt("Latticini"),false,false);
+			Macronutriente latticini = new Macronutriente("Latticini",rs.getInt("Latticini"),emissioniLatticini,false,false);
 			ret.add(latticini);
-			Macronutriente usoOlioOliva = new Macronutriente("UsoOlioOliva",rs.getInt("UsoOlioOliva"),true,true);
+			Macronutriente usoOlioOliva = new Macronutriente("UsoOlioOliva",rs.getInt("UsoOlioOliva"),emissioniOlioOliva,true,true);
 			ret.add(usoOlioOliva);
 			
 		}

@@ -20,11 +20,11 @@ public class ReportRealiser {
 	public void createSentence() {
 		SPhraseSpec p = nlgFactory.createClause();
 		p.setSubject("Cereal");
-	    p.setVerb("chase");
-	    p.setObject("the monkey");
+	    p.setVerb("is");
+	    p.setObject("good");
 	    
-	    String output2 = realiser.realiseSentence(p);
-	    System.out.println(output2);
+	    String output = realiser.realiseSentence(p);
+	    System.out.println(output);
 	}
 	  
 }
