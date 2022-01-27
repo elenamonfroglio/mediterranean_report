@@ -15,15 +15,22 @@ public class Macronutriente {
 		this.goodForEnvironment = goodForEnvironment;
 	}
 	
+	public Macronutriente(String nome, int punteggio, double punteggioEnvironment, boolean moreisbetter) {
+		this.nome = nome;
+		this.punteggio = punteggio;
+		this.punteggioEnvironment = punteggioEnvironment;
+		this.moreIsBetter = moreisbetter;
+	}
+	
 	public String toString() {
-		String ret = nome + ": "+punteggio+"\nemissioni carbonio: "+punteggioEnvironment+"\n";
+		String ret = nome + ": "+punteggio+"\nemissioni carbonio: "+punteggioEnvironment;
 		if(moreIsBetter) ret += ", more is better";
 		else	ret += ", less is better";
 		return ret;
 	}
 	
 	public void print() {
-		System.out.println(this);
+		System.out.println("\n\n\n" +this);
 	}
 	
 	public String getNome() {

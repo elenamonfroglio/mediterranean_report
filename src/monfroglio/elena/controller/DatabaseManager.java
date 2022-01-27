@@ -17,16 +17,16 @@ import monfroglio.elena.model.Utente;
 
 public class DatabaseManager{
 	//valori normalizzati tra 1 e 2
-	private static double emissioniCarneRossa = 2.00;
-	private static double emissioniLatticini = 1.29;
-	private static double emissioniPesce = 1.23;
-	private static double emissioniPollame = 1.20;
-	private static double emissioniOlioOliva = 1.20;
-	private static double emissioniCereali = 1.06;
-	private static double emissioniVerdura = 1.04;
-	private static double emissioniLegumi = 1.02;
-	private static double emissioniFrutta = 1.02;
-	private static double emissioniPatate = 1.00;
+	private static double emissioniCarneRossa = 100.00;//
+	private static double emissioniLatticini = 29.64;//
+	private static double emissioniPesce = 23.81;
+	private static double emissioniPollame = 21.43;//
+	private static double emissioniOlioOliva = 21.43;
+	private static double emissioniCereali = 7.62;
+	private static double emissioniVerdura = 5.00;
+	private static double emissioniLegumi = 3.39;
+	private static double emissioniFrutta = 3.00;
+	private static double emissioniPatate = 1.43;
 	
 	
 	public String url = "jdbc:postgresql://localhost:5432/dietdb2.0";

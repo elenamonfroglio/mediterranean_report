@@ -7,6 +7,7 @@ import java.time.Month;
 import java.util.ArrayList;
 
 import monfroglio.elena.controller.DatabaseManager;
+import monfroglio.elena.controller.ReportRealiser;
 import monfroglio.elena.controller.SentencePlanner;
 import monfroglio.elena.controller.TextPlanner;
 import monfroglio.elena.model.Settimana;
@@ -25,8 +26,8 @@ public class Main {
 	public static void test1(DatabaseManager dbmgr) {
 		try {
 			//recupero user model dal codice fiscale
-			Utente u = dbmgr.getUtente("prmdnn75b44l219r");
-			int idTest = 91000;
+			Utente u = dbmgr.getUtente("RSSFNC80A01A001I");
+			int idTest = 91112;
 			
 			//creo una settimana relativa all'utente u
 			LocalDate start = LocalDate.of(2022, Month.JANUARY, 3);
@@ -37,33 +38,23 @@ public class Main {
 			sem.setIndiceMed(dbmgr.getIndiceMed(sem));
 			sem.setMacronutrienti(dbmgr.getPunteggiComponenti(sem));
 			
-			sem.print();			
-			
 			//Create a textPlanner
-			TextPlanner tp = new TextPlanner("it",u,sem);
+			TextPlanner tp = new TextPlanner("italiano",u,sem);
 			tp.contentDetermination();
 			tp.textStructuring();
 			
-			SentencePlanner sp = new SentencePlanner(tp.fileName);
-			sp.readJson();
+			SentencePlanner sp = new SentencePlanner(tp.getFileName(),tp.getOrder());
+			sp.sentenceAggregation();
+			sp.lexicalisation();
+			
+			
+			ReportRealiser rr = new ReportRealiser(sp.getFileName(), sp.phrases);
+			//rr.createLongSentence_old();
+			rr.createLongSentence_new();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	//TBD
-	/*
-	public static void getPasti(DatabaseManager dbmgr) throws SQLException {
-		//ArrayList<String> meals = dbmgr.getMealsName(91000);
-		//System.out.println(meals);
-	}
-	
-	//TBD
-	public static void getUtente(DatabaseManager dbmgr) throws SQLException {
-		//User usr = dbmgr.getUsersDetails(91000);
-		//System.out.println(meals);
-	}
-	*/
 }
