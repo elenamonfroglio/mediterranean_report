@@ -104,10 +104,10 @@ public class TextPlanner {
 		order = new ArrayList<>();
 		//VERY BAD 	--> BUT --> VERY GOOD
 		order.add(PhraseType.VERYBAD);
-		order.add(PhraseType.VERYGOOD);
+		order.add(PhraseType.GOOD);
 		//BAT 		--> BUT --> GOOD
 		order.add(PhraseType.BAD);
-		order.add(PhraseType.GOOD);
+		order.add(PhraseType.VERYGOOD);
 	}
 	
 	private void createJsonFile(JsonObject value) {

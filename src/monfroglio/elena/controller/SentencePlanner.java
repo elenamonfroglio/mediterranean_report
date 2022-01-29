@@ -9,7 +9,10 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -19,6 +22,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
+import javax.json.JsonValue;
 
 import monfroglio.elena.model.ArgType;
 import monfroglio.elena.model.Macronutriente;
@@ -34,6 +38,7 @@ public class SentencePlanner {
 	private String lingua;
 	private String nomeUtente;
 	private String sessoUtente;
+	private HashMap<String, ArrayList<String>> dictionary = new HashMap();
 	private ArrayList<String> order;
 	private ArrayList<String> macronutrientiVeryGood;
 	private ArrayList<String> macronutrientiGood;
@@ -54,11 +59,6 @@ public class SentencePlanner {
 	}
 	
 	private void aggregatorMacronutrienti() {
-		JsonObject jsonObject = readJson();
-		
-		extractMacronutrienti(jsonObject);
-		extractLingua(jsonObject);
-		extractUtente(jsonObject);
 		
 		macronutrientiVeryGood = getAllMacronutrientiWithSamePoints_v2(5);
 		macronutrientiGood = getAllMacronutrientiWithSamePoints_v2(3);
@@ -73,75 +73,97 @@ public class SentencePlanner {
 		writeSentencePlan(builder);
 		
 		JsonObject value = builder.build();
-		createJsonFile(value);
+		//createJsonFile(value);
+	}
+	
+	private void loadDictionary() {
+		String dictFile = "src/monfroglio/elena/files/dictionaries/ItalianDictionary.json";
+		if(lingua.equals("english")){
+			dictFile = "src/monfroglio/elena/files/dictionaries/EnglishDictionary.json";
+		}
+		File initialFile = new File(dictFile);
+	    InputStream targetStream;
+	    JsonObject object = null;
+		try {
+			targetStream = new FileInputStream(initialFile);
+
+			JsonReaderFactory factory = Json.createReaderFactory(null);
+			JsonReader reader = factory.createReader(targetStream);
+			object = reader.readObject();
+            reader.close();
+            
+            Set<String> concepts = object.keySet();
+            ArrayList<String> words = new ArrayList<>();
+
+            for(String concept:concepts) {
+            	JsonArray temp = object.getJsonArray(concept);
+            	 if (temp != null) {   
+                     //Iterating JSON array  
+                     for (int i=0;i<temp.size();i++){   
+                         //Adding each element of JSON array into ArrayList  
+                    	 words.add(temp.getString(i));  
+                     }   
+                 } 
+            	 dictionary.put(concept, words);
+            	 words = new ArrayList<>();
+            }
+            
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//which information to present in individual sentences 
 	public void sentenceAggregation() {
-		aggregatorMacronutrienti();
+
+		JsonObject jsonObject = readJson();
 		
+		extractMacronutrienti(jsonObject);
+		extractLingua(jsonObject);
+		extractUtente(jsonObject);
+		
+		loadDictionary();
+		aggregatorMacronutrienti();
 		//RIMUOVO DALL'ORDINE GLOBALE NEL CASO IN CUI AVESSI MACRONUTRIENTI VUOTI
 		for(String type: order) {
-			if (macronutrientiVeryGood.isEmpty()) {
-				order.remove(PhraseType.VERYGOOD);
-			}else if (macronutrientiGood.isEmpty() ) {
-				order.remove(PhraseType.GOOD);
-			}else if (macronutrientiBad.isEmpty()) {
-				order.remove(PhraseType.BAD);
-			}else if (macronutrientiVeryBad.isEmpty()) {
-				order.remove(PhraseType.VERYBAD);
-			}
+			if (macronutrientiVeryGood.isEmpty())	order.remove(PhraseType.VERYGOOD);
+			else if (macronutrientiGood.isEmpty()) 	order.remove(PhraseType.GOOD);
+			else if (macronutrientiBad.isEmpty()) 		order.remove(PhraseType.BAD);
+			else if (macronutrientiVeryBad.isEmpty()) 		order.remove(PhraseType.VERYBAD);
 		}
 	}
 	
 	//scrive il contenuto degli oggetti nel file Json
 	private void writeSentencePlan(JsonObjectBuilder builder) {
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-		for(String nomeMacronutriente: macronutrientiVeryGood) {
+		for(String nomeMacronutriente: macronutrientiVeryGood) 
 			arrayBuilder = arrayBuilder.add(nomeMacronutriente);
-		}
 		builder.add("very good", arrayBuilder);
 		
-		for(String nomeMacronutriente: macronutrientiGood) {
+		for(String nomeMacronutriente: macronutrientiGood) 
 			arrayBuilder = arrayBuilder.add(nomeMacronutriente);
-		}
 		builder.add("good", arrayBuilder);
 		
-		for(String nomeMacronutriente: macronutrientiBad) {
+		for(String nomeMacronutriente: macronutrientiBad) 
 			arrayBuilder = arrayBuilder.add(nomeMacronutriente);
-		}
 		builder.add("bad", arrayBuilder);
 		
-		for(String nomeMacronutriente: macronutrientiVeryBad) {
+		for(String nomeMacronutriente: macronutrientiVeryBad) 
 			arrayBuilder = arrayBuilder.add(nomeMacronutriente);
-		}
 		builder.add("very bad", arrayBuilder);
 		
 	}
 	
-	private ArrayList<String> getAllMacronutrientiWithSamePoints_v1(int valuation, boolean moreIsBetter) {
-		ArrayList<String> ret = new ArrayList<>();
-		
-		for (Macronutriente m:allMacronutrienti) {
-			//la condizione in or permette di considerare i good su due valori 2 e 3 e i bad su 1 e 2
-			if(m.getMoreIsBetter()==moreIsBetter) {
-				if(m.getPunteggio()==valuation || m.getPunteggio()==(valuation+1)) {
-					ret.add(m.getNome());
-					//m.print();
-				}
-			}
-		}
-		return ret;
-	}
 	
 	private ArrayList<String> getAllMacronutrientiWithSamePoints_v2(int valuation) {
 		ArrayList<String> ret = new ArrayList<>();
 		
-		for (Macronutriente m:allMacronutrienti) {
+		for (Macronutriente m:allMacronutrienti) 
 			//la condizione in or permette di considerare i good su due valori 2 e 3 e i bad su 1 e 2
 			if(m.getPunteggio()==valuation || m.getPunteggio()==(valuation+1))
-				ret.add(m.getNome());
-		}
+				ret.add(getWord(m.getNome()));
+		
 		return ret;
 	}
 	
@@ -156,70 +178,70 @@ public class SentencePlanner {
 	
 	private void extractMacronutrienti(JsonObject object) {
 		JsonObject jsonObject = object.getJsonObject("Cereali");
-		Macronutriente cereali = new Macronutriente("cereali",
+		Macronutriente cereali = new Macronutriente("cer",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(cereali);
 		
 		jsonObject = object.getJsonObject("Patate");
-		Macronutriente patate = new Macronutriente("patate",
+		Macronutriente patate = new Macronutriente("pot",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(patate);
 		
 		jsonObject = object.getJsonObject("Frutta");
-		Macronutriente frutta = new Macronutriente("frutta",
+		Macronutriente frutta = new Macronutriente("fru",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(frutta);
 
 		jsonObject = object.getJsonObject("Verdura");
-		Macronutriente verdura = new Macronutriente("verdura",
+		Macronutriente verdura = new Macronutriente("veg",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(verdura);
 
 		jsonObject = object.getJsonObject("Legumi");
-		Macronutriente legumi = new Macronutriente("legumi",
+		Macronutriente legumi = new Macronutriente("leg",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(legumi);
 
 		jsonObject = object.getJsonObject("Pesce");
-		Macronutriente pesce = new Macronutriente("pesce",
+		Macronutriente pesce = new Macronutriente("fish",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pesce);
 
 		jsonObject = object.getJsonObject("UsoOlioOliva");
-		Macronutriente usoOlioOliva = new Macronutriente("olio",
+		Macronutriente usoOlioOliva = new Macronutriente("oil",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(usoOlioOliva);
 		
 		jsonObject = object.getJsonObject("CarneRossa");
-		Macronutriente carneRossa = new Macronutriente("carne rossa",
+		Macronutriente carneRossa = new Macronutriente("rmeat",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(carneRossa);
 
 		jsonObject = object.getJsonObject("Pollame");
-		Macronutriente pollame = new Macronutriente("pollame",
+		Macronutriente pollame = new Macronutriente("poul",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pollame);
 
 		jsonObject = object.getJsonObject("Latticini");
-		Macronutriente latticini = new Macronutriente("latticini",
+		Macronutriente latticini = new Macronutriente("ffdp",
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
@@ -232,102 +254,157 @@ public class SentencePlanner {
 		//lexicalisation_caseB();
 	}
 	
+	private String getWord(String concept) {
+		return dictionary.get(concept).get(0);
+	}
+	
 	private void lexicalisation_caseA() {
 		//ArrayList<String> macronutrientiVeryGoodMoreIsBetter
-		
-		Phrase phraseVeryGood = null;
-		Phrase phraseGood = null;
-		Phrase phraseBad = null;
-		Phrase phraseVeryBad = null;
-
-		//HAI FATTO UN OTTIMO LAVORO CON XXX
-		if(!macronutrientiVeryGood.isEmpty()) {
-			ArrayList<String> subject = new ArrayList<>();
-			subject.add("tu");
-			String verb = "fare";
-			ArrayList<String> object = new ArrayList<String>();
-			object.add("lavoro");
-			phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
-			phraseVeryGood.setModal("");
-			phraseVeryGood.setTense(Tense.PAST);
-			phraseVeryGood.setForm(Form.NORMAL);
-			phraseVeryGood.setPerfect(true);
-			ArrayList<String> adjp = new ArrayList<String>();
-			adjp.add("ottimo");
-			phraseVeryGood.setAdjp(adjp);
-			phraseVeryGood.setActive(true);
-			phraseVeryGood.setNegative(false);
-			phrases.add(phraseVeryGood);
-		}
-		
-		//HAI FATTO UN BUON LAVORO CON XXX
-		if(!macronutrientiGood.isEmpty()) {
-			ArrayList<String> subject = new ArrayList<>();
-			subject.add("la");
-			subject.add("quantità");
-			String verb = "essere";
-			ArrayList<String> object = new ArrayList<String>();
-			object.add("perfetta");
-			phraseGood = new Phrase(PhraseType.GOOD, subject, verb, object, macronutrientiGood);
-			phraseGood.setModal("");
-			phraseGood.setTense(Tense.PAST);
-			phraseGood.setForm(Form.NORMAL);
-			phraseGood.setPerfect(false);
-			ArrayList<String> adjp = new ArrayList<String>();
-			adjp.add("quasi");
-			adjp.add("perfetta");
-			phraseGood.setAdjp(adjp);
-			phraseGood.setActive(true);
-			phraseGood.setNegative(false);
-			phrases.add(phraseGood);
-		}
-
-		//NON HAI FATTO UN BUON LAVORO CON XXX
-		if(!macronutrientiBad.isEmpty()) {
-			ArrayList<String> subject = new ArrayList<>();
-			subject.add("tu");
-			String modal = "potere";
-			String verb = "migliorare";
-			ArrayList<String> object = new ArrayList<String>();
-			phraseBad = new Phrase(PhraseType.BAD, subject, verb, object, macronutrientiBad);
-			phraseBad.setModal(modal);
-			phraseBad.setTense(Tense.PRESENT);
-			phraseBad.setForm(Form.NORMAL);
-			phraseBad.setPerfect(false);
-			ArrayList<String> adjp = new ArrayList<String>();
-			adjp.add("buono");
-			phraseBad.setAdjp(adjp);
-			phraseBad.setActive(true);
-			phraseBad.setNegative(false);
-			phrases.add(phraseBad);
-		}
-
-		//NON HAI FATTO UN OTTIMO LAVORO CON XXX
-		if(!macronutrientiVeryBad.isEmpty()) {
-			ArrayList<String> subject = new ArrayList<>();
-			subject.add("tu");
-			String verb = "consumare";
-			ArrayList<String> object = new ArrayList<String>();
-			ArrayList<String> adjp = new ArrayList<String>();
-			for (String m: macronutrientiVeryBad) {
-				object.add(m);
-				if(Macronutriente.isMoreBetter(m))	adjp.add("più");
-				else adjp.add("meno");
+		String oldItem = "";
+		int iter = 0;
+		for(String item: order) {
+			switch(item) {
+				case PhraseType.VERYBAD:
+					if(!macronutrientiVeryBad.isEmpty()) 
+						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							lexicaliseVeryBad(getWord("but"));
+						else if(oldItem!="") 	lexicaliseVeryBad(getWord("and"));
+						else lexicaliseVeryBad("");
+					break;
+				case PhraseType.BAD:
+					if(!macronutrientiVeryBad.isEmpty()) 
+						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							lexicaliseBad(getWord("but"));
+						else if(oldItem!="") 	lexicaliseBad(getWord("and"));
+						else lexicaliseBad("");
+					break;
+				case PhraseType.VERYGOOD:
+					if(!macronutrientiVeryBad.isEmpty()) 
+						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							lexicaliseVeryGood(getWord("but"));
+						else if(oldItem!="") 	lexicaliseVeryGood(getWord("and"));
+						else lexicaliseVeryGood("");
+					break;
+				case PhraseType.GOOD:
+					if(!macronutrientiVeryBad.isEmpty()) 
+						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							lexicaliseGood(getWord("but"));
+						else if(oldItem!="") 	lexicaliseGood(getWord("and"));
+						else lexicaliseGood("");
+					break;
 			}
-			phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, macronutrientiVeryBad);
-			phraseVeryBad.setTense(Tense.PRESENT);
-			phraseVeryBad.setModal("dovere");
-			phraseVeryBad.setForm(Form.NORMAL);
-			phraseVeryBad.setPerfect(false);
-			adjp.add("più");
-			phraseVeryBad.setAdjp(adjp);
-			phraseVeryBad.setActive(true);
-			phraseVeryBad.setNegative(false);
-			phrases.add(phraseVeryBad);
+			iter++;
+			if(iter==2) {
+				oldItem="";
+				iter = 0;
+			}else {
+				oldItem = item;
+			}
 		}
 		
 	}
 	
+	
+	private void lexicaliseVeryGood(String connection) {
+		Phrase phraseVeryGood;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("you"));
+		String verb = getWord("to-do");
+		ArrayList<String> object = new ArrayList<String>();
+		object.add(getWord("job"));
+		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
+		phraseVeryGood.setModal("");
+		phraseVeryGood.setSubjectArgs(new ArrayList<>());
+		phraseVeryGood.setTense(Tense.PAST);
+		phraseVeryGood.setForm(Form.NORMAL);
+		phraseVeryGood.setPerfect(true);
+		phraseVeryGood.setPostModifierSubject("");
+		phraseVeryGood.setPreModifierPhrase(connection);
+		ArrayList<String> adjp = new ArrayList<String>();
+		adjp.add(getWord("very-good"));
+		phraseVeryGood.setAdjp(adjp);
+		phraseVeryGood.setActive(true);
+		phraseVeryGood.setNegative(false);
+		phraseVeryGood.setPostModifierPhrase(getWord("with"));
+		phrases.add(phraseVeryGood);
+	}
+	
+	private void lexicaliseGood(String connection) {
+		Phrase phraseGood;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add("la");
+		subject.add(getWord("portion"));
+		String verb = getWord("to-be");
+		ArrayList<String> object = new ArrayList<String>();
+		object.add(getWord("very-good"));
+		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, object, new ArrayList<>());
+		phraseGood.setModal("");
+		phraseGood.setSubjectArgs(macronutrientiGood);
+		phraseGood.setTense(Tense.PAST);
+		phraseGood.setForm(Form.NORMAL);
+		phraseGood.setPerfect(false);
+		phraseGood.setPreModifierPhrase(connection);
+		phraseGood.setPostModifierSubject(getWord("of"));
+		ArrayList<String> adjp = new ArrayList<String>();
+		adjp.add(getWord("nearly"));
+		adjp.add(getWord("very-good"));
+		phraseGood.setAdjp(adjp);
+		phraseGood.setActive(true);
+		phraseGood.setNegative(false);
+		phraseGood.setPostModifierPhrase(getWord("of"));
+		phrases.add(phraseGood);
+	}
+	
+	private void lexicaliseBad(String connection) {
+		Phrase phraseBad;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("you"));
+		String modal = getWord("to-can");
+		String verb = getWord("to-improve");
+		ArrayList<String> object = new ArrayList<String>();
+		phraseBad = new Phrase(PhraseType.BAD, subject, verb, object, macronutrientiBad);
+		phraseBad.setModal(modal);
+		phraseBad.setSubjectArgs(new ArrayList<>());
+		phraseBad.setTense(Tense.PRESENT);
+		phraseBad.setForm(Form.NORMAL);
+		phraseBad.setPerfect(false);
+		phraseBad.setPreModifierPhrase(connection);
+		phraseBad.setPostModifierSubject("");
+		ArrayList<String> adjp = new ArrayList<String>();
+		adjp.add(getWord("good"));
+		phraseBad.setAdjp(adjp);
+		phraseBad.setActive(true);
+		phraseBad.setNegative(false);
+		phraseBad.setPostModifierPhrase(getWord("with"));
+		phrases.add(phraseBad);
+	}
+
+	private void lexicaliseVeryBad(String connection) {
+		Phrase phraseVeryBad;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("you"));
+		String verb = getWord("to-eat");
+		ArrayList<String> object = new ArrayList<String>();
+		ArrayList<String> adjp = new ArrayList<String>();
+		for (String m: macronutrientiVeryBad) {
+			object.add(m);
+			if(Macronutriente.isMoreBetter(m))	adjp.add(getWord("more"));
+			else adjp.add(getWord("less"));
+		}
+		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
+		phraseVeryBad.setTense(Tense.PRESENT);
+		phraseVeryBad.setModal(getWord("to-must"));
+		phraseVeryBad.setSubjectArgs(new ArrayList<>());
+		phraseVeryBad.setForm(Form.NORMAL);
+		phraseVeryBad.setPostModifierSubject("");
+		phraseVeryBad.setPerfect(false);
+		phraseVeryBad.setPreModifierPhrase(connection);
+		phraseVeryBad.setAdjp(adjp);
+		phraseVeryBad.setActive(true);
+		phraseVeryBad.setNegative(false);
+		phraseVeryBad.setPostModifierPhrase("");
+		phrases.add(phraseVeryBad);
+	}
 	
 	private JsonObject readJson() {
 		File initialFile = new File(fileName);
@@ -347,10 +424,12 @@ public class SentencePlanner {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return object;
 	}
 	
-	private void createJsonFile(JsonObject value) {
+	
+	/*private void createJsonFile(JsonObject value) {
 		FileWriter file = null;
 		try {
 			
@@ -362,11 +441,11 @@ public class SentencePlanner {
             file.flush();
             file.close();
 		} catch (IOException e) {
-			
             e.printStackTrace(); 
+		}
             
-        } 
-	}
+        
+	}*/
 	
 	private String getArticle(String macronutriente) {
 		String ret = "la";

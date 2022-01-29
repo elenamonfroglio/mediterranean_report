@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import javax.json.Json;
@@ -59,7 +60,7 @@ public class ReportRealiser {
 				myLexicon = new ITXMLLexicon();
 				break;
 			case "english":
-				myLexicon = new simplenlg.lexicon.english.XMLLexicon();
+				myLexicon = new simplenlg.lexicon.english.XMLLexicon();;
 				break;
 		}
 		this.phrases = phrases;
@@ -72,40 +73,45 @@ public class ReportRealiser {
 	}
 	
 	public void createLongSentence_new() {
-
-		extractUtente(jsonObject);
 		
+		extractUtente(jsonObject);
+		System.out.print("\n\n");
+		NLGElement welcome = createPhraseWelcome();
+		String output = "";
+		if(welcome!=null)	output = realiser.realiseSentence(welcome);
+	    System.out.print(output+" ");
 		for(Phrase p:phrases) {
 			ArrayList<String> macronutrienti = new ArrayList<>();
-			for(int i=0;i<p.getArgs().size();i++) {
-				macronutrienti.add(p.getArgs().get(i));
+			for(int i=0;i<p.getPhraseArgs().size();i++) {
+				macronutrienti.add(p.getPhraseArgs().get(i));
 			}
-			
 			if(p.getType().equals(PhraseType.VERYGOOD)) {
-				SPhraseSpec clause = createPhraseVeryGood(p, macronutrienti);
+				SPhraseSpec clause = createGenericiPhrase(p);
 
-				String output = "";
+				output = "";
 				if(clause!=null)	output = realiser.realiseSentence(clause);
-			    System.out.print("\n\n"+output+" ");
+			    System.out.print(output+" ");
 			}else if(p.getType().equals(PhraseType.GOOD)) {
-				SPhraseSpec clause = createPhraseGood(p, macronutrienti);
-				String output = "";
+				SPhraseSpec clause = createGenericiPhrase(p);
+				output = "";
 				if(clause!=null)	output = realiser.realiseSentence(clause);
-			    System.out.print("\n\n"+output+" ");
+			    System.out.print(output+" ");
 			}else if(p.getType().equals(PhraseType.BAD)) {
-				SPhraseSpec clause = createPhraseBad(p, macronutrienti);
-				String output = "";
+				SPhraseSpec clause = createGenericiPhrase(p);
+				output = "";
 				if(clause!=null)	output = realiser.realiseSentence(clause);
-			    System.out.print("\n\n"+output+" ");
+			    System.out.print(output+" ");
 			}else if(p.getType().equals(PhraseType.VERYBAD)) {
-				SPhraseSpec clause = createPhraseVeryBad(p, macronutrienti);
-				String output = "";
+				SPhraseSpec clause = createGenericiPhrase(p);
+				output = "";
 				if(clause!=null)	output = realiser.realiseSentence(clause);
-			    System.out.print("\n\n"+output+" ");
+			    System.out.print(output+" ");
 			}
 			
 		}
 	}
+	
+	
 	
 	public void createLongSentence_old() {
 
@@ -117,7 +123,7 @@ public class ReportRealiser {
 		return s1;
 	}
 	
-	private SPhraseSpec createPhraseVeryGood(Phrase p, ArrayList<String> macronutrienti) {
+	private SPhraseSpec createGenericiPhrase(Phrase p) {
 		SPhraseSpec clause = nlgFactory.createClause();
 		//VERBO "DO"
 		clause.setVerb(p.getVerb());
@@ -136,196 +142,65 @@ public class ReportRealiser {
 		clause.setSubject(subject);
 		
 		//"QUESTA SETTIMANA"
-		
-		NPPhraseSpec when = nlgFactory.createNounPhrase("settimana");
-		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		when.addPreModifier("questo");
-		clause.addFrontModifier(when);
-		
-		
-		//OGGETTO "A GREAT JOB"
-		if(!p.getObject().isEmpty()) {
-			NPPhraseSpec object = nlgFactory.createNounPhrase("un",p.getObject().get(0));
-			if(!p.getAdjp().isEmpty()) {
-				object.addPreModifier(p.getAdjp().get(0));
-				clause.setObject(object);
-			}
-		}
-		//"CON CEREALI, VERDURE ECC.."
-		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
-		for(String m: macronutrienti) {
-			String article = getArticle(m);
-			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-			temp.setPlural(isPlural(m));
-			macronutrientiList.add(temp);
-			
-		}
-		
-		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		for(NPPhraseSpec elem: macronutrientiList) {
-			coord.addCoordinate(elem);
-		}
-		coord.addPreModifier("con");
-
-		clause.addPostModifier(coord);
-		
-		String output="";		
-		return clause;
-		
-	}
-	
-	private SPhraseSpec createPhraseGood(Phrase p, ArrayList<String> macronutrienti) {
-		SPhraseSpec clause = nlgFactory.createClause();
-		//VERBO "ESSERE"
-		clause.setVerb(p.getVerb());
-		if(!p.getModal().equals("")) 
-			clause.setFeature(Feature.MODAL, p.getModal());
-		clause.setFeature(Feature.NEGATED, p.isNegative());
-		clause.setFeature(Feature.TENSE, p.getTense());
-		if(p.getForm()!=null) 
-			clause.setFeature(Feature.FORM, p.getForm());
-		clause.setFeature(Feature.PERFECT, p.isPerfect());
-		
-		//SOGGETTO "LA QUANTITÀ"
-		NPPhraseSpec subject = null;
-		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
-		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
-		
-		//"DI CEREALI, VERDURE ECC.."
-		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
-		for(String m: macronutrienti) {
-			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-			temp.setPlural(isPlural(m));
-			macronutrientiList.add(temp);
-		}
-		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		for(NPPhraseSpec elem: macronutrientiList) {
-			coord.addCoordinate(elem);
-		}
-		coord.addPreModifier("di");
-
-		subject.addPostModifier(coord);
-		
-		clause.setSubject(subject);
-		
-		//ADJP "quasi perfetta"
-		if(!p.getObject().isEmpty()) {
-			NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
-			if(!p.getAdjp().isEmpty()) {
-				object.addPreModifier(p.getAdjp().get(0));
-				clause.setObject(object);
-			}
-		}
-		return clause;
-	}
-	
-	private SPhraseSpec createPhraseBad(Phrase p, ArrayList<String> macronutrienti) {
-		SPhraseSpec clause = nlgFactory.createClause();
-		//VERBO "DO"
-		clause.setVerb(p.getVerb());
-		if(!p.getModal().equals("")) 
-			clause.setFeature(Feature.MODAL, p.getModal());
-		clause.setFeature(Feature.NEGATED, p.isNegative());
-		clause.setFeature(Feature.TENSE, p.getTense());
-		if(p.getForm()!=null) 
-			clause.setFeature(Feature.FORM, p.getForm());
-		clause.setFeature(Feature.PERFECT, p.isPerfect());
-		
-		//SOGGETTO "YOU"
-		NPPhraseSpec subject = null;
-		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
-		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
-		clause.setSubject(subject);
-		
-		//"QUESTA SETTIMANA"
-		
+		/*
 		NPPhraseSpec when = nlgFactory.createNounPhrase("la","settimana");
 		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
 		when.addPreModifier("prossima");
 		clause.addFrontModifier(when);
-		
+		*/
 		
 		//OGGETTO "A GREAT JOB"
 		if(!p.getObject().isEmpty()) {
-			NPPhraseSpec object = nlgFactory.createNounPhrase("un",p.getObject().get(0));
-			if(!p.getAdjp().isEmpty()) {
-				object.addPreModifier(p.getAdjp().get(0));
-				clause.setObject(object);
+			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+			for(String m: p.getObject()) {
+				coord.addCoordinate(m);			
 			}
+			if(!p.getAdjp().isEmpty()) {
+				coord.addPreModifier(p.getAdjp().get(0));
+				clause.setObject(coord);
+			}	
 		}
 		//"CON CEREALI, VERDURE ECC.."
-		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
-		for(String m: macronutrienti) {
-			String article = getArticle(m);
-			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-			temp.setPlural(isPlural(m));
-			macronutrientiList.add(temp);
-			
-		}
-		
-		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		for(NPPhraseSpec elem: macronutrientiList) {
-			coord.addCoordinate(elem);
-		}
-		coord.addPreModifier("con");
-
-		clause.addPostModifier(coord);
-			
-		return clause;
-	}
+		if(!p.getSubjectArgs().isEmpty() && p.getSubjectArgs()!=null) {
+			ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+			for(String m: p.getSubjectArgs()) {
+				NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+				temp.setFeature(LexicalFeature.GENDER, getGender(m));
+				//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+				temp.setPlural(isPlural(m));
+				macronutrientiList.add(temp);
+			}
+			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+			for(NPPhraseSpec elem: macronutrientiList) {
+				coord.addCoordinate(elem);
+			}
+			coord.addPreModifier(p.getPostModifierSubject());
 	
-	private SPhraseSpec createPhraseVeryBad(Phrase p, ArrayList<String> macronutrienti) {
-		SPhraseSpec clause = nlgFactory.createClause();
-		//VERBO "DO"
-		clause.setVerb(p.getVerb());
-		if(!p.getModal().equals("")) 
-			clause.setFeature(Feature.MODAL, p.getModal());
-		clause.setFeature(Feature.NEGATED, p.isNegative());
-		clause.setFeature(Feature.TENSE, p.getTense());
-		if(p.getForm()!=null) 
-			clause.setFeature(Feature.FORM, p.getForm());
-		clause.setFeature(Feature.PERFECT, p.isPerfect());
-		
-		//SOGGETTO "YOU"
-		NPPhraseSpec subject = null;
-		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
-		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
-		clause.setSubject(subject);
-		
-		//"QUESTA SETTIMANA"
-		
-		NPPhraseSpec when = nlgFactory.createNounPhrase("la","settimana");
-		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		when.addPreModifier("prossima");
-		clause.addFrontModifier(when);
-		
-		
-		//OGGETTO "A GREAT JOB"
-		if(!p.getObject().isEmpty()) {
-			NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
-			if(!p.getAdjp().isEmpty()) {
-				object.addPreModifier(p.getAdjp().get(0));
-				clause.setObject(object);
-			}
+			subject.addPostModifier(coord);
 		}
-		//"CON CEREALI, VERDURE ECC.."
-		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
-		for(String m: macronutrienti) {
-			String article = getArticle(m);
-			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-			temp.setPlural(isPlural(m));
-			macronutrientiList.add(temp);
+		if(!p.getPhraseArgs().isEmpty() && p.getPhraseArgs()!=null) {
+			ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
 			
+			for(String m: p.getPhraseArgs()) {
+				String article = getArticle(m);
+				NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+				temp.setFeature(LexicalFeature.GENDER, getGender(m));
+				//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+				temp.setPlural(isPlural(m));
+				macronutrientiList.add(temp);
+			}
+			
+			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+			for(NPPhraseSpec elem: macronutrientiList) {
+				coord.addCoordinate(elem);
+			}
+			coord.addPreModifier(p.getPostModifierPhrase());
+
+			clause.addPostModifier(coord);
 		}
-				
+		
+		clause.addFrontModifier(p.getPreModifierPhrase());
+			
 		return clause;
 	}
 	
@@ -336,64 +211,7 @@ public class ReportRealiser {
 		else sessoUtente = Gender.FEMININE;
 	}
 
-	/*
-	private void extractCategories(JsonObject jsonObject) {
-		getVeryGoodMoreFeedback(jsonObject);
-		getVeryGoodLessFeedback(jsonObject);
-		getGoodMoreFeedback(jsonObject);
-		getGoodLessFeedback(jsonObject);
-		getBadMoreFeedback(jsonObject);
-		getBadLessFeedback(jsonObject);
-		getVeryBadMoreFeedback(jsonObject);
-		getVeryBadLessFeedback(jsonObject);
-	}
-	private void getVeryBadMoreFeedback(JsonObject jsonObject) {
-		veryBadMore = jsonObject.getJsonArray("very bad more");
-		//System.out.println(veryBadMore.getString(0));
-		//System.out.println(veryBadMore);
-	}
-	
-	private void getVeryBadLessFeedback(JsonObject jsonObject) {
-		veryBadLess = jsonObject.getJsonArray("very bad less");
-		//System.out.println(veryBadLess.getString(0));
-		//System.out.println(veryBadLess);
-	}
-	
-	private void getBadMoreFeedback(JsonObject jsonObject) {
-		badMore = jsonObject.getJsonArray("bad more");
-		//System.out.println(badMore.getString(0));
-		//System.out.println(badMore);
-	}
-	
-	private void getBadLessFeedback(JsonObject jsonObject) {
-		badLess = jsonObject.getJsonArray("bad less");
-		//System.out.println(badLess.getString(0));
-		//System.out.println(badLess);
-	}
 
-	private void getGoodMoreFeedback(JsonObject jsonObject) {
-		goodMore = jsonObject.getJsonArray("good more");
-		//System.out.println(goodMore.getString(0));
-		//System.out.println(goodMore);
-	}
-	
-	private void getGoodLessFeedback(JsonObject jsonObject) {
-		goodLess = jsonObject.getJsonArray("good less");
-		//System.out.println(goodLess.getString(0));
-		//System.out.println(goodLess);
-	}
-	
-	private void getVeryGoodMoreFeedback(JsonObject jsonObject) {
-		veryGoodMore = jsonObject.getJsonArray("very good more");
-		//System.out.println(veryGoodMore.getString(0));
-		//System.out.println(veryGoodMore);
-	}
-	
-	private void getVeryGoodLessFeedback(JsonObject jsonObject) {
-		veryGoodLess = jsonObject.getJsonArray("very good less");
-		//System.out.println(veryGoodLess.getString(0));
-		//System.out.println(veryGoodLess);
-	}*/
 	
 	private JsonObject readJson() {
 		File initialFile = new File(fileName);
@@ -457,3 +275,360 @@ public class ReportRealiser {
 	}
 	  
 }
+
+
+
+
+
+/*
+private SPhraseSpec createPhraseVeryGood(Phrase p) {
+	SPhraseSpec clause = nlgFactory.createClause();
+	//VERBO "DO"
+	clause.setVerb(p.getVerb());
+	if(!p.getModal().equals("")) 
+		clause.setFeature(Feature.MODAL, p.getModal());
+	clause.setFeature(Feature.NEGATED, p.isNegative());
+	clause.setFeature(Feature.TENSE, p.getTense());
+	if(p.getForm()!=null) 
+		clause.setFeature(Feature.FORM, p.getForm());
+	clause.setFeature(Feature.PERFECT, p.isPerfect());
+	
+	//SOGGETTO "YOU"
+	NPPhraseSpec subject = null;
+	if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+	else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+	clause.setSubject(subject);
+	
+	//"QUESTA SETTIMANA"
+	
+	NPPhraseSpec when = nlgFactory.createNounPhrase("settimana");
+	when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+	when.addPreModifier("questo");
+	clause.addFrontModifier(when);
+	
+	
+	//OGGETTO "A GREAT JOB"
+	if(!p.getObject().isEmpty()) {
+		NPPhraseSpec object = nlgFactory.createNounPhrase("un",p.getObject().get(0));
+		if(!p.getAdjp().isEmpty()) {
+			object.addPreModifier(p.getAdjp().get(0));
+			clause.setObject(object);
+		}
+	}
+	if(!p.getSubjectArgs().isEmpty() || p.getSubjectArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: p.getSubjectArgs()) {
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		subject.addPostModifier(coord);
+	}
+	//"CON CEREALI, VERDURE ECC.."
+	if(!p.getPhraseArgs().isEmpty() || p.getPhraseArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
+		
+		for(String m: p.getPhraseArgs()) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		clause.addPostModifier(coord);
+	}
+			
+
+	clause.addFrontModifier(p.getPreModifierPhrase());	
+	return clause;
+	
+}
+
+private SPhraseSpec createPhraseGood(Phrase p) {
+	SPhraseSpec clause = nlgFactory.createClause();
+	//VERBO "ESSERE"
+	clause.setVerb(p.getVerb());
+	if(!p.getModal().equals("")) 
+		clause.setFeature(Feature.MODAL, p.getModal());
+	clause.setFeature(Feature.NEGATED, p.isNegative());
+	clause.setFeature(Feature.TENSE, p.getTense());
+	if(p.getForm()!=null) 
+		clause.setFeature(Feature.FORM, p.getForm());
+	clause.setFeature(Feature.PERFECT, p.isPerfect());
+	
+	//SOGGETTO "LA QUANTITÀ"
+	NPPhraseSpec subject = null;
+	if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+	else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+	
+	//"DI CEREALI, VERDURE ECC.."
+	if(!p.getSubjectArgs().isEmpty() || p.getSubjectArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: p.getSubjectArgs()) {
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		subject.addPostModifier(coord);
+	}
+	if(!p.getPhraseArgs().isEmpty() || p.getPhraseArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
+		
+		for(String m: p.getPhraseArgs()) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		clause.addPostModifier(coord);
+	}
+	clause.setSubject(subject);
+	
+	//ADJP "quasi perfetta"
+	if(!p.getObject().isEmpty()) {
+		NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
+		if(!p.getAdjp().isEmpty()) {
+			object.addPreModifier(p.getAdjp().get(0));
+			clause.setObject(object);
+		}
+	}
+
+	clause.addFrontModifier(p.getPreModifierPhrase());	
+	return clause;
+}
+
+private SPhraseSpec createPhraseBad(Phrase p) {
+	SPhraseSpec clause = nlgFactory.createClause();
+	//VERBO "DO"
+	clause.setVerb(p.getVerb());
+	if(!p.getModal().equals("")) 
+		clause.setFeature(Feature.MODAL, p.getModal());
+	clause.setFeature(Feature.NEGATED, p.isNegative());
+	clause.setFeature(Feature.TENSE, p.getTense());
+	if(p.getForm()!=null) 
+		clause.setFeature(Feature.FORM, p.getForm());
+	clause.setFeature(Feature.PERFECT, p.isPerfect());
+	
+	//SOGGETTO "YOU"
+	NPPhraseSpec subject = null;
+	if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+	else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+	clause.setSubject(subject);
+	
+	//"QUESTA SETTIMANA"
+	
+	//OGGETTO "A GREAT JOB"
+	if(!p.getObject().isEmpty()) {
+		NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
+		if(!p.getAdjp().isEmpty()) {
+			object.addPreModifier(p.getAdjp().get(0));
+			clause.setObject(object);
+		}
+	}
+	//"CON CEREALI, VERDURE ECC.."
+	if(!p.getSubjectArgs().isEmpty() || p.getSubjectArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: p.getSubjectArgs()) {
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		subject.addPostModifier(coord);
+	}
+	if(!p.getPhraseArgs().isEmpty() || p.getPhraseArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
+		
+		for(String m: p.getPhraseArgs()) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		clause.addPostModifier(coord);
+	}
+	
+	clause.addFrontModifier(p.getPreModifierPhrase());
+		
+	return clause;
+}
+
+private SPhraseSpec createPhraseVeryBad(Phrase p) {
+	SPhraseSpec clause = nlgFactory.createClause();
+	//VERBO "DO"
+	clause.setVerb(p.getVerb());
+	if(!p.getModal().equals("")) 
+		clause.setFeature(Feature.MODAL, p.getModal());
+	clause.setFeature(Feature.NEGATED, p.isNegative());
+	clause.setFeature(Feature.TENSE, p.getTense());
+	if(p.getForm()!=null) 
+		clause.setFeature(Feature.FORM, p.getForm());
+	clause.setFeature(Feature.PERFECT, p.isPerfect());
+	
+	//SOGGETTO "YOU"
+	NPPhraseSpec subject = null;
+	if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+	else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+	clause.setSubject(subject);
+	
+	//"QUESTA SETTIMANA"
+	
+	
+	//OGGETTO "A GREAT JOB"
+	if(!p.getObject().isEmpty()) {
+		NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
+		if(!p.getAdjp().isEmpty()) {
+			object.addPreModifier(p.getAdjp().get(0));
+			clause.setObject(object);
+		}
+	}
+	if(!p.getSubjectArgs().isEmpty() || p.getSubjectArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: p.getSubjectArgs()) {
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		subject.addPostModifier(coord);
+	}
+	if(!p.getPhraseArgs().isEmpty() || p.getPhraseArgs()!=null) {
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
+		
+		for(String m: p.getPhraseArgs()) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier(p.getPostModifierPhrase());
+
+		clause.addPostModifier(coord);
+	}
+
+	clause.addFrontModifier(p.getPreModifierPhrase());		
+	return clause;
+}*/
+
+
+/*
+private void extractCategories(JsonObject jsonObject) {
+	getVeryGoodMoreFeedback(jsonObject);
+	getVeryGoodLessFeedback(jsonObject);
+	getGoodMoreFeedback(jsonObject);
+	getGoodLessFeedback(jsonObject);
+	getBadMoreFeedback(jsonObject);
+	getBadLessFeedback(jsonObject);
+	getVeryBadMoreFeedback(jsonObject);
+	getVeryBadLessFeedback(jsonObject);
+}
+private void getVeryBadMoreFeedback(JsonObject jsonObject) {
+	veryBadMore = jsonObject.getJsonArray("very bad more");
+	//System.out.println(veryBadMore.getString(0));
+	//System.out.println(veryBadMore);
+}
+
+private void getVeryBadLessFeedback(JsonObject jsonObject) {
+	veryBadLess = jsonObject.getJsonArray("very bad less");
+	//System.out.println(veryBadLess.getString(0));
+	//System.out.println(veryBadLess);
+}
+
+private void getBadMoreFeedback(JsonObject jsonObject) {
+	badMore = jsonObject.getJsonArray("bad more");
+	//System.out.println(badMore.getString(0));
+	//System.out.println(badMore);
+}
+
+private void getBadLessFeedback(JsonObject jsonObject) {
+	badLess = jsonObject.getJsonArray("bad less");
+	//System.out.println(badLess.getString(0));
+	//System.out.println(badLess);
+}
+
+private void getGoodMoreFeedback(JsonObject jsonObject) {
+	goodMore = jsonObject.getJsonArray("good more");
+	//System.out.println(goodMore.getString(0));
+	//System.out.println(goodMore);
+}
+
+private void getGoodLessFeedback(JsonObject jsonObject) {
+	goodLess = jsonObject.getJsonArray("good less");
+	//System.out.println(goodLess.getString(0));
+	//System.out.println(goodLess);
+}
+
+private void getVeryGoodMoreFeedback(JsonObject jsonObject) {
+	veryGoodMore = jsonObject.getJsonArray("very good more");
+	//System.out.println(veryGoodMore.getString(0));
+	//System.out.println(veryGoodMore);
+}
+
+private void getVeryGoodLessFeedback(JsonObject jsonObject) {
+	veryGoodLess = jsonObject.getJsonArray("very good less");
+	//System.out.println(veryGoodLess.getString(0));
+	//System.out.println(veryGoodLess);
+}*/

@@ -7,6 +7,7 @@ import simplenlg.features.Form;
 import simplenlg.features.Tense;
 
 public class Phrase {
+	String premodifierPhrase;
 	String type;
 	Tense tense;
 	boolean perfect;
@@ -14,13 +15,17 @@ public class Phrase {
 	boolean isActive;
 	boolean isNegative;
 	ArrayList<String> subject;
+	ArrayList<String> subjectArgs;
+	String postmodifierSubject;
 	String modal;
 	String verb;
 	ArrayList<String> object;
 	ArrayList<String> adjp;
-	ArrayList<String> args;
+	String postmodifierPhrase;
+	ArrayList<String> phraseArgs;
 	
 	public Phrase(Phrase p) {
+		this.premodifierPhrase = p.premodifierPhrase;
 		this.type = p.type;
 		this.tense = p.tense;
 		this.perfect = p.perfect;
@@ -28,14 +33,17 @@ public class Phrase {
 		this.isActive = p.isActive;
 		this.isNegative = p.isNegative;
 		this.subject = p.subject;
+		this.subjectArgs = p.subjectArgs;
+		this.postmodifierSubject = p.postmodifierSubject;
 		this.modal = p.modal;
 		this.verb = p.verb;
 		this.object = p.object;
 		this.adjp = p.adjp;
-		this.args = p.args;
+		this.postmodifierPhrase = p.postmodifierPhrase;
+		this.phraseArgs = p.phraseArgs;
 	}
 	
-	public Phrase(String type, Tense tense, boolean isActive, boolean isNegative, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> args) {
+	public Phrase(String type, Tense tense, boolean isActive, boolean isNegative, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {
 		this.type = type;
 		this.tense = tense;
 		this.isActive = isActive;
@@ -43,15 +51,34 @@ public class Phrase {
 		this.subject = subject;
 		this.verb = verb;
 		this.object = object;
-		this.args = args;
+		this.phraseArgs = phraseArgs;
 	}
 	
-	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> args) {
+	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {
 		this.type = type;
 		this.subject = subject;
 		this.verb = verb;
 		this.object = object;
-		this.args = args;
+		this.phraseArgs = phraseArgs;
+	}
+
+	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object) {
+		this.type = type;
+		this.subject = subject;
+		this.verb = verb;
+		this.object = object;
+	}
+	
+	public void setPostModifierSubject(String postmodifierSubject) {
+		this.postmodifierSubject = postmodifierSubject;
+	}
+
+	public void setPostModifierPhrase(String postmodifierPhrase) {
+		this.postmodifierPhrase = postmodifierPhrase;
+	}
+	
+	public void setPreModifierPhrase(String premodifierPhrase) {
+		this.premodifierPhrase = premodifierPhrase;
 	}
 	
 	public void setTense(Tense tense) {
@@ -70,8 +97,12 @@ public class Phrase {
 		this.adjp = adjp;
 	}
 
-	public void setArgs(ArrayList<String> args) {
-		this.args = args;
+	public void setPhraseArgs(ArrayList<String> phraseArgs) {
+		this.phraseArgs = phraseArgs;
+	}
+
+	public void setSubjectArgs(ArrayList<String> subjectArgs) {
+		this.subjectArgs = subjectArgs;
 	}
 	
 	public void setModal(String modal) {
@@ -84,6 +115,18 @@ public class Phrase {
 	
 	public void setPerfect(boolean perfect) {
 		this.perfect = perfect;
+	}
+
+	public String getPreModifierPhrase() {
+		return premodifierPhrase;
+	}
+	
+	public String getPostModifierSubject() {
+		return postmodifierSubject;
+	}
+
+	public String getPostModifierPhrase() {
+		return postmodifierPhrase;
 	}
 	
 	public Tense getTense() {
@@ -118,8 +161,12 @@ public class Phrase {
 		return adjp;
 	}
 	
-	public ArrayList<String> getArgs() {
-		return args;
+	public ArrayList<String> getPhraseArgs() {
+		return phraseArgs;
+	}
+	
+	public ArrayList<String> getSubjectArgs() {
+		return subjectArgs;
 	}
 	
 	public boolean isActive() {

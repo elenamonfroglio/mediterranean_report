@@ -27,7 +27,7 @@ public class Main {
 		try {
 			//recupero user model dal codice fiscale
 			Utente u = dbmgr.getUtente("RSSFNC80A01A001I");
-			int idTest = 91112;
+			int idTest = 91000;
 			
 			//creo una settimana relativa all'utente u
 			LocalDate start = LocalDate.of(2022, Month.JANUARY, 3);
