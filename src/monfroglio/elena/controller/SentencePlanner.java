@@ -248,6 +248,7 @@ public class SentencePlanner {
 			ArrayList<String> object = new ArrayList<String>();
 			object.add("lavoro");
 			phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
+			phraseVeryGood.setModal("");
 			phraseVeryGood.setTense(Tense.PAST);
 			phraseVeryGood.setForm(Form.NORMAL);
 			phraseVeryGood.setPerfect(true);
@@ -268,11 +269,13 @@ public class SentencePlanner {
 			ArrayList<String> object = new ArrayList<String>();
 			object.add("perfetta");
 			phraseGood = new Phrase(PhraseType.GOOD, subject, verb, object, macronutrientiGood);
+			phraseGood.setModal("");
 			phraseGood.setTense(Tense.PAST);
 			phraseGood.setForm(Form.NORMAL);
 			phraseGood.setPerfect(false);
 			ArrayList<String> adjp = new ArrayList<String>();
-			//adjp.add("");
+			adjp.add("quasi");
+			adjp.add("perfetta");
 			phraseGood.setAdjp(adjp);
 			phraseGood.setActive(true);
 			phraseGood.setNegative(false);
@@ -283,18 +286,19 @@ public class SentencePlanner {
 		if(!macronutrientiBad.isEmpty()) {
 			ArrayList<String> subject = new ArrayList<>();
 			subject.add("tu");
-			String verb = "fare";
+			String modal = "potere";
+			String verb = "migliorare";
 			ArrayList<String> object = new ArrayList<String>();
-			object.add("lavoro");
 			phraseBad = new Phrase(PhraseType.BAD, subject, verb, object, macronutrientiBad);
-			phraseBad.setTense(Tense.PAST);
+			phraseBad.setModal(modal);
+			phraseBad.setTense(Tense.PRESENT);
 			phraseBad.setForm(Form.NORMAL);
-			phraseBad.setPerfect(true);
+			phraseBad.setPerfect(false);
 			ArrayList<String> adjp = new ArrayList<String>();
 			adjp.add("buono");
 			phraseBad.setAdjp(adjp);
 			phraseBad.setActive(true);
-			phraseBad.setNegative(true);
+			phraseBad.setNegative(false);
 			phrases.add(phraseBad);
 		}
 
@@ -302,18 +306,23 @@ public class SentencePlanner {
 		if(!macronutrientiVeryBad.isEmpty()) {
 			ArrayList<String> subject = new ArrayList<>();
 			subject.add("tu");
-			String verb = "fare";
+			String verb = "consumare";
 			ArrayList<String> object = new ArrayList<String>();
-			object.add("lavoro");
-			phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, macronutrientiVeryBad);
-			phraseVeryBad.setTense(Tense.PAST);
-			phraseVeryBad.setForm(Form.NORMAL);
-			phraseVeryBad.setPerfect(true);
 			ArrayList<String> adjp = new ArrayList<String>();
-			adjp.add("ottimo");
+			for (String m: macronutrientiVeryBad) {
+				object.add(m);
+				if(Macronutriente.isMoreBetter(m))	adjp.add("più");
+				else adjp.add("meno");
+			}
+			phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, macronutrientiVeryBad);
+			phraseVeryBad.setTense(Tense.PRESENT);
+			phraseVeryBad.setModal("dovere");
+			phraseVeryBad.setForm(Form.NORMAL);
+			phraseVeryBad.setPerfect(false);
+			adjp.add("più");
 			phraseVeryBad.setAdjp(adjp);
 			phraseVeryBad.setActive(true);
-			phraseVeryBad.setNegative(true);
+			phraseVeryBad.setNegative(false);
 			phrases.add(phraseVeryBad);
 		}
 		

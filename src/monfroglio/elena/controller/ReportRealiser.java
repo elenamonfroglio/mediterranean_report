@@ -47,14 +47,6 @@ public class ReportRealiser {
 	private NLGFactory nlgFactory;
 	private Realiser realiser;
 	private JsonObject jsonObject;
-	private JsonArray veryGoodMore;
-	private JsonArray veryGoodLess;
-	private JsonArray goodMore;
-	private JsonArray goodLess;
-	private JsonArray badMore;
-	private JsonArray badLess;
-	private JsonArray veryBadMore;
-	private JsonArray veryBadLess;
 	public ArrayList<Phrase> phrases;
 	
 	public ReportRealiser(String fileName, ArrayList<Phrase> phrases) {
@@ -81,8 +73,6 @@ public class ReportRealiser {
 	
 	public void createLongSentence_new() {
 
-
-		extractCategories(jsonObject);
 		extractUtente(jsonObject);
 		
 		for(Phrase p:phrases) {
@@ -124,7 +114,6 @@ public class ReportRealiser {
 	private NLGElement createPhraseWelcome() {
 		NLGElement s1 = nlgFactory.createSentence("Buongiorno "+nomeUtente );
 		
-		
 		return s1;
 	}
 	
@@ -132,9 +121,12 @@ public class ReportRealiser {
 		SPhraseSpec clause = nlgFactory.createClause();
 		//VERBO "DO"
 		clause.setVerb(p.getVerb());
+		if(!p.getModal().equals("")) 
+			clause.setFeature(Feature.MODAL, p.getModal());
 		clause.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
-		clause.setFeature(Feature.FORM, p.getForm());
+		if(p.getForm()!=null) 
+			clause.setFeature(Feature.FORM, p.getForm());
 		clause.setFeature(Feature.PERFECT, p.isPerfect());
 		
 		//SOGGETTO "YOU"
@@ -144,12 +136,12 @@ public class ReportRealiser {
 		clause.setSubject(subject);
 		
 		//"QUESTA SETTIMANA"
-		/*
+		
 		NPPhraseSpec when = nlgFactory.createNounPhrase("settimana");
 		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
 		when.addPreModifier("questo");
 		clause.addFrontModifier(when);
-		*/
+		
 		
 		//OGGETTO "A GREAT JOB"
 		if(!p.getObject().isEmpty()) {
@@ -185,15 +177,156 @@ public class ReportRealiser {
 	}
 	
 	private SPhraseSpec createPhraseGood(Phrase p, ArrayList<String> macronutrienti) {
-		return null;
+		SPhraseSpec clause = nlgFactory.createClause();
+		//VERBO "ESSERE"
+		clause.setVerb(p.getVerb());
+		if(!p.getModal().equals("")) 
+			clause.setFeature(Feature.MODAL, p.getModal());
+		clause.setFeature(Feature.NEGATED, p.isNegative());
+		clause.setFeature(Feature.TENSE, p.getTense());
+		if(p.getForm()!=null) 
+			clause.setFeature(Feature.FORM, p.getForm());
+		clause.setFeature(Feature.PERFECT, p.isPerfect());
+		
+		//SOGGETTO "LA QUANTITÀ"
+		NPPhraseSpec subject = null;
+		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+		
+		//"DI CEREALI, VERDURE ECC.."
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: macronutrienti) {
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+		}
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier("di");
+
+		subject.addPostModifier(coord);
+		
+		clause.setSubject(subject);
+		
+		//ADJP "quasi perfetta"
+		if(!p.getObject().isEmpty()) {
+			NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
+			if(!p.getAdjp().isEmpty()) {
+				object.addPreModifier(p.getAdjp().get(0));
+				clause.setObject(object);
+			}
+		}
+		return clause;
 	}
 	
 	private SPhraseSpec createPhraseBad(Phrase p, ArrayList<String> macronutrienti) {
-		return null;
+		SPhraseSpec clause = nlgFactory.createClause();
+		//VERBO "DO"
+		clause.setVerb(p.getVerb());
+		if(!p.getModal().equals("")) 
+			clause.setFeature(Feature.MODAL, p.getModal());
+		clause.setFeature(Feature.NEGATED, p.isNegative());
+		clause.setFeature(Feature.TENSE, p.getTense());
+		if(p.getForm()!=null) 
+			clause.setFeature(Feature.FORM, p.getForm());
+		clause.setFeature(Feature.PERFECT, p.isPerfect());
+		
+		//SOGGETTO "YOU"
+		NPPhraseSpec subject = null;
+		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+		clause.setSubject(subject);
+		
+		//"QUESTA SETTIMANA"
+		
+		NPPhraseSpec when = nlgFactory.createNounPhrase("la","settimana");
+		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+		when.addPreModifier("prossima");
+		clause.addFrontModifier(when);
+		
+		
+		//OGGETTO "A GREAT JOB"
+		if(!p.getObject().isEmpty()) {
+			NPPhraseSpec object = nlgFactory.createNounPhrase("un",p.getObject().get(0));
+			if(!p.getAdjp().isEmpty()) {
+				object.addPreModifier(p.getAdjp().get(0));
+				clause.setObject(object);
+			}
+		}
+		//"CON CEREALI, VERDURE ECC.."
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: macronutrienti) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+			
+		}
+		
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		for(NPPhraseSpec elem: macronutrientiList) {
+			coord.addCoordinate(elem);
+		}
+		coord.addPreModifier("con");
+
+		clause.addPostModifier(coord);
+			
+		return clause;
 	}
 	
 	private SPhraseSpec createPhraseVeryBad(Phrase p, ArrayList<String> macronutrienti) {
-		return null;
+		SPhraseSpec clause = nlgFactory.createClause();
+		//VERBO "DO"
+		clause.setVerb(p.getVerb());
+		if(!p.getModal().equals("")) 
+			clause.setFeature(Feature.MODAL, p.getModal());
+		clause.setFeature(Feature.NEGATED, p.isNegative());
+		clause.setFeature(Feature.TENSE, p.getTense());
+		if(p.getForm()!=null) 
+			clause.setFeature(Feature.FORM, p.getForm());
+		clause.setFeature(Feature.PERFECT, p.isPerfect());
+		
+		//SOGGETTO "YOU"
+		NPPhraseSpec subject = null;
+		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+		clause.setSubject(subject);
+		
+		//"QUESTA SETTIMANA"
+		
+		NPPhraseSpec when = nlgFactory.createNounPhrase("la","settimana");
+		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+		when.addPreModifier("prossima");
+		clause.addFrontModifier(when);
+		
+		
+		//OGGETTO "A GREAT JOB"
+		if(!p.getObject().isEmpty()) {
+			NPPhraseSpec object = nlgFactory.createNounPhrase(p.getObject().get(0));
+			if(!p.getAdjp().isEmpty()) {
+				object.addPreModifier(p.getAdjp().get(0));
+				clause.setObject(object);
+			}
+		}
+		//"CON CEREALI, VERDURE ECC.."
+		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		for(String m: macronutrienti) {
+			String article = getArticle(m);
+			NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			temp.setPlural(isPlural(m));
+			macronutrientiList.add(temp);
+			
+		}
+				
+		return clause;
 	}
 	
 	private void extractUtente(JsonObject jsonObject) {
@@ -202,7 +335,8 @@ public class ReportRealiser {
 		if(sesso.equals("M")) sessoUtente = Gender.MASCULINE;
 		else sessoUtente = Gender.FEMININE;
 	}
-	
+
+	/*
 	private void extractCategories(JsonObject jsonObject) {
 		getVeryGoodMoreFeedback(jsonObject);
 		getVeryGoodLessFeedback(jsonObject);
@@ -213,7 +347,6 @@ public class ReportRealiser {
 		getVeryBadMoreFeedback(jsonObject);
 		getVeryBadLessFeedback(jsonObject);
 	}
-	
 	private void getVeryBadMoreFeedback(JsonObject jsonObject) {
 		veryBadMore = jsonObject.getJsonArray("very bad more");
 		//System.out.println(veryBadMore.getString(0));
@@ -260,7 +393,7 @@ public class ReportRealiser {
 		veryGoodLess = jsonObject.getJsonArray("very good less");
 		//System.out.println(veryGoodLess.getString(0));
 		//System.out.println(veryGoodLess);
-	}
+	}*/
 	
 	private JsonObject readJson() {
 		File initialFile = new File(fileName);

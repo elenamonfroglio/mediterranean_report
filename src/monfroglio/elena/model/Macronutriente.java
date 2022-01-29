@@ -29,6 +29,22 @@ public class Macronutriente {
 		return ret;
 	}
 	
+	public static boolean isMoreBetter(String nome) {
+		boolean ret = true;
+		switch(nome) {
+			case "carne rossa":
+				ret = false;
+				break;
+			case "latticini":
+				ret = false;
+				break;
+			case "pollame":
+				ret = false;
+				break;
+		}
+		return ret;
+	}
+	
 	public void print() {
 		System.out.println("\n\n\n" +this);
 	}
