@@ -49,6 +49,8 @@ public class TextPlanner {
 		JsonObjectBuilder builder = Json.createObjectBuilder()
 				.add("lingua", lingua)
 				.add("nome utente", user.getNome())
+				.add("eta utente", user.getEta())
+				.add("indice Med", settimana.getIndiceMed())
 				.add("sesso utente", user.getSesso());
 		
 		for (Macronutriente m:settimana.getMacronutrienti()) {

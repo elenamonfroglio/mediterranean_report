@@ -76,15 +76,22 @@ public class ReportRealiser {
 		
 		extractUtente(jsonObject);
 		System.out.print("\n\n");
-		NLGElement welcome = createPhraseWelcome();
+		//NLGElement welcome = createPhraseWelcome();
 		String output = "";
-		if(welcome!=null)	output = realiser.realiseSentence(welcome);
-	    System.out.print(output+" ");
+		//if(welcome!=null)	output = realiser.realiseSentence(welcome);
+	    
+		System.out.print(output+" ");
+	    
 		for(Phrase p:phrases) {
 			ArrayList<String> macronutrienti = new ArrayList<>();
 			for(int i=0;i<p.getPhraseArgs().size();i++) {
 				macronutrienti.add(p.getPhraseArgs().get(i));
 			}
+			SPhraseSpec clause = createGenericiPhrase(p);
+			output = "";
+			if(clause!=null)	output = realiser.realiseSentence(clause);
+		    System.out.print(output+" ");
+			/*
 			if(p.getType().equals(PhraseType.VERYGOOD)) {
 				SPhraseSpec clause = createGenericiPhrase(p);
 
@@ -106,7 +113,7 @@ public class ReportRealiser {
 				output = "";
 				if(clause!=null)	output = realiser.realiseSentence(clause);
 			    System.out.print(output+" ");
-			}
+			}*/
 			
 		}
 	}
@@ -126,7 +133,8 @@ public class ReportRealiser {
 	private SPhraseSpec createGenericiPhrase(Phrase p) {
 		SPhraseSpec clause = nlgFactory.createClause();
 		//VERBO "DO"
-		clause.setVerb(p.getVerb());
+		if(p.getVerb()!="")
+			clause.setVerb(p.getVerb());
 		if(!p.getModal().equals("")) 
 			clause.setFeature(Feature.MODAL, p.getModal());
 		clause.setFeature(Feature.NEGATED, p.isNegative());
@@ -157,8 +165,8 @@ public class ReportRealiser {
 			}
 			if(!p.getAdjp().isEmpty()) {
 				coord.addPreModifier(p.getAdjp().get(0));
-				clause.setObject(coord);
 			}	
+			clause.setObject(coord);
 		}
 		//"CON CEREALI, VERDURE ECC.."
 		if(!p.getSubjectArgs().isEmpty() && p.getSubjectArgs()!=null) {

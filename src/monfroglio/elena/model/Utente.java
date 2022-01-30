@@ -90,6 +90,10 @@ public class Utente {
 		return sesso;
 	}
 	
+	public int getEta() {
+		return eta;
+	}
+	
 	public String getCognome() {
 		return cognome;
 	}

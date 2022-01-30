@@ -54,6 +54,10 @@ public class Settimana {
 	public void setMacronutrienti(ArrayList<Macronutriente> macronutrienti) {
 		this.macronutrienti = macronutrienti;
 	}
+
+	public int getIndiceMed() {
+		return indiceMed;
+	}
 	
 	public int getIdTest() {
 		return idTest;

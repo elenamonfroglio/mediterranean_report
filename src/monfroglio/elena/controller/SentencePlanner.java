@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -38,7 +39,9 @@ public class SentencePlanner {
 	private String lingua;
 	private String nomeUtente;
 	private String sessoUtente;
-	private HashMap<String, ArrayList<String>> dictionary = new HashMap();
+	private int indiceMed;
+	private int etaUtente;
+	private HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> order;
 	private ArrayList<String> macronutrientiVeryGood;
 	private ArrayList<String> macronutrientiGood;
@@ -170,6 +173,7 @@ public class SentencePlanner {
 	private void extractUtente(JsonObject object) {
 		nomeUtente = object.getString("nome utente");
 		sessoUtente = object.getString("sesso utente");
+		etaUtente = (object.getInt("eta utente"));
 	}
 	
 	private void extractLingua(JsonObject object) {
@@ -177,6 +181,7 @@ public class SentencePlanner {
 	}
 	
 	private void extractMacronutrienti(JsonObject object) {
+		indiceMed = object.getInt("indice Med");
 		JsonObject jsonObject = object.getJsonObject("Cereali");
 		Macronutriente cereali = new Macronutriente("cer",
 				jsonObject.getInt("punteggio"),
@@ -262,6 +267,7 @@ public class SentencePlanner {
 		//ArrayList<String> macronutrientiVeryGoodMoreIsBetter
 		String oldItem = "";
 		int iter = 0;
+		lexicaliseWelcome();
 		for(String item: order) {
 			switch(item) {
 				case PhraseType.VERYBAD:
@@ -304,6 +310,50 @@ public class SentencePlanner {
 		
 	}
 	
+	private void lexicaliseWelcome() {
+		String saluto = getWord("good-evening");
+		Calendar c = Calendar.getInstance();
+		int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+		if (etaUtente<18) {
+			saluto = getWord("hello");
+		}else if(timeOfDay >= 0 && timeOfDay < 12) {
+			saluto = getWord("good-morning");
+		}else if(timeOfDay >= 12 && timeOfDay < 16) {
+			saluto = getWord("good-afternoon");
+		}
+		ArrayList<String> sub = new ArrayList<>();
+		sub.add(nomeUtente);
+		
+		Phrase phraseWelcome1 = new Phrase(PhraseType.WELCOME,sub,"",new ArrayList<String>(),new ArrayList<String>());
+		
+		phraseWelcome1.setPreModifierPhrase(saluto);
+		phraseWelcome1.setModal("");
+		phraseWelcome1.setPostModifierSubject("");
+		phraseWelcome1.setActive(true);
+		phraseWelcome1.setNegative(false);
+		phraseWelcome1.setSubjectArgs(new ArrayList<>());
+		phrases.add(phraseWelcome1);
+		
+		if(indiceMed<12 ) {
+			
+		}
+		sub = new ArrayList<>();
+		sub.add(getWord("you"));
+		ArrayList<String> obj = new ArrayList<>();
+		obj.add(getWord("mscore"));
+		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
+		phraseWelcome2.setPreModifierPhrase(getWord("this-week"));
+		phraseWelcome2.setForm(Form.NORMAL);
+		phraseWelcome2.setTense(Tense.PAST);
+		phraseWelcome2.setModal("");
+		phraseWelcome2.setPerfect(true);
+		phraseWelcome2.setPostModifierSubject("");
+		phraseWelcome2.setActive(true);
+		phraseWelcome2.setNegative(false);
+		phraseWelcome2.setAdjp(new ArrayList<String>());
+		phraseWelcome2.setSubjectArgs(new ArrayList<>());
+		phrases.add(phraseWelcome2);
+	}
 	
 	private void lexicaliseVeryGood(String connection) {
 		Phrase phraseVeryGood;
