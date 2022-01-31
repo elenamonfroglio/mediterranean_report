@@ -19,6 +19,7 @@ public class TextPlanner {
 	private String fileName;
 	private Utente user;
 	private Settimana settimana;
+	private Settimana lastSettimana;
 	private ArrayList<String> order;
 	
 	public TextPlanner() {
@@ -29,10 +30,11 @@ public class TextPlanner {
 		this.lingua = lingua;
 	}
 
-	public TextPlanner(String lingua, Utente user, Settimana settimana) {
+	public TextPlanner(String lingua, Utente user, Settimana settimana, Settimana lastSettimana) {
 		this.lingua = lingua;
 		this.user = user;
 		this.settimana = settimana;
+		this.lastSettimana = lastSettimana;
 	}
 	
 	public String getFileName() {
@@ -51,6 +53,7 @@ public class TextPlanner {
 				.add("nome utente", user.getNome())
 				.add("eta utente", user.getEta())
 				.add("indice Med", settimana.getIndiceMed())
+				.add("last indice Med", lastSettimana.getIndiceMed())
 				.add("sesso utente", user.getSesso());
 		
 		for (Macronutriente m:settimana.getMacronutrienti()) {

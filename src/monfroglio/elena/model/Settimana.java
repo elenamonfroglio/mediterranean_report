@@ -27,6 +27,10 @@ public class Settimana {
 		this.idTest = idTest;
 	}
 	
+	public Settimana(int idTest) {
+		this.idTest = idTest;
+	}
+	
 	public String toString() {
 		return "Settimana dal "+giornoInizio.toString()+" al "+giornoFine.toString()+
 				": \n\nIndice di mediterraneità: "+indiceMed+

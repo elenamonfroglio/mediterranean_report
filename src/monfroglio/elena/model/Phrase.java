@@ -23,6 +23,8 @@ public class Phrase {
 	ArrayList<String> adjp;
 	String postmodifierPhrase;
 	ArrayList<String> phraseArgs;
+	String conjunction;
+	Phrase coordinatedPhrase;
 	
 	public Phrase(Phrase p) {
 		this.premodifierPhrase = p.premodifierPhrase;
@@ -41,8 +43,11 @@ public class Phrase {
 		this.adjp = p.adjp;
 		this.postmodifierPhrase = p.postmodifierPhrase;
 		this.phraseArgs = p.phraseArgs;
+		this.conjunction = p.conjunction;
+		this.coordinatedPhrase = p.coordinatedPhrase;
 	}
 	
+	//modificare per snellire metodi Sentence Planner. Settare a null tutti gli altri campi
 	public Phrase(String type, Tense tense, boolean isActive, boolean isNegative, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {
 		this.type = type;
 		this.tense = tense;
@@ -69,6 +74,10 @@ public class Phrase {
 		this.object = object;
 	}
 	
+	public Phrase() {
+		
+	}
+	
 	public void setPostModifierSubject(String postmodifierSubject) {
 		this.postmodifierSubject = postmodifierSubject;
 	}
@@ -83,6 +92,14 @@ public class Phrase {
 	
 	public void setTense(Tense tense) {
 		this.tense = tense;
+	}
+	
+	public void setVerb(String verb) {
+		this.verb = verb;
+	}
+	
+	public void setObject(ArrayList<String> object) {
+		this.object = object;
 	}
 	
 	public void setActive(boolean isActive) {
@@ -108,13 +125,29 @@ public class Phrase {
 	public void setModal(String modal) {
 		this.modal = modal;
 	}
+	
+	public void setSubject(ArrayList<String> subject) {
+		this.subject = subject;
+	}
 
 	public void setForm(Form form) {
 		this.form = form;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public void setPerfect(boolean perfect) {
 		this.perfect = perfect;
+	}
+	
+	public void setConjunction(String conjunction) {
+		this.conjunction = conjunction;
+	}
+	
+	public void setCoordinatedPhrase(Phrase coordinatedPhrase) {
+		this.coordinatedPhrase = coordinatedPhrase;
 	}
 
 	public String getPreModifierPhrase() {
@@ -167,6 +200,14 @@ public class Phrase {
 	
 	public ArrayList<String> getSubjectArgs() {
 		return subjectArgs;
+	}
+	
+	public String getConjunction() {
+		return conjunction;
+	}
+	
+	public Phrase getCoordinatedPhrase() {
+		return coordinatedPhrase;
 	}
 	
 	public boolean isActive() {

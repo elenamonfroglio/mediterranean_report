@@ -87,7 +87,7 @@ public class ReportRealiser {
 			for(int i=0;i<p.getPhraseArgs().size();i++) {
 				macronutrienti.add(p.getPhraseArgs().get(i));
 			}
-			SPhraseSpec clause = createGenericiPhrase(p);
+			SPhraseSpec clause = createGenericPhrase(p);
 			output = "";
 			if(clause!=null)	output = realiser.realiseSentence(clause);
 		    System.out.print(output+" ");
@@ -130,12 +130,14 @@ public class ReportRealiser {
 		return s1;
 	}
 	
-	private SPhraseSpec createGenericiPhrase(Phrase p) {
+	private SPhraseSpec createGenericPhrase(Phrase p) {
 		SPhraseSpec clause = nlgFactory.createClause();
-		//VERBO "DO"
-		if(p.getVerb()!="")
-			clause.setVerb(p.getVerb());
-		if(!p.getModal().equals("")) 
+		
+		//VERBO 
+		if(p.getVerb()!="") {
+			VPPhraseSpec verb = nlgFactory.createVerbPhrase(p.getVerb());
+			clause.setVerb(verb);
+		}if(!p.getModal().equals("")) 
 			clause.setFeature(Feature.MODAL, p.getModal());
 		clause.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
@@ -143,21 +145,15 @@ public class ReportRealiser {
 			clause.setFeature(Feature.FORM, p.getForm());
 		clause.setFeature(Feature.PERFECT, p.isPerfect());
 		
-		//SOGGETTO "YOU"
-		NPPhraseSpec subject = null;
-		if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
+		//SOGGETTO
+		NPPhraseSpec subject = nlgFactory.createNounPhrase("");
+		if(p.getSubject().isEmpty())	subject.setFeature(Feature.PERSON, Person.SECOND);
+		else if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
 		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+		
 		clause.setSubject(subject);
 		
-		//"QUESTA SETTIMANA"
-		/*
-		NPPhraseSpec when = nlgFactory.createNounPhrase("la","settimana");
-		when.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		when.addPreModifier("prossima");
-		clause.addFrontModifier(when);
-		*/
-		
-		//OGGETTO "A GREAT JOB"
+		//OGGETTO
 		if(!p.getObject().isEmpty()) {
 			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
 			for(String m: p.getObject()) {
@@ -191,7 +187,8 @@ public class ReportRealiser {
 			
 			for(String m: p.getPhraseArgs()) {
 				String article = getArticle(m);
-				NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+				//NPPhraseSpec temp = nlgFactory.createNounPhrase(article,m);
+				NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
 				temp.setFeature(LexicalFeature.GENDER, getGender(m));
 				//temp.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 				temp.setPlural(isPlural(m));
@@ -204,6 +201,16 @@ public class ReportRealiser {
 			}
 			coord.addPreModifier(p.getPostModifierPhrase());
 
+			clause.addPostModifier(coord);
+		}
+		
+		if(p.getCoordinatedPhrase()!=null) {
+			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+			SPhraseSpec clauseRecursive = createGenericPhrase(p.getCoordinatedPhrase());
+			//coord.addCoordinate(clause);
+			clauseRecursive.addFrontModifier(p.getConjunction());
+			coord.addCoordinate(clauseRecursive);
+			//coord.setConjunction(p.getConjunction());
 			clause.addPostModifier(coord);
 		}
 		

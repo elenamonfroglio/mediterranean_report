@@ -40,6 +40,7 @@ public class SentencePlanner {
 	private String nomeUtente;
 	private String sessoUtente;
 	private int indiceMed;
+	private int lastIndiceMed;
 	private int etaUtente;
 	private HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> order;
@@ -48,6 +49,7 @@ public class SentencePlanner {
 	private ArrayList<String> macronutrientiBad;
 	private ArrayList<String> macronutrientiVeryBad;
 	public ArrayList<Phrase> phrases;
+	private Phrase temp;
 	
 
 	public SentencePlanner(String filename, ArrayList<String> order) {
@@ -182,6 +184,7 @@ public class SentencePlanner {
 	
 	private void extractMacronutrienti(JsonObject object) {
 		indiceMed = object.getInt("indice Med");
+		lastIndiceMed = object.getInt("last indice Med");
 		JsonObject jsonObject = object.getJsonObject("Cereali");
 		Macronutriente cereali = new Macronutriente("cer",
 				jsonObject.getInt("punteggio"),
@@ -334,13 +337,11 @@ public class SentencePlanner {
 		phraseWelcome1.setSubjectArgs(new ArrayList<>());
 		phrases.add(phraseWelcome1);
 		
-		if(indiceMed<12 ) {
-			
-		}
+		
 		sub = new ArrayList<>();
 		sub.add(getWord("you"));
 		ArrayList<String> obj = new ArrayList<>();
-		obj.add(getWord("mscore"));
+		obj.add("un "+getWord("mscore"));
 		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
 		phraseWelcome2.setPreModifierPhrase(getWord("this-week"));
 		phraseWelcome2.setForm(Form.NORMAL);
@@ -351,14 +352,72 @@ public class SentencePlanner {
 		phraseWelcome2.setActive(true);
 		phraseWelcome2.setNegative(false);
 		phraseWelcome2.setAdjp(new ArrayList<String>());
+		ArrayList<String> args = new ArrayList<>();
+		args.add(Integer.toString(indiceMed));
+		phraseWelcome2.setPostModifierPhrase(getWord("equal"));
+		phraseWelcome2.setPhraseArgs(args);
 		phraseWelcome2.setSubjectArgs(new ArrayList<>());
+		
+		Phrase indPhrase = lexicaliseIndiceMed();
+		phraseWelcome2.setConjunction(getWord("so"));
+		phraseWelcome2.setCoordinatedPhrase(indPhrase);
+		
 		phrases.add(phraseWelcome2);
+		phrases.add(temp);
+	}
+	
+	private Phrase lexicaliseIndiceMed() {
+		Phrase p = new Phrase();
+		p.setPreModifierPhrase("");
+		
+		ArrayList<String> sub = new ArrayList<>();
+		//sub.add(getWord("you"));
+		p.setSubject(sub);
+		
+		p.setVerb(getWord("to-be"));
+		
+		ArrayList<String> ob = new ArrayList<>();
+		
+		
+		if(indiceMed<lastIndiceMed) {
+			ob.add(getWord("improved"));
+			temp = new Phrase(PhraseType.EXCLAMATION,new ArrayList<String>(),getWord("congratulation"),new ArrayList<String>());
+			
+		}else {
+			ob.add(getWord("not-improved"));
+			temp = new Phrase(PhraseType.EXCLAMATION,new ArrayList<String>(),getWord("to-give-up"),new ArrayList<String>());
+			temp.setNegative(true);
+		}
+		temp.setPhraseArgs(new ArrayList<>());
+		temp.setSubjectArgs(new ArrayList<>());
+		temp.setAdjp(new ArrayList<>());
+		temp.setModal("");
+		
+		p.setObject(ob);
+		
+		p.setType(PhraseType.WELCOME);
+		p.setForm(Form.NORMAL);
+		p.setPerfect(false);
+		p.setTense(Tense.PRESENT);
+		p.setModal("");
+		p.setSubjectArgs(new ArrayList<>());
+		ArrayList<String> adjps = new ArrayList<>();
+		//adjps.add(getWord("last"));
+		p.setAdjp(adjps);
+		
+		ArrayList<String> args = new ArrayList<>();
+		args.add(getWord("last-week"));
+		p.setPostModifierPhrase(getWord("since"));
+		p.setPhraseArgs(args);
+		
+		return p;
+		
 	}
 	
 	private void lexicaliseVeryGood(String connection) {
 		Phrase phraseVeryGood;
 		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("you"));
+		//subject.add(getWord("you"));
 		String verb = getWord("to-do");
 		ArrayList<String> object = new ArrayList<String>();
 		object.add(getWord("job"));
@@ -408,7 +467,7 @@ public class SentencePlanner {
 	private void lexicaliseBad(String connection) {
 		Phrase phraseBad;
 		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("you"));
+		//subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
 		ArrayList<String> object = new ArrayList<String>();
@@ -432,7 +491,7 @@ public class SentencePlanner {
 	private void lexicaliseVeryBad(String connection) {
 		Phrase phraseVeryBad;
 		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("you"));
+		//subject.add(getWord("you"));
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
 		ArrayList<String> adjp = new ArrayList<String>();
