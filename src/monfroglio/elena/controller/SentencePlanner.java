@@ -317,13 +317,13 @@ public class SentencePlanner {
 		String saluto = getWord("good-evening");
 		Calendar c = Calendar.getInstance();
 		int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
-		if (etaUtente<18) {
+		if (etaUtente<18) 
 			saluto = getWord("hello");
-		}else if(timeOfDay >= 0 && timeOfDay < 12) {
+		else if(timeOfDay >= 0 && timeOfDay < 12) 
 			saluto = getWord("good-morning");
-		}else if(timeOfDay >= 12 && timeOfDay < 16) {
+		else if(timeOfDay >= 12 && timeOfDay < 16) 
 			saluto = getWord("good-afternoon");
-		}
+		
 		ArrayList<String> sub = new ArrayList<>();
 		sub.add(nomeUtente);
 		
@@ -373,27 +373,33 @@ public class SentencePlanner {
 		ArrayList<String> sub = new ArrayList<>();
 		//sub.add(getWord("you"));
 		p.setSubject(sub);
-		
 		p.setVerb(getWord("to-be"));
 		
 		ArrayList<String> ob = new ArrayList<>();
 		
 		
 		if(indiceMed<lastIndiceMed) {
+			//p.setVerb(getWord("to-get-worse"));
+			//p.setModal(getWord("to-be"));
 			ob.add(getWord("improved"));
-			temp = new Phrase(PhraseType.EXCLAMATION,new ArrayList<String>(),getWord("congratulation"),new ArrayList<String>());
-			
+			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("congratulation"),new ArrayList<String>());
+			temp.setForm(Form.INFINITIVE);
 		}else {
+			//p.setVerb(getWord("to-improve"));
 			ob.add(getWord("not-improved"));
-			temp = new Phrase(PhraseType.EXCLAMATION,new ArrayList<String>(),getWord("to-give-up"),new ArrayList<String>());
+			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("to-give-up"),new ArrayList<String>());
 			temp.setNegative(true);
+			temp.setForm(Form.INFINITIVE);
 		}
 		temp.setPhraseArgs(new ArrayList<>());
 		temp.setSubjectArgs(new ArrayList<>());
 		temp.setAdjp(new ArrayList<>());
 		temp.setModal("");
 		
-		p.setObject(ob);
+		p.setAdjp(ob);
+		if(sessoUtente.equals("F"))	p.setAdjpGender(Gender.FEMININE);
+		else	p.setAdjpGender(Gender.MASCULINE);
+		p.setObject(new ArrayList<>());
 		
 		p.setType(PhraseType.WELCOME);
 		p.setForm(Form.NORMAL);
@@ -403,7 +409,7 @@ public class SentencePlanner {
 		p.setSubjectArgs(new ArrayList<>());
 		ArrayList<String> adjps = new ArrayList<>();
 		//adjps.add(getWord("last"));
-		p.setAdjp(adjps);
+		//p.setAdjp(adjps);
 		
 		ArrayList<String> args = new ArrayList<>();
 		args.add(getWord("last-week"));
@@ -480,7 +486,7 @@ public class SentencePlanner {
 		phraseBad.setPreModifierPhrase(connection);
 		phraseBad.setPostModifierSubject("");
 		ArrayList<String> adjp = new ArrayList<String>();
-		adjp.add(getWord("good"));
+		adjp.add("");
 		phraseBad.setAdjp(adjp);
 		phraseBad.setActive(true);
 		phraseBad.setNegative(false);

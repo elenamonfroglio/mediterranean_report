@@ -136,6 +136,11 @@ public class ReportRealiser {
 		//VERBO 
 		if(p.getVerb()!="") {
 			VPPhraseSpec verb = nlgFactory.createVerbPhrase(p.getVerb());
+			//verb.setFeature(Feature.AGGREGATE_AUXILIARY, p.getAuxiliary());
+			if(p.getType()==PhraseType.EXCLAMATION) {
+				clause.addPostModifier("!");
+				clause.setFeature(Feature.FORM, Form.INFINITIVE);
+			}
 			clause.setVerb(verb);
 		}if(!p.getModal().equals("")) 
 			clause.setFeature(Feature.MODAL, p.getModal());
@@ -150,19 +155,27 @@ public class ReportRealiser {
 		if(p.getSubject().isEmpty())	subject.setFeature(Feature.PERSON, Person.SECOND);
 		else if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
 		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
-		
+
 		clause.setSubject(subject);
-		
+		int i = 0;
 		//OGGETTO
 		if(!p.getObject().isEmpty()) {
 			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+			
 			for(String m: p.getObject()) {
-				coord.addCoordinate(m);			
-			}
-			if(!p.getAdjp().isEmpty()) {
-				coord.addPreModifier(p.getAdjp().get(0));
-			}	
+				NPPhraseSpec obj = nlgFactory.createNounPhrase(m);
+				if(!p.getAdjp().isEmpty()) {
+					obj.addPreModifier(p.getAdjp().get(i));
+					i++;
+				}
+				coord.addCoordinate(obj);		
+			}				
 			clause.setObject(coord);
+		}
+		else if(!p.getAdjp().isEmpty()) {
+			AdjPhraseSpec adjPhrase = nlgFactory.createAdjectivePhrase(p.getAdjp().get(0));
+			adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+			clause.addModifier(adjPhrase);
 		}
 		//"CON CEREALI, VERDURE ECC.."
 		if(!p.getSubjectArgs().isEmpty() && p.getSubjectArgs()!=null) {

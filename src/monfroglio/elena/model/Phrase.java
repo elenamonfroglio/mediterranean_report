@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
+import simplenlg.features.Gender;
 import simplenlg.features.Tense;
 
 public class Phrase {
@@ -21,6 +22,7 @@ public class Phrase {
 	String verb;
 	ArrayList<String> object;
 	ArrayList<String> adjp;
+	Gender adjpGender;
 	String postmodifierPhrase;
 	ArrayList<String> phraseArgs;
 	String conjunction;
@@ -41,6 +43,7 @@ public class Phrase {
 		this.verb = p.verb;
 		this.object = p.object;
 		this.adjp = p.adjp;
+		this.adjpGender = p.adjpGender;
 		this.postmodifierPhrase = p.postmodifierPhrase;
 		this.phraseArgs = p.phraseArgs;
 		this.conjunction = p.conjunction;
@@ -57,6 +60,8 @@ public class Phrase {
 		this.verb = verb;
 		this.object = object;
 		this.phraseArgs = phraseArgs;
+		this.adjpGender = Gender.MASCULINE;
+		this.adjp = new ArrayList<>();
 	}
 	
 	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {
@@ -65,6 +70,8 @@ public class Phrase {
 		this.verb = verb;
 		this.object = object;
 		this.phraseArgs = phraseArgs;
+		this.adjp = new ArrayList<>();
+		this.adjpGender = Gender.MASCULINE;
 	}
 
 	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object) {
@@ -72,11 +79,16 @@ public class Phrase {
 		this.subject = subject;
 		this.verb = verb;
 		this.object = object;
+		this.adjp = new ArrayList<>();
+		this.adjpGender = Gender.MASCULINE;
 	}
 	
 	public Phrase() {
+		this.adjp = new ArrayList<>();
+		this.adjpGender = Gender.MASCULINE;
 		
 	}
+	
 	
 	public void setPostModifierSubject(String postmodifierSubject) {
 		this.postmodifierSubject = postmodifierSubject;
@@ -112,6 +124,10 @@ public class Phrase {
 	
 	public void setAdjp(ArrayList<String> adjp) {
 		this.adjp = adjp;
+	}
+	
+	public void setAdjpGender(Gender adjpGender) {
+		this.adjpGender = adjpGender;
 	}
 
 	public void setPhraseArgs(ArrayList<String> phraseArgs) {
@@ -188,6 +204,10 @@ public class Phrase {
 	
 	public ArrayList<String> getObject() {
 		return object;
+	}
+	
+	public Gender getAdjpGender() {
+		return adjpGender;
 	}
 	
 	public ArrayList<String> getAdjp() {
