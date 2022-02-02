@@ -15,6 +15,7 @@ public class Phrase {
 	Form form = Form.NORMAL;
 	boolean isActive = true;
 	boolean isNegative = false;
+	boolean formal = false;
 	ArrayList<String> subject = new ArrayList<>();
 	ArrayList<String> subjectArgs = new ArrayList<>();
 	String postmodifierSubject = "";
@@ -100,6 +101,10 @@ public class Phrase {
 	
 	public void setPreModifierPhrase(String premodifierPhrase) {
 		this.premodifierPhrase = premodifierPhrase;
+	}
+	
+	public void setFormal(boolean formal) {
+		this.formal = formal;
 	}
 	
 	public void setTense(Tense tense) {
@@ -188,6 +193,10 @@ public class Phrase {
 	
 	public String getModal() {
 		return modal;
+	}
+	
+	public boolean isFormal() {
+		return formal;
 	}
 	
 	public String getType() {

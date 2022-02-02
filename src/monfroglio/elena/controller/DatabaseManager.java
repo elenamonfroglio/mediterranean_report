@@ -98,7 +98,10 @@ public class DatabaseManager{
 			String cognome = rs.getString("cognome");
 			int eta = rs.getInt("età");
 			String sesso = rs.getString("sesso");
-			ret = new Utente(nome,cognome,cf,eta,sesso);
+			boolean interesseAmbientale = rs.getBoolean("interesseAmbientale");
+			int conoscenzaDominio  = rs.getInt("conoscenzaDominio");
+			int stress  = rs.getInt("stress");
+			ret = new Utente(nome,cognome,eta,sesso,conoscenzaDominio,stress,interesseAmbientale);
 			//ret.print();
 		}
 		return ret;

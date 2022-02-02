@@ -54,7 +54,8 @@ public class TextPlanner {
 				.add("eta utente", user.getEta())
 				.add("indice Med", settimana.getIndiceMed())
 				.add("last indice Med", lastSettimana.getIndiceMed())
-				.add("sesso utente", user.getSesso());
+				.add("sesso utente", user.getSesso())
+				.add("conoscenza dominio", user.getConoscenzaDominio());
 		
 		for (Macronutriente m:settimana.getMacronutrienti()) {
 			builder.add(m.getNome(), Json.createObjectBuilder()
@@ -62,12 +63,14 @@ public class TextPlanner {
 					.add("punteggioEnvironment", Double.toString(m.getPunteggioEnvironment()))
 					.add("moreIsBetter", m.getMoreIsBetter()));
 		}		
-
+		if(user.getInteresseAmbientale())
+			builder.add("totalePunteggioEnvironment", getIndexAmbientalePerEmissioni());
+		else 	builder.add("totalePunteggioEnvironment", -1);
 		JsonObject value = builder.build();
 		createJsonFile(value);	    
 	}
 		
-	//Valore compreso tra 0 e xxxx
+	//Valore compreso tra 0 e 976
 	private double getIndexAmbientalePerEmissioni() {
 		double index = 0;
 		double indexTemp = 0;

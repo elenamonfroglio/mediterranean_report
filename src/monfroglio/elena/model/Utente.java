@@ -94,6 +94,10 @@ public class Utente {
 		return eta;
 	}
 	
+	public int getConoscenzaDominio() {
+		return conoscenzaDominio;
+	}
+	
 	public String getCognome() {
 		return cognome;
 	}

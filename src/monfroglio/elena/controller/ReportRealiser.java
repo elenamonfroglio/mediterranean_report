@@ -121,13 +121,7 @@ public class ReportRealiser {
 		
 		
 		if(p.getCoordinatedPhrase()!=null) {
-			CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-			SPhraseSpec clauseRecursive = createGenericPhrase(p.getCoordinatedPhrase());
-			//coord.addCoordinate(clause);
-			clauseRecursive.addFrontModifier(p.getConjunction());
-			coord.addCoordinate(clauseRecursive);
-			//coord.setConjunction(p.getConjunction());
-			clause.addPostModifier(coord);
+			createAndSetCoordinatedPhrase(clause,p);
 		}
 		
 		clause.addFrontModifier(p.getPreModifierPhrase());
@@ -140,22 +134,30 @@ public class ReportRealiser {
 		//verb.setFeature(Feature.AGGREGATE_AUXILIARY, p.getAuxiliary());
 		if(p.getType()==PhraseType.EXCLAMATION) {
 			clause.addPostModifier("!");
-			clause.setFeature(Feature.FORM, Form.INFINITIVE);
-		}
+			if(!p.isFormal())	
+				clause.setFeature(Feature.FORM, Form.INFINITIVE);
+			else {				
+				clause.setFeature(Feature.FORM, Form.SUBJUNCTIVE);
+				clause.setFeature(Feature.PERSON, Person.THIRD);
+			}
+		}else if(p.getForm()!=null) 
+			clause.setFeature(Feature.FORM, p.getForm());
 		clause.setVerb(verb);
 		if(!p.getModal().equals("")) 
 			clause.setFeature(Feature.MODAL, p.getModal());
 		clause.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
-		if(p.getForm()!=null) 
-			clause.setFeature(Feature.FORM, p.getForm());
+		
 		clause.setFeature(Feature.PERFECT, p.isPerfect());
 		return verb;
 	}
 	
 	private NPPhraseSpec createAndSetSubject(SPhraseSpec clause, Phrase p) {
 		NPPhraseSpec subject = nlgFactory.createNounPhrase("");
-		if(p.getSubject().isEmpty())	subject.setFeature(Feature.PERSON, Person.SECOND);
+		if(p.getSubject().isEmpty())	{
+			if(!p.isFormal())		subject.setFeature(Feature.PERSON, Person.SECOND);
+			else					subject.setFeature(Feature.PERSON, Person.THIRD);
+		}
 		else if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
 		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
 
@@ -198,29 +200,26 @@ public class ReportRealiser {
 		for(NPPhraseSpec elem: macronutrientiList) {
 			coord.addCoordinate(elem);
 		}
-		coord.addPreModifier(p.getPostModifierSubject());
 
-		if(elemToBeModfied==null) clause.addPostModifier(coord);
-		else	elemToBeModfied.addPostModifier(coord);
+		if(elemToBeModfied==null) {
+			coord.addPreModifier(p.getPostModifierPhrase());
+			clause.addPostModifier(coord);
+		}
+		else {
+
+			coord.addPreModifier(p.getPostModifierSubject());
+			elemToBeModfied.addPostModifier(coord);
+		}
 		return coord;
 	}
 	
-	private CoordinatedPhraseElement createAndSetPhraseArgs(SPhraseSpec clause, Phrase p) {
-		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();		
-		
-		for(String m: p.getPhraseArgs()) {
-			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			temp.setPlural(isPlural(m));
-			macronutrientiList.add(temp);
-		}
-		
+	private CoordinatedPhraseElement createAndSetCoordinatedPhrase(SPhraseSpec clause, Phrase p) {
 		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		for(NPPhraseSpec elem: macronutrientiList) {
-			coord.addCoordinate(elem);
-		}
-		coord.addPreModifier(p.getPostModifierPhrase());
-
+		SPhraseSpec clauseRecursive = createGenericPhrase(p.getCoordinatedPhrase());
+		
+		clauseRecursive.addFrontModifier(p.getConjunction());
+		coord.addCoordinate(clauseRecursive);
+		
 		clause.addPostModifier(coord);
 		return coord;
 	}

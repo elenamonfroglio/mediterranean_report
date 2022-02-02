@@ -42,6 +42,8 @@ public class SentencePlanner {
 	private int indiceMed;
 	private int lastIndiceMed;
 	private int etaUtente;
+	private int conoscenzaDominio;
+	private double totalePunteggioEnvironment;
 	private HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> order;
 	private ArrayList<String> macronutrientiVeryGood;
@@ -175,7 +177,8 @@ public class SentencePlanner {
 	private void extractUtente(JsonObject object) {
 		nomeUtente = object.getString("nome utente");
 		sessoUtente = object.getString("sesso utente");
-		etaUtente = (object.getInt("eta utente"));
+		etaUtente = object.getInt("eta utente");
+		conoscenzaDominio = object.getInt("conoscenza dominio");
 	}
 	
 	private void extractLingua(JsonObject object) {
@@ -185,6 +188,8 @@ public class SentencePlanner {
 	private void extractMacronutrienti(JsonObject object) {
 		indiceMed = object.getInt("indice Med");
 		lastIndiceMed = object.getInt("last indice Med");
+		totalePunteggioEnvironment = object.getInt("totalePunteggioEnvironment");
+		//System.out.println(totalePunteggioEnvironment);
 		JsonObject jsonObject = object.getJsonObject("Cereali");
 		Macronutriente cereali = new Macronutriente("cer",
 				jsonObject.getInt("punteggio"),
@@ -304,7 +309,38 @@ public class SentencePlanner {
 				oldItem = item;
 			}
 		}
+
+		if(totalePunteggioEnvironment!=-1) 
+			lexicaliseEnvironment();
 		
+		if(etaUtente>18)	setFormalPhrase();
+	}
+	
+	private void setFormalPhrase() {
+		for (Phrase p:phrases) {
+			p.setFormal(true);
+			if(p.getCoordinatedPhrase()!=null)	p.getCoordinatedPhrase().setFormal(true);
+		}
+	}
+	
+	private void lexicaliseEnvironment() {
+		ArrayList<String> sub = new ArrayList<>();
+		//sub.add(getWord("you"));
+		ArrayList<String> ob = new ArrayList<>();
+		ob.add(getWord("carbon-emission"));
+		String verb = getWord("discharge");
+		ArrayList<String> adjp = new ArrayList<>();
+		Phrase p = new Phrase(PhraseType.ENVIRONMENT,sub,verb,ob,new ArrayList<String>());
+		p.setPreModifierPhrase(getWord("finally"));
+		p.setTense(Tense.PAST);
+		p.setPerfect(true);
+		
+		if(totalePunteggioEnvironment<50)	adjp.add(getWord("too-much"));
+		else	adjp.add(getWord("too-much"));
+		
+		p.setAdjp(adjp);
+		
+		phrases.add(p);
 	}
 	
 	private void lexicaliseWelcome() {
@@ -328,7 +364,7 @@ public class SentencePlanner {
 		
 		
 		sub = new ArrayList<>();
-		sub.add(getWord("you"));
+		//sub.add(getWord("you"));
 		ArrayList<String> obj = new ArrayList<>();
 		obj.add("un "+getWord("mscore"));
 		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
@@ -358,19 +394,20 @@ public class SentencePlanner {
 		
 		ArrayList<String> ob = new ArrayList<>();
 		
-		
 		if(indiceMed<lastIndiceMed) {
 			//p.setVerb(getWord("to-get-worse"));
 			//p.setModal(getWord("to-be"));
 			ob.add(getWord("improved"));
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("congratulation"),new ArrayList<String>());
 			temp.setForm(Form.INFINITIVE);
+			if(etaUtente>18)	temp.setFormal(true);
 		}else {
 			//p.setVerb(getWord("to-improve"));
 			ob.add(getWord("not-improved"));
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("to-give-up"),new ArrayList<String>());
 			temp.setNegative(true);
 			temp.setForm(Form.INFINITIVE);
+			if(etaUtente>18)	temp.setFormal(true);
 		}
 		
 		p.setAdjp(ob);
@@ -378,8 +415,6 @@ public class SentencePlanner {
 		else	p.setAdjpGender(Gender.MASCULINE);
 		
 		p.setType(PhraseType.WELCOME);
-		//adjps.add(getWord("last"));
-		//p.setAdjp(adjps);
 		
 		ArrayList<String> args = new ArrayList<>();
 		args.add(getWord("last-week"));
@@ -430,10 +465,12 @@ public class SentencePlanner {
 	
 	private void lexicaliseBad(String connection) {
 		Phrase phraseBad;
+		ArrayList<String> subject = new ArrayList<>();
+		if(conoscenzaDominio==2)		subject.add(getWord("patient"));
 		//subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
-		phraseBad = new Phrase(PhraseType.BAD, new ArrayList<>(), verb, new ArrayList<String>(), macronutrientiBad);
+		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), macronutrientiBad);
 		phraseBad.setModal(modal);
 		phraseBad.setPreModifierPhrase(connection);
 		phraseBad.setPostModifierPhrase(getWord("with"));
@@ -442,7 +479,10 @@ public class SentencePlanner {
 
 	private void lexicaliseVeryBad(String connection) {
 		Phrase phraseVeryBad;
+		ArrayList<String> subject = new ArrayList<>();
 		//subject.add(getWord("you"));
+		if(conoscenzaDominio==2) //IF dietista
+			subject.add(getWord("patient"));
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
 		ArrayList<String> adjp = new ArrayList<String>();
@@ -451,8 +491,10 @@ public class SentencePlanner {
 			if(Macronutriente.isMoreBetter(m))	adjp.add(getWord("more"));
 			else adjp.add(getWord("less"));
 		}
-		phraseVeryBad = new Phrase(PhraseType.VERYBAD, new ArrayList<>(), verb, object, new ArrayList<>());
+		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
 		phraseVeryBad.setModal(getWord("to-must"));
+		if(conoscenzaDominio==2) //IF dietista
+			phraseVeryBad.setFormal(true);	
 		phraseVeryBad.setPreModifierPhrase(connection);
 		phraseVeryBad.setAdjp(adjp);
 		phrases.add(phraseVeryBad);
