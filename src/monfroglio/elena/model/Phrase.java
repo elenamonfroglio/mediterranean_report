@@ -8,25 +8,25 @@ import simplenlg.features.Gender;
 import simplenlg.features.Tense;
 
 public class Phrase {
-	String premodifierPhrase;
-	String type;
-	Tense tense;
-	boolean perfect;
-	Form form;
-	boolean isActive;
-	boolean isNegative;
-	ArrayList<String> subject;
-	ArrayList<String> subjectArgs;
-	String postmodifierSubject;
-	String modal;
-	String verb;
-	ArrayList<String> object;
-	ArrayList<String> adjp;
-	Gender adjpGender;
-	String postmodifierPhrase;
-	ArrayList<String> phraseArgs;
-	String conjunction;
-	Phrase coordinatedPhrase;
+	String premodifierPhrase = "";
+	String type = "";
+	Tense tense = Tense.PRESENT;
+	boolean perfect = false;
+	Form form = Form.NORMAL;
+	boolean isActive = true;
+	boolean isNegative = false;
+	ArrayList<String> subject = new ArrayList<>();
+	ArrayList<String> subjectArgs = new ArrayList<>();
+	String postmodifierSubject = "";
+	String modal = "";
+	String verb = "";
+	ArrayList<String> object = new ArrayList<>();
+	ArrayList<String> adjp = new ArrayList<>();
+	Gender adjpGender = Gender.MASCULINE;
+	String postmodifierPhrase = "";
+	ArrayList<String> phraseArgs = new ArrayList<>();
+	String conjunction = "";
+	Phrase coordinatedPhrase = null;
 	
 	public Phrase(Phrase p) {
 		this.premodifierPhrase = p.premodifierPhrase;
@@ -54,14 +54,14 @@ public class Phrase {
 	public Phrase(String type, Tense tense, boolean isActive, boolean isNegative, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {
 		this.type = type;
 		this.tense = tense;
+		this.perfect = false;
+		this.form = Form.NORMAL;
 		this.isActive = isActive;
 		this.isNegative = isNegative;
 		this.subject = subject;
 		this.verb = verb;
 		this.object = object;
 		this.phraseArgs = phraseArgs;
-		this.adjpGender = Gender.MASCULINE;
-		this.adjp = new ArrayList<>();
 	}
 	
 	public Phrase(String type, ArrayList<String> subject, String verb, ArrayList<String> object, ArrayList<String> phraseArgs) {

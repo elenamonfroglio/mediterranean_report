@@ -256,17 +256,11 @@ public class SentencePlanner {
 		allMacronutrienti.add(latticini);
 	}
 	
-	//finding the right words and phrases to express information --> senticnet
-	public void lexicalisation() {
-		lexicalisation_caseA();
-		//lexicalisation_caseB();
-	}
-	
 	private String getWord(String concept) {
 		return dictionary.get(concept).get(0);
 	}
 	
-	private void lexicalisation_caseA() {
+	public void lexicalisation() {
 		//ArrayList<String> macronutrientiVeryGoodMoreIsBetter
 		String oldItem = "";
 		int iter = 0;
@@ -330,12 +324,7 @@ public class SentencePlanner {
 		Phrase phraseWelcome1 = new Phrase(PhraseType.WELCOME,sub,"",new ArrayList<String>(),new ArrayList<String>());
 		
 		phraseWelcome1.setPreModifierPhrase(saluto);
-		phraseWelcome1.setModal("");
-		phraseWelcome1.setPostModifierSubject("");
-		phraseWelcome1.setActive(true);
-		phraseWelcome1.setNegative(false);
-		phraseWelcome1.setSubjectArgs(new ArrayList<>());
-		phrases.add(phraseWelcome1);
+		phrases.add(phraseWelcome1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		
 		
 		sub = new ArrayList<>();
@@ -344,19 +333,12 @@ public class SentencePlanner {
 		obj.add("un "+getWord("mscore"));
 		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
 		phraseWelcome2.setPreModifierPhrase(getWord("this-week"));
-		phraseWelcome2.setForm(Form.NORMAL);
 		phraseWelcome2.setTense(Tense.PAST);
-		phraseWelcome2.setModal("");
 		phraseWelcome2.setPerfect(true);
-		phraseWelcome2.setPostModifierSubject("");
-		phraseWelcome2.setActive(true);
-		phraseWelcome2.setNegative(false);
-		phraseWelcome2.setAdjp(new ArrayList<String>());
 		ArrayList<String> args = new ArrayList<>();
 		args.add(Integer.toString(indiceMed));
 		phraseWelcome2.setPostModifierPhrase(getWord("equal"));
 		phraseWelcome2.setPhraseArgs(args);
-		phraseWelcome2.setSubjectArgs(new ArrayList<>());
 		
 		Phrase indPhrase = lexicaliseIndiceMed();
 		phraseWelcome2.setConjunction(getWord("so"));
@@ -368,7 +350,6 @@ public class SentencePlanner {
 	
 	private Phrase lexicaliseIndiceMed() {
 		Phrase p = new Phrase();
-		p.setPreModifierPhrase("");
 		
 		ArrayList<String> sub = new ArrayList<>();
 		//sub.add(getWord("you"));
@@ -391,23 +372,12 @@ public class SentencePlanner {
 			temp.setNegative(true);
 			temp.setForm(Form.INFINITIVE);
 		}
-		temp.setPhraseArgs(new ArrayList<>());
-		temp.setSubjectArgs(new ArrayList<>());
-		temp.setAdjp(new ArrayList<>());
-		temp.setModal("");
 		
 		p.setAdjp(ob);
 		if(sessoUtente.equals("F"))	p.setAdjpGender(Gender.FEMININE);
 		else	p.setAdjpGender(Gender.MASCULINE);
-		p.setObject(new ArrayList<>());
 		
 		p.setType(PhraseType.WELCOME);
-		p.setForm(Form.NORMAL);
-		p.setPerfect(false);
-		p.setTense(Tense.PRESENT);
-		p.setModal("");
-		p.setSubjectArgs(new ArrayList<>());
-		ArrayList<String> adjps = new ArrayList<>();
 		//adjps.add(getWord("last"));
 		//p.setAdjp(adjps);
 		
@@ -422,24 +392,17 @@ public class SentencePlanner {
 	
 	private void lexicaliseVeryGood(String connection) {
 		Phrase phraseVeryGood;
-		ArrayList<String> subject = new ArrayList<>();
 		//subject.add(getWord("you"));
 		String verb = getWord("to-do");
 		ArrayList<String> object = new ArrayList<String>();
 		object.add(getWord("job"));
-		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
-		phraseVeryGood.setModal("");
-		phraseVeryGood.setSubjectArgs(new ArrayList<>());
+		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, new ArrayList<>(), verb, object, macronutrientiVeryGood);
 		phraseVeryGood.setTense(Tense.PAST);
-		phraseVeryGood.setForm(Form.NORMAL);
 		phraseVeryGood.setPerfect(true);
-		phraseVeryGood.setPostModifierSubject("");
 		phraseVeryGood.setPreModifierPhrase(connection);
 		ArrayList<String> adjp = new ArrayList<String>();
 		adjp.add(getWord("very-good"));
 		phraseVeryGood.setAdjp(adjp);
-		phraseVeryGood.setActive(true);
-		phraseVeryGood.setNegative(false);
 		phraseVeryGood.setPostModifierPhrase(getWord("with"));
 		phrases.add(phraseVeryGood);
 	}
@@ -447,56 +410,38 @@ public class SentencePlanner {
 	private void lexicaliseGood(String connection) {
 		Phrase phraseGood;
 		ArrayList<String> subject = new ArrayList<>();
-		subject.add("la");
+		//subject.add("la");
 		subject.add(getWord("portion"));
 		String verb = getWord("to-be");
 		ArrayList<String> object = new ArrayList<String>();
 		object.add(getWord("very-good"));
 		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, object, new ArrayList<>());
-		phraseGood.setModal("");
 		phraseGood.setSubjectArgs(macronutrientiGood);
 		phraseGood.setTense(Tense.PAST);
-		phraseGood.setForm(Form.NORMAL);
-		phraseGood.setPerfect(false);
 		phraseGood.setPreModifierPhrase(connection);
 		phraseGood.setPostModifierSubject(getWord("of"));
 		ArrayList<String> adjp = new ArrayList<String>();
 		adjp.add(getWord("nearly"));
 		adjp.add(getWord("very-good"));
 		phraseGood.setAdjp(adjp);
-		phraseGood.setActive(true);
-		phraseGood.setNegative(false);
 		phraseGood.setPostModifierPhrase(getWord("of"));
 		phrases.add(phraseGood);
 	}
 	
 	private void lexicaliseBad(String connection) {
 		Phrase phraseBad;
-		ArrayList<String> subject = new ArrayList<>();
 		//subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
-		ArrayList<String> object = new ArrayList<String>();
-		phraseBad = new Phrase(PhraseType.BAD, subject, verb, object, macronutrientiBad);
+		phraseBad = new Phrase(PhraseType.BAD, new ArrayList<>(), verb, new ArrayList<String>(), macronutrientiBad);
 		phraseBad.setModal(modal);
-		phraseBad.setSubjectArgs(new ArrayList<>());
-		phraseBad.setTense(Tense.PRESENT);
-		phraseBad.setForm(Form.NORMAL);
-		phraseBad.setPerfect(false);
 		phraseBad.setPreModifierPhrase(connection);
-		phraseBad.setPostModifierSubject("");
-		ArrayList<String> adjp = new ArrayList<String>();
-		adjp.add("");
-		phraseBad.setAdjp(adjp);
-		phraseBad.setActive(true);
-		phraseBad.setNegative(false);
 		phraseBad.setPostModifierPhrase(getWord("with"));
 		phrases.add(phraseBad);
 	}
 
 	private void lexicaliseVeryBad(String connection) {
 		Phrase phraseVeryBad;
-		ArrayList<String> subject = new ArrayList<>();
 		//subject.add(getWord("you"));
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
@@ -506,18 +451,10 @@ public class SentencePlanner {
 			if(Macronutriente.isMoreBetter(m))	adjp.add(getWord("more"));
 			else adjp.add(getWord("less"));
 		}
-		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
-		phraseVeryBad.setTense(Tense.PRESENT);
+		phraseVeryBad = new Phrase(PhraseType.VERYBAD, new ArrayList<>(), verb, object, new ArrayList<>());
 		phraseVeryBad.setModal(getWord("to-must"));
-		phraseVeryBad.setSubjectArgs(new ArrayList<>());
-		phraseVeryBad.setForm(Form.NORMAL);
-		phraseVeryBad.setPostModifierSubject("");
-		phraseVeryBad.setPerfect(false);
 		phraseVeryBad.setPreModifierPhrase(connection);
 		phraseVeryBad.setAdjp(adjp);
-		phraseVeryBad.setActive(true);
-		phraseVeryBad.setNegative(false);
-		phraseVeryBad.setPostModifierPhrase("");
 		phrases.add(phraseVeryBad);
 	}
 	
