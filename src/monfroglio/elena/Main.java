@@ -26,7 +26,7 @@ public class Main {
 	public static void test1(DatabaseManager dbmgr) {
 		try {
 			//recupero user model dal codice fiscale
-			Utente u = dbmgr.getUtente("CLMLSE63A41A089X");
+			Utente u = dbmgr.getUtente("CSTSLV04A41A031D");
 			int idTest = 91001;
 			int idTestPreviousWeek = 91000;
 			

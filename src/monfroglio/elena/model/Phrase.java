@@ -23,6 +23,7 @@ public class Phrase {
 	String verb = "";
 	ArrayList<String> object = new ArrayList<>();
 	ArrayList<String> adjp = new ArrayList<>();
+	ArrayList<String> preModifierObject = new ArrayList<>();
 	Gender adjpGender = Gender.MASCULINE;
 	String postmodifierPhrase = "";
 	ArrayList<String> phraseArgs = new ArrayList<>();
@@ -44,6 +45,7 @@ public class Phrase {
 		this.verb = p.verb;
 		this.object = p.object;
 		this.adjp = p.adjp;
+		this.preModifierObject = p.preModifierObject;
 		this.adjpGender = p.adjpGender;
 		this.postmodifierPhrase = p.postmodifierPhrase;
 		this.phraseArgs = p.phraseArgs;
@@ -90,6 +92,9 @@ public class Phrase {
 		
 	}
 	
+	public void setPreModifierObject(ArrayList<String> preModifierObject) {
+		this.preModifierObject = preModifierObject;
+	}
 	
 	public void setPostModifierSubject(String postmodifierSubject) {
 		this.postmodifierSubject = postmodifierSubject;
@@ -169,6 +174,10 @@ public class Phrase {
 	
 	public void setCoordinatedPhrase(Phrase coordinatedPhrase) {
 		this.coordinatedPhrase = coordinatedPhrase;
+	}
+	
+	public ArrayList<String> getPreModifierObject() {
+		return preModifierObject;
 	}
 
 	public String getPreModifierPhrase() {

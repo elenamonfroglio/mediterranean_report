@@ -76,9 +76,7 @@ public class ReportRealiser {
 		
 		extractUtente(jsonObject);
 		System.out.print("\n\n");
-		//NLGElement welcome = createPhraseWelcome();
 		String output = "";
-		//if(welcome!=null)	output = realiser.realiseSentence(welcome);
 	    
 		System.out.print(output+" ");
 	    
@@ -98,20 +96,19 @@ public class ReportRealiser {
 		SPhraseSpec clause = nlgFactory.createClause();
 		
 		//VERBO 
-		if(p.getVerb()!="") {
+		if(p.getVerb()!="") 
 			createAndSetVerb(clause,p);
-		}
+		
 		
 		//SOGGETTO
 		NPPhraseSpec subject = createAndSetSubject(clause,p);
 		
 		//OGGETTO
-		if(!p.getObject().isEmpty()) {
+		if(!p.getObject().isEmpty()) 
 			createAndSetObject(clause,p);
-		}
-		else if(!p.getAdjp().isEmpty()) {
+		else if(!p.getAdjp().isEmpty()) 
 			createAndSetAdjp(clause,p);
-		}
+		
 		//"CON CEREALI, VERDURE ECC.."
 		if(!p.getSubjectArgs().isEmpty() && p.getSubjectArgs()!=null) 
 			createAndSetArgs(clause,p,p.getSubjectArgs(),subject);
@@ -119,10 +116,8 @@ public class ReportRealiser {
 		if(!p.getPhraseArgs().isEmpty() && p.getPhraseArgs()!=null) 
 			createAndSetArgs(clause,p,p.getPhraseArgs(),null);			
 		
-		
-		if(p.getCoordinatedPhrase()!=null) {
+		if(p.getCoordinatedPhrase()!=null) 
 			createAndSetCoordinatedPhrase(clause,p);
-		}
 		
 		clause.addFrontModifier(p.getPreModifierPhrase());
 			
@@ -168,14 +163,18 @@ public class ReportRealiser {
 	private CoordinatedPhraseElement createAndSetObject(SPhraseSpec clause, Phrase p) {
 		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
 		int i = 0;
+		NPPhraseSpec obj;
 		for(String m: p.getObject()) {
-			NPPhraseSpec obj = nlgFactory.createNounPhrase(m);
+			obj = nlgFactory.createNounPhrase(m);
 			if(!p.getAdjp().isEmpty()) {
-				obj.addPreModifier(p.getAdjp().get(i));
+				obj.addModifier(p.getAdjp().get(i));
+			}
+			if(!p.getPreModifierObject().isEmpty()) {
+				obj.addPreModifier(p.getPreModifierObject().get(i));
 				i++;
 			}
 			coord.addCoordinate(obj);		
-		}				
+		}	
 		clause.setObject(coord);
 		return coord;
 	}

@@ -377,11 +377,12 @@ public class SentencePlanner {
 		phraseWelcome2.setPhraseArgs(args);
 		
 		Phrase indPhrase = lexicaliseIndiceMed();
-		phraseWelcome2.setConjunction(getWord("so"));
+		phraseWelcome2.setConjunction(getWord("and"));
 		phraseWelcome2.setCoordinatedPhrase(indPhrase);
 		
 		phrases.add(phraseWelcome2);
-		phrases.add(temp);
+		//Se è un dietista non faccio esclamazioni
+		if(conoscenzaDominio<2)	phrases.add(temp);
 	}
 	
 	private Phrase lexicaliseIndiceMed() {
@@ -435,9 +436,12 @@ public class SentencePlanner {
 		phraseVeryGood.setTense(Tense.PAST);
 		phraseVeryGood.setPerfect(true);
 		phraseVeryGood.setPreModifierPhrase(connection);
+		ArrayList<String> preModifierObject = new ArrayList<>();
+		preModifierObject.add(getWord("a"));
 		ArrayList<String> adjp = new ArrayList<String>();
 		adjp.add(getWord("very-good"));
 		phraseVeryGood.setAdjp(adjp);
+		phraseVeryGood.setPreModifierObject(preModifierObject);
 		phraseVeryGood.setPostModifierPhrase(getWord("with"));
 		phrases.add(phraseVeryGood);
 	}
@@ -445,7 +449,7 @@ public class SentencePlanner {
 	private void lexicaliseGood(String connection) {
 		Phrase phraseGood;
 		ArrayList<String> subject = new ArrayList<>();
-		//subject.add("la");
+		subject.add(getWord("the"));
 		subject.add(getWord("portion"));
 		String verb = getWord("to-be");
 		ArrayList<String> object = new ArrayList<String>();
@@ -455,10 +459,12 @@ public class SentencePlanner {
 		phraseGood.setTense(Tense.PAST);
 		phraseGood.setPreModifierPhrase(connection);
 		phraseGood.setPostModifierSubject(getWord("of"));
-		ArrayList<String> adjp = new ArrayList<String>();
-		adjp.add(getWord("nearly"));
-		adjp.add(getWord("very-good"));
-		phraseGood.setAdjp(adjp);
+		//ArrayList<String> adjp = new ArrayList<String>();
+		ArrayList<String> preModifierObject = new ArrayList<String>();
+		preModifierObject.add(getWord("nearly"));
+		//adjp.add(getWord("very-good"));
+		//phraseGood.setAdjp(adjp);
+		phraseGood.setPreModifierObject(preModifierObject);
 		phraseGood.setPostModifierPhrase(getWord("of"));
 		phrases.add(phraseGood);
 	}
@@ -485,18 +491,18 @@ public class SentencePlanner {
 			subject.add(getWord("patient"));
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
-		ArrayList<String> adjp = new ArrayList<String>();
+		ArrayList<String> preModifierObject = new ArrayList<String>();
 		for (String m: macronutrientiVeryBad) {
 			object.add(m);
-			if(Macronutriente.isMoreBetter(m))	adjp.add(getWord("more"));
-			else adjp.add(getWord("less"));
+			if(Macronutriente.isMoreBetter(m))	preModifierObject.add(getWord("more"));
+			else preModifierObject.add(getWord("less"));
 		}
 		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
 		phraseVeryBad.setModal(getWord("to-must"));
 		if(conoscenzaDominio==2) //IF dietista
 			phraseVeryBad.setFormal(true);	
 		phraseVeryBad.setPreModifierPhrase(connection);
-		phraseVeryBad.setAdjp(adjp);
+		phraseVeryBad.setPreModifierObject(preModifierObject);
 		phrases.add(phraseVeryBad);
 	}
 	
@@ -521,25 +527,6 @@ public class SentencePlanner {
 		
 		return object;
 	}
-	
-	
-	/*private void createJsonFile(JsonObject value) {
-		FileWriter file = null;
-		try {
-			
-			String fileFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss 'SentencePlan.json'", Locale.getDefault()).format(new Date());
-			this.fileName = "src/monfroglio/elena/files/ "+fileFormat;
-			file = new FileWriter(this.fileName);
-			file.write(value.toString());
-
-            file.flush();
-            file.close();
-		} catch (IOException e) {
-            e.printStackTrace(); 
-		}
-            
-        
-	}*/
 	
 	private String getArticle(String macronutriente) {
 		String ret = "la";
