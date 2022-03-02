@@ -114,6 +114,23 @@ public class Settimana {
 		
 		return ret;
 	}
+	
+	public Pasto getPastoVeryGood(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+		Pasto bestPasto = null;
+		float maxScore = -1;
+		
+		for(Pasto p:pasti) {
+			HashMap<String,Float> consumption = p.getPunteggi();
+			//devo considerare i tipi verygood e trovare il pasto con il più alto punteggio per queste categorie
+			float currentScore = p.getScore(veryGoodMacros,dictionary);
+			if(currentScore>maxScore) {
+				maxScore = currentScore;
+				bestPasto = p;
+			}
+		}
+		
+		return bestPasto;
+	}
 	/*
 	public Settimana(DatabaseManager dbmgr, int idtest, String cf) {
 		try {

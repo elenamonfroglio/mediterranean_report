@@ -4,10 +4,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import monfroglio.elena.model.Macronutriente;
+import monfroglio.elena.model.Pasto;
 import monfroglio.elena.model.PhraseType;
 import monfroglio.elena.model.Settimana;
 import monfroglio.elena.model.Utente;
@@ -57,17 +59,37 @@ public class TextPlanner {
 				.add("sesso utente", user.getSesso())
 				.add("conoscenza dominio", user.getConoscenzaDominio());
 		
+		int k = 0;
+		for (Pasto p: settimana.getPasti()) {
+			int dayOfWeek = getOfWeek(p.getGiorno());
+		}
+		
 		for (Macronutriente m:settimana.getMacronutrienti()) {
 			builder.add(m.getNome(), Json.createObjectBuilder()
 					.add("punteggio", m.getPunteggio())
 					.add("punteggioEnvironment", Double.toString(m.getPunteggioEnvironment()))
 					.add("moreIsBetter", m.getMoreIsBetter()));
 		}		
+		/*
+		builder.add("thisWeek", Json.createObjectBuilder()
+				.add("indiceMed", settimana.getIndiceMed())
+				.add("idTest", settimana.getIdTest())
+				.add("bestMealName", settimana.getBestMeal()));
+		*/
 		if(user.getInteresseAmbientale())
 			builder.add("totalePunteggioEnvironment", getIndexAmbientalePerEmissioni());
 		else 	builder.add("totalePunteggioEnvironment", -1);
 		JsonObject value = builder.build();
 		createJsonFile(value);	    
+	}
+	
+	private int getOfWeek(Date date) {
+
+		String dayWeek;
+		Calendar cal = Calendar.getInstance();
+	    cal.setTime(date);
+	    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	    return dayOfWeek;
 	}
 		
 	//Valore compreso tra 0 e 976

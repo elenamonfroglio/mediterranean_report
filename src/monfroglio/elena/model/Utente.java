@@ -94,6 +94,10 @@ public class Utente {
 		return eta;
 	}
 	
+	public String getCF() {
+		return cf;
+	}
+	
 	public int getConoscenzaDominio() {
 		return conoscenzaDominio;
 	}
@@ -104,5 +108,9 @@ public class Utente {
 	
 	public boolean getInteresseAmbientale() {
 		return interesseAmbientale;
+	}
+	
+	public void setCF(String cf) {
+		this.cf = cf;
 	}
 }

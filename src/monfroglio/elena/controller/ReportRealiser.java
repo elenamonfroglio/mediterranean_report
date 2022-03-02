@@ -44,7 +44,7 @@ public class ReportRealiser {
 	private String lingua;
 	private String nomeUtente;
 	private Gender sessoUtente;
-	private Lexicon myLexicon;
+	private MultipleLexicon lexicons;
 	private NLGFactory nlgFactory;
 	private Realiser realiser;
 	private JsonObject jsonObject;
@@ -54,17 +54,25 @@ public class ReportRealiser {
 		this.fileName = fileName;	
 		jsonObject = readJson();
 		lingua = jsonObject.getString("lingua");
+		Lexicon myLexicon = new ITXMLLexicon();
+		Lexicon foodLexicon = new XMLLexicon("src/monfroglio/elena/files/lexicon/FoodLexiconIta.xml");
 		
 		switch(lingua){
 			case "italiano":
 				myLexicon = new ITXMLLexicon();
+				foodLexicon = new XMLLexicon("src/monfroglio/elena/files/lexicon/FoodLexiconIta.xml");
+				lexicons = new MultipleLexicon("it");
 				break;
 			case "english":
 				myLexicon = new simplenlg.lexicon.english.XMLLexicon();;
+				foodLexicon = new XMLLexicon("src/monfroglio/elena/files/lexicon/FoodLexiconEng.xml");
+				lexicons = new MultipleLexicon("en");
 				break;
 		}
 		this.phrases = phrases;
-		nlgFactory = new NLGFactory(myLexicon);
+		lexicons.addInitialLexicon(myLexicon);
+		lexicons.addFinalLexicon(foodLexicon);
+		nlgFactory = new NLGFactory(lexicons);
 		realiser = new Realiser();
 	}
 	
@@ -88,36 +96,46 @@ public class ReportRealiser {
 			SPhraseSpec clause = createGenericPhrase(p);
 			output = "";
 			if(clause!=null)	output = realiser.realiseSentence(clause);
+			if(p.getType().equals(PhraseType.EXCLAMATION))	output = (output.substring(0, output.length() - 1));
 		    System.out.print(output+" ");
 		}
 	}
 	
 	private SPhraseSpec createGenericPhrase(Phrase p) {
 		SPhraseSpec clause = nlgFactory.createClause();
-		
+
 		//VERBO 
 		if(p.getVerb()!="") 
 			createAndSetVerb(clause,p);
 		
 		
 		//SOGGETTO
-		NPPhraseSpec subject = createAndSetSubject(clause,p);
+		NPPhraseSpec subject = null;
+		if(!p.getSubject().isEmpty())	
+			subject = createAndSetSubject(clause,p);
 		
 		//OGGETTO
-		if(!p.getObject().isEmpty()) 
-			createAndSetObject(clause,p);
+		NLGElement object = null;
+		if(!p.getObject().isEmpty()) {
+			if(p.getRelativePhrase()!=null)		object = createAndSetObjectRelativePhrase(clause,p);
+			else	object = createAndSetObject(clause,p);
+		}
 		else if(!p.getAdjp().isEmpty()) 
 			createAndSetAdjp(clause,p);
 		
 		//"CON CEREALI, VERDURE ECC.."
-		if(!p.getSubjectArgs().isEmpty() && p.getSubjectArgs()!=null) 
-			createAndSetArgs(clause,p,p.getSubjectArgs(),subject);
+		if(p.getSubjectArgs()!=null && !p.getSubjectArgs().isEmpty()) 
+			createAndSetArgs(clause,p,p.getSubjectArgs(),subject,p.getPostModifierSubject());
 		
-		if(!p.getPhraseArgs().isEmpty() && p.getPhraseArgs()!=null) 
-			createAndSetArgs(clause,p,p.getPhraseArgs(),null);			
+		
+		if(p.getPhraseArgs()!=null && !p.getPhraseArgs().isEmpty()) 
+			createAndSetArgs(clause,p,p.getPhraseArgs(),null,p.getPostModifierPhrase());			
 		
 		if(p.getCoordinatedPhrase()!=null) 
 			createAndSetCoordinatedPhrase(clause,p);
+		
+		if(p.getRelativePhrase()!=null)
+			createAndSetRelativePhrase(clause,p,object);
 		
 		clause.addFrontModifier(p.getPreModifierPhrase());
 			
@@ -152,9 +170,15 @@ public class ReportRealiser {
 		if(p.getSubject().isEmpty())	{
 			if(!p.isFormal())		subject.setFeature(Feature.PERSON, Person.SECOND);
 			else					subject.setFeature(Feature.PERSON, Person.THIRD);
+			
 		}
 		else if(p.getSubject().size()==2) 	subject = nlgFactory.createNounPhrase(p.getSubject().get(0),p.getSubject().get(1));	
-		else	subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+		else{
+			subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
+			if(!p.getSubjectArticle().equals("")) {
+				subject.setSpecifier(p.getSubjectArticle());
+			}
+		}
 
 		clause.setSubject(subject);
 		return subject;
@@ -163,51 +187,105 @@ public class ReportRealiser {
 	private CoordinatedPhraseElement createAndSetObject(SPhraseSpec clause, Phrase p) {
 		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
 		int i = 0;
-		NPPhraseSpec obj;
+		NPPhraseSpec obj = null;
 		for(String m: p.getObject()) {
 			obj = nlgFactory.createNounPhrase(m);
 			if(!p.getAdjp().isEmpty()) {
-				obj.addModifier(p.getAdjp().get(i));
+				//scelgo se mettere l'aggettivo prima o dopo l'oggetto
+				if(lingua.equals("english"))	obj.addPreModifier(p.getAdjp().get(i));
+				else							obj.addModifier(p.getAdjp().get(i));
 			}
+			WordElement e = lexicons.getWord(m);
+			boolean b = lexicons.hasWord(m);
+			WordElement id = lexicons.lookupWord(m);
+			Object o1 = e.getFeature(LexicalFeature.GENDER);
+			Object o2 = id.getFeature(LexicalFeature.GENDER);
 			if(!p.getPreModifierObject().isEmpty()) {
-				obj.addPreModifier(p.getPreModifierObject().get(i));
+				AdjPhraseSpec adjPreModifier = nlgFactory.createAdjectivePhrase(p.getPreModifierObject().get(i));
+				obj.addPreModifier(adjPreModifier);
 				i++;
 			}
 			coord.addCoordinate(obj);		
-		}	
+		}
+		if(p.getObjectArgs()!=null && !p.getObjectArgs().isEmpty()) 
+			createAndSetArgs(clause,p,p.getObjectArgs(),obj,p.getPostModifierPhrase());
+		if(p.getObject().size()==1 && !p.getObjectArticle().equals(""))	obj.setSpecifier(p.getObjectArticle());;
 		clause.setObject(coord);
 		return coord;
+	}
+	
+	private PPPhraseSpec createAndSetObjectRelativePhrase(SPhraseSpec clause, Phrase p) {
+		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		int i = 0;
+		NPPhraseSpec obj = null;
+		for(String m: p.getObject()) {
+			obj = nlgFactory.createNounPhrase(m);
+			if(!p.getAdjp().isEmpty()) {
+				//scelgo se mettere l'aggettivo prima o dopo l'oggetto
+				obj.addModifier(p.getAdjp().get(i));
+			}
+			WordElement e = lexicons.getWord(m);
+			boolean b = lexicons.hasWord(m);
+			WordElement id = lexicons.lookupWord(m);
+			Object o1 = e.getFeature(LexicalFeature.GENDER);
+			Object o2 = id.getFeature(LexicalFeature.GENDER);
+			if(!p.getPreModifierObject().isEmpty()) {
+				AdjPhraseSpec adjPreModifier = nlgFactory.createAdjectivePhrase(p.getPreModifierObject().get(i));
+				obj.addPreModifier(adjPreModifier);
+				i++;
+			}
+			coord.addCoordinate(obj);		
+		}
+		if(p.getObjectArgs()!=null && !p.getObjectArgs().isEmpty()) 
+			createAndSetArgs(clause,p,p.getObjectArgs(),obj,p.getPostModifierPhrase());
+		if(p.getObject().size()==1 && !p.getObjectArticle().equals(""))	obj.setSpecifier(p.getObjectArticle());;
+		clause.setObject(coord);
+		PPPhraseSpec ret = nlgFactory.createPrepositionPhrase("di",coord);
+		return ret;
 	}
 	
 	private AdjPhraseSpec createAndSetAdjp(SPhraseSpec clause, Phrase p) {
 		AdjPhraseSpec adjPhrase = nlgFactory.createAdjectivePhrase(p.getAdjp().get(0));
 		adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+		//if(!p.getPreModifierObject().isEmpty())		adjPhrase.addPreModifier(p.getPreModifierObject());
 		clause.addModifier(adjPhrase);
 		return adjPhrase;
 	}
 	
-	private CoordinatedPhraseElement createAndSetArgs(SPhraseSpec clause, Phrase p, ArrayList<String> args, PhraseElement elemToBeModfied) {
+	private CoordinatedPhraseElement createAndSetArgs(SPhraseSpec clause, Phrase p, ArrayList<String> args, NLGElement elemToBeModfied, String particle) {
 		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
 		
 		for(String m: args) {
 			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
-			temp.setFeature(LexicalFeature.GENDER, getGender(m));
-			temp.setPlural(isPlural(m));
+			if(getGender(m)!=null) {
+				temp.setFeature(LexicalFeature.GENDER, getGender(m));
+				temp.setPlural(isPlural(m));
+			}
 			macronutrientiList.add(temp);
 		}
 		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		for(NPPhraseSpec elem: macronutrientiList) {
-			coord.addCoordinate(elem);
-		}
 
-		if(elemToBeModfied==null) {
-			coord.addPreModifier(p.getPostModifierPhrase());
+		if(macronutrientiList.size()!=1) {
+			for(NPPhraseSpec elem: macronutrientiList) {
+				coord.addCoordinate(elem);
+			}
+		}else {
+			NPPhraseSpec elem = nlgFactory.createNounPhrase(macronutrientiList.get(0));
+			if(p.getArgsArticle()!="")
+				elem.setSpecifier(p.getArgsArticle());
+			coord.addCoordinate(elem);
+		}		
+
+		if(elemToBeModfied==null) { //modifier of Clause
+			coord.addPreModifier(particle);
 			clause.addPostModifier(coord);
 		}
-		else {
-
-			coord.addPreModifier(p.getPostModifierSubject());
-			elemToBeModfied.addPostModifier(coord);
+		else { //modifier of subject or object
+			coord.addPreModifier(particle);
+			if(elemToBeModfied instanceof CoordinatedPhraseElement)
+				((CoordinatedPhraseElement) elemToBeModfied).addPostModifier(coord);			
+			else
+				((NPPhraseSpec) elemToBeModfied).addPostModifier(coord);
 		}
 		return coord;
 	}
@@ -217,10 +295,28 @@ public class ReportRealiser {
 		SPhraseSpec clauseRecursive = createGenericPhrase(p.getCoordinatedPhrase());
 		
 		clauseRecursive.addFrontModifier(p.getConjunction());
+		//clauseRecursive.setFeature(ItalianLexicalFeature.NO_COMMA, false);
 		coord.addCoordinate(clauseRecursive);
+		
 		
 		clause.addPostModifier(coord);
 		return coord;
+	}
+	
+	private SPhraseSpec createAndSetRelativePhrase(SPhraseSpec clause, Phrase p, NLGElement elemToBeModified) {
+		//CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
+		SPhraseSpec clauseRecursive = createGenericPhrase(p.getRelativePhrase());
+		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
+
+		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
+		//clauseRecursive.addModifier(elemToBeModified);
+		clauseRecursive.setFeature(ItalianFeature.RELATIVE_PHRASE, elemToBeModified);
+		//clauseRecursive.setFeature(ItalianLexicalFeature.NO_COMMA, false);
+		//coord.addCoordinate(clauseRecursive);
+		
+		
+		clause.addPostModifier(clauseRecursive);
+		return clauseRecursive;
 	}
 	
 	private void extractUtente(JsonObject jsonObject) {
@@ -255,10 +351,14 @@ public class ReportRealiser {
 	}
 	
 	private Gender getGender(String macronutriente) {
-		Gender ret = Gender.MASCULINE;
+		Gender ret = null;
 		if(macronutriente.equals("patate") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 
 				|| macronutriente.equals("verdura")) 
 			ret = Gender.FEMININE;
+		else if(macronutriente.equals("cereali") || macronutriente.equals("legumi") || macronutriente.equals("pesce") 
+				|| macronutriente.equals("pollame") || macronutriente.equals("latticini") 
+				|| macronutriente.equals("olio"))
+			ret = Gender.MASCULINE;
 		return ret;
 	}
 	

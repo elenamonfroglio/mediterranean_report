@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Italian default lexicon for simpleNLG -->
+<lexicon>
+<!--###############################
+ MANUAL LEXICON
+ ###############################-->
+<!--###############################
+ MANUAL LEXICON
+ ###############################-->
+<!-- ADJECTIVES-->
+	<word>
+		<base> ottimale </base>
+		<category> adjective </category>
+		<id> ottimale </id>
+		<plural> ottimali </plural>
+		<feminine_singular>ottimale</feminine_singular>
+		<feminine_plural>ottimali</feminine_plural>
+		<qualitative/>
+	</word>
+	<!-- NOUNS -->
+	<word>
+		<base>buonasera</base>
+		<category>noun</category>
+		<gender>feminine</gender>
+		<id>good-evening</id>
+		<plural>buonasera</plural>
+	</word>
+	<word>
+		<base>carboidrato</base>
+		<category>noun</category>
+		<gender>masculine</gender>
+		<id>carb</id>
+		<plural>carboidrati</plural>
+	</word>
+	<word>
+		<base>carbonio</base>
+		<category>noun</category>
+		<gender>masculine</gender>
+		<id>carbon</id>
+		<plural>carboni</plural>
+	</word>
+	<word>
+		<base>ciao</base>
+		<category>noun</category>
+		<gender>masculine</gender>
+		<id>hello_1</id>
+		<plural>ciao</plural>
+	</word>
+	<word>
+		<base>congratulazioni</base>
+		<category>noun</category>
+		<gender>masculine</gender>
+		<id>congratulations</id>
+		<plural>congratulazioni</plural>
+	</word>
+	<word>
+		<base> med score </base>
+		<category> noun </category>
+		<id> mscore </id>
+		<plural> med score </plural>
+		<gender> masculine </gender>
+	</word>
+	<word>
+		<base> latticino </base>
+		<category> noun </category>
+		<id> ffdp </id>
+		<plural> latticini </plural>
+		<gender> masculine </gender>
+	</word>
+	<word>
+		<base> lipide </base>
+		<category> noun </category>
+		<id> lip </id>
+		<plural> lipidi </plural>
+		<gender> masculine </gender>
+	</word>
+	<word>
+		<base> quantità </base>
+		<category> noun </category>
+		<id> portion </id>
+		<plural> quantità </plural>
+		<gender> feminine </gender>
+	</word>
+	<word>
+		<base>salve</base>
+		<category>noun</category>
+		<gender>masculine</gender>
+		<id>hello_2</id>
+		<plural>salve</plural>
+	</word>
+	<word>
+		<base> settimana </base>
+		<category> noun </category>
+		<id> week </id>
+		<plural> settimane </plural>
+		<gender> feminine </gender>
+	</word>
+<!-- ADVERBS -->
+<word>
+  <base>più</base>
+  <category>adverb</category>
+</word>
+<word>
+  <base>lievemente</base>
+  <category>adverb</category>
+</word>
+<word>
+  <base>debolmente</base>
+  <category>adverb</category>
+</word>
+<word>
+  <base>pressochè</base>
+  <category>adverb</category>
+</word>
+<!-- VERBS -->
+<word>
+  <base>totalizzo</base>
+  <category>verb</category>
+  <id>to-obtain_2</id>
+  <present1s>totalizzo</present1s>
+  <present2s>totalizzi</present2s>
+  <present3s>totalizza</present3s>
+  <present1p>totalizziamo</present1p>
+  <present2p>totalizzate</present2p>
+  <present3p>totalizzano</present3p>
+  <subjunctive1s>totalizzi</subjunctive1s>
+  <subjunctive2s>totalizzi</subjunctive2s>
+  <subjunctive3s>totalizzi</subjunctive3s>
+  <subjunctive1p>totalizziamo</subjunctive1p>
+  <subjunctive2p>totalizziate</subjunctive2p>
+  <subjunctive3p>totalizzino</subjunctive3p>
+  <future1s>totalizzerò</future1s>
+  <future2s>totalizzerai</future2s>
+  <future3s>totalizzerà</future3s>
+  <future1p>totalizzeremo</future1p>
+  <future2p>totalizzerete</future2p>
+  <future3p>totalizzeranno</future3p>
+  <cond1s>totalizzerei</cond1s>
+  <cond2s>totalizzeresti</cond2s>
+  <cond3s>totalizzereste</cond3s>
+  <cond1p>totalizzeremmo</cond1p>
+  <cond2p>totalizzereste</cond2p>
+  <cond3p>totalizzerebbero</cond3p>
+  <impf1s>totalizzavo</impf1s>
+  <impf2s>totalizzavi</impf2s>
+  <impf3s>totalizzava</impf3s>
+  <impf1p>totalizzavamo</impf1p>
+  <impf2p>totalizzavate</impf2p>
+  <impf3p>totalizzavano</impf3p>
+  <pastParticiple>totalizzato</pastParticiple>
+  <feminine_past_participle>totalizzata</feminine_past_participle>
+  <remote_past1s>totalizzai</remote_past1s>
+  <remote_past2s>totalizzasti</remote_past2s>
+  <remote_past3s>totalizzò</remote_past3s>
+  <remote_past1p>totalizzammo</remote_past1p>
+  <remote_past2p>totalizzaste</remote_past2p>
+  <remote_past3p>totalizzarono</remote_past3p>
+</word>
+
+	
+</lexicon>

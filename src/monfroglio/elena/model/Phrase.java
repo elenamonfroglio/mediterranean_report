@@ -16,19 +16,24 @@ public class Phrase {
 	boolean isActive = true;
 	boolean isNegative = false;
 	boolean formal = false;
+	String subjectArticle = "";
 	ArrayList<String> subject = new ArrayList<>();
 	ArrayList<String> subjectArgs = new ArrayList<>();
 	String postmodifierSubject = "";
 	String modal = "";
 	String verb = "";
 	ArrayList<String> object = new ArrayList<>();
+	ArrayList<String> objectArgs = new ArrayList<>();
+	String objectArticle = "";
 	ArrayList<String> adjp = new ArrayList<>();
 	ArrayList<String> preModifierObject = new ArrayList<>();
 	Gender adjpGender = Gender.MASCULINE;
 	String postmodifierPhrase = "";
 	ArrayList<String> phraseArgs = new ArrayList<>();
+	String argsArticle = "";
 	String conjunction = "";
 	Phrase coordinatedPhrase = null;
+	Phrase relativePhrase = null;
 	
 	public Phrase(Phrase p) {
 		this.premodifierPhrase = p.premodifierPhrase;
@@ -38,19 +43,24 @@ public class Phrase {
 		this.form = p.form;
 		this.isActive = p.isActive;
 		this.isNegative = p.isNegative;
+		this.subjectArticle = p.subjectArticle;
 		this.subject = p.subject;
 		this.subjectArgs = p.subjectArgs;
 		this.postmodifierSubject = p.postmodifierSubject;
 		this.modal = p.modal;
 		this.verb = p.verb;
 		this.object = p.object;
+		this.objectArgs = p.objectArgs;
+		this.objectArticle = p.objectArticle;
 		this.adjp = p.adjp;
 		this.preModifierObject = p.preModifierObject;
 		this.adjpGender = p.adjpGender;
 		this.postmodifierPhrase = p.postmodifierPhrase;
 		this.phraseArgs = p.phraseArgs;
+		this.argsArticle = p.argsArticle;
 		this.conjunction = p.conjunction;
 		this.coordinatedPhrase = p.coordinatedPhrase;
+		this.relativePhrase = p.relativePhrase;
 	}
 	
 	//modificare per snellire metodi Sentence Planner. Settare a null tutti gli altri campi
@@ -124,6 +134,14 @@ public class Phrase {
 		this.object = object;
 	}
 	
+	public void setObjectArgs(ArrayList<String> objectArgs) {
+		this.objectArgs = objectArgs;
+	}
+	
+	public void setObjectArticle(String objectArticle) {
+		this.objectArticle = objectArticle;
+	}
+	
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
@@ -139,9 +157,17 @@ public class Phrase {
 	public void setAdjpGender(Gender adjpGender) {
 		this.adjpGender = adjpGender;
 	}
+	
+	public void setArgsArticle(String argsArticle) {
+		this.argsArticle = argsArticle;
+	}
 
 	public void setPhraseArgs(ArrayList<String> phraseArgs) {
 		this.phraseArgs = phraseArgs;
+	}
+	
+	public void setSubjectArticle(String subjectArticle) {
+		this.subjectArticle = subjectArticle;
 	}
 
 	public void setSubjectArgs(ArrayList<String> subjectArgs) {
@@ -174,6 +200,10 @@ public class Phrase {
 	
 	public void setCoordinatedPhrase(Phrase coordinatedPhrase) {
 		this.coordinatedPhrase = coordinatedPhrase;
+	}
+	
+	public void setRelativePhrase(Phrase relativePhrase) {
+		this.relativePhrase = relativePhrase;
 	}
 	
 	public ArrayList<String> getPreModifierObject() {
@@ -224,6 +254,14 @@ public class Phrase {
 		return object;
 	}
 	
+	public ArrayList<String> getObjectArgs(){
+		return objectArgs;
+	}
+	
+	public String getObjectArticle() {
+		return objectArticle;
+	}
+	
 	public Gender getAdjpGender() {
 		return adjpGender;
 	}
@@ -236,6 +274,14 @@ public class Phrase {
 		return phraseArgs;
 	}
 	
+	public String getArgsArticle() {
+		return argsArticle;
+	}
+	
+	public String getSubjectArticle() {
+		return subjectArticle;
+	}
+	
 	public ArrayList<String> getSubjectArgs() {
 		return subjectArgs;
 	}
@@ -246,6 +292,10 @@ public class Phrase {
 	
 	public Phrase getCoordinatedPhrase() {
 		return coordinatedPhrase;
+	}
+	
+	public Phrase getRelativePhrase() {
+		return relativePhrase;
 	}
 	
 	public boolean isActive() {

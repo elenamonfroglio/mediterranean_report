@@ -5,11 +5,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
 import monfroglio.elena.model.Macronutriente;
+import monfroglio.elena.model.MacronutrienteType;
 import monfroglio.elena.model.Pasto;
 import monfroglio.elena.model.Settimana;
 import monfroglio.elena.model.Utente;
@@ -62,6 +67,21 @@ public class DatabaseManager{
 		System.out.println("Statement created successfully");
 	}
 	
+	public String getNomeRicettaFromId(int idRicetta) throws SQLException{
+		String ret = "";
+		String query = "SELECT ricetta.nome "+
+				"FROM diet.ricetta "+ 
+				"WHERE ricetta.\"id\" = '"+idRicetta+"'";
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		while (rs.next()) {
+			ret = rs.getString("nome");
+		}
+		
+		return ret;
+	}
+	
 	
 	public ArrayList<Pasto> getPasti(Settimana sem) throws SQLException{
 		int idTest = sem.getIdTest();
@@ -79,6 +99,24 @@ public class DatabaseManager{
 			Pasto p = new Pasto(nomePasto);
 			//p.print();
 			ret.add(p);
+		}
+		return ret;
+	}
+	
+	public ArrayList<Integer> getPastiId(Settimana sem) throws SQLException{
+		int idTest = sem.getIdTest();
+		ArrayList<Integer> ret = new ArrayList<>();
+		
+		String query = "SELECT ricettetest.\"Ricetta\" "+
+				"FROM simulation_tests.ricettetest "+ 
+				"WHERE ricettetest.\"Test\" = '"+idTest+"'";
+		
+		ResultSet rs = stmt.executeQuery(query);
+			
+		while (rs.next()) {
+			Integer idPasto = rs.getInt("ricetta");
+			//p.print();
+			ret.add(idPasto);
 		}
 		return ret;
 	}
@@ -102,6 +140,7 @@ public class DatabaseManager{
 			int conoscenzaDominio  = rs.getInt("conoscenzaDominio");
 			int stress  = rs.getInt("stress");
 			ret = new Utente(nome,cognome,eta,sesso,conoscenzaDominio,stress,interesseAmbientale);
+			ret.setCF(cf);
 			//ret.print();
 		}
 		return ret;
@@ -119,28 +158,66 @@ public class DatabaseManager{
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while (rs.next()) {
-			Macronutriente cereali = new Macronutriente("Cereali",rs.getInt("Cereali"),emissioniCereali,true,true);
+			Macronutriente cereali = new Macronutriente(MacronutrienteType.CEREALI,rs.getInt("Cereali"),emissioniCereali,true,true);
 			ret.add(cereali);
-			Macronutriente patate = new Macronutriente("Patate",rs.getInt("Patate"),emissioniPatate,true,true);
+			Macronutriente patate = new Macronutriente(MacronutrienteType.PATATE,rs.getInt("Patate"),emissioniPatate,true,true);
 			ret.add(patate);
-			Macronutriente frutta = new Macronutriente("Frutta",rs.getInt("Frutta"),emissioniFrutta,true,true);
+			Macronutriente frutta = new Macronutriente(MacronutrienteType.FRUTTA,rs.getInt("Frutta"),emissioniFrutta,true,true);
 			ret.add(frutta);
-			Macronutriente verdura = new Macronutriente("Verdura",rs.getInt("Verdura"),emissioniVerdura,true,true);
+			Macronutriente verdura = new Macronutriente(MacronutrienteType.VERDURA,rs.getInt("Verdura"),emissioniVerdura,true,true);
 			ret.add(verdura);
-			Macronutriente legumi = new Macronutriente("Legumi",rs.getInt("Legumi"),emissioniLegumi,true,true);
+			Macronutriente legumi = new Macronutriente(MacronutrienteType.LEGUMI,rs.getInt("Legumi"),emissioniLegumi,true,true);
 			ret.add(legumi);
-			Macronutriente pesce = new Macronutriente("Pesce",rs.getInt("Pesce"),emissioniPesce,true,false);
+			Macronutriente pesce = new Macronutriente(MacronutrienteType.PESCE,rs.getInt("Pesce"),emissioniPesce,true,false);
 			ret.add(pesce);
-			Macronutriente carneRossa = new Macronutriente("CarneRossa",rs.getInt("CarneRossa"),emissioniCarneRossa,false,false);
+			Macronutriente carneRossa = new Macronutriente(MacronutrienteType.CARNEROSSA,rs.getInt("CarneRossa"),emissioniCarneRossa,false,false);
 			ret.add(carneRossa);
-			Macronutriente pollame = new Macronutriente("Pollame",rs.getInt("Pollame"),emissioniPollame,false,false);
+			Macronutriente pollame = new Macronutriente(MacronutrienteType.POLLAME,rs.getInt("Pollame"),emissioniPollame,false,false);
 			ret.add(pollame);
-			Macronutriente latticini = new Macronutriente("Latticini",rs.getInt("Latticini"),emissioniLatticini,false,false);
+			Macronutriente latticini = new Macronutriente(MacronutrienteType.LATTICINI,rs.getInt("Latticini"),emissioniLatticini,false,false);
 			ret.add(latticini);
-			Macronutriente usoOlioOliva = new Macronutriente("UsoOlioOliva",rs.getInt("UsoOlioOliva"),emissioniOlioOliva,true,true);
+			Macronutriente usoOlioOliva = new Macronutriente(MacronutrienteType.USOOLIOOLIVA,rs.getInt("UsoOlioOliva"),emissioniOlioOliva,true,true);
 			ret.add(usoOlioOliva);
 			
 		}
+		
+		return ret;
+	}
+	
+	public HashMap<String,Float> getConsumptionFromRicetta(int idRicetta) throws SQLException{
+		HashMap<String,Float> ret = new HashMap<String,Float>();
+		
+		String query = "SELECT * "
+				+ "FROM recipes_scores.punteggiricette "
+				+ "WHERE punteggiricette.\"Ricetta\" = '"+idRicetta+"'";
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		float cons = 0;
+		
+		while (rs.next()) {
+			cons = rs.getFloat("Cereali");
+			ret.put(MacronutrienteType.CEREALI,cons);
+			cons = rs.getFloat("Patate");
+			ret.put(MacronutrienteType.PATATE,cons);
+			cons = rs.getFloat("Frutta");
+			ret.put(MacronutrienteType.FRUTTA,cons);
+			cons = rs.getFloat("Verdura");
+			ret.put(MacronutrienteType.VERDURA,cons);
+			cons = rs.getFloat("Legumi");
+			ret.put(MacronutrienteType.LEGUMI,cons);
+			cons = rs.getFloat("Pesce");
+			ret.put(MacronutrienteType.PESCE,cons);
+			cons = rs.getFloat("CarneRossa");
+			ret.put(MacronutrienteType.CARNEROSSA,cons);
+			cons = rs.getFloat("Pollame");
+			ret.put(MacronutrienteType.POLLAME,cons);
+			cons = rs.getFloat("Latticini");
+			ret.put(MacronutrienteType.LATTICINI,cons);
+			cons = rs.getFloat("UsoOlioOliva");
+			ret.put(MacronutrienteType.USOOLIOOLIVA,cons);
+		}
+		
 		
 		return ret;
 	}
@@ -160,6 +237,44 @@ public class DatabaseManager{
 		}
 		
 		return ret;
+	}
+	
+	public ArrayList<Pasto> getEatingHistory(int idTest) throws SQLException {
+		String query = "SELECT * "
+				+ "FROM diet.eatinghistory "
+				+ "WHERE eatinghistory.\"id_test\" = '"+idTest+"'";
+		
+		int idRicetta = 0;
+		ResultSet rs = stmt.executeQuery(query);
+		
+		ArrayList<Pasto> ret = new ArrayList<>();
+		
+		while (rs.next()) {
+			idRicetta = rs.getInt("alimento");
+			Date date = rs.getDate("giorno");
+			Time orario = rs.getTime("orario");
+			int slot = rs.getInt("slot");
+			
+			Pasto p = new Pasto(idRicetta, orario, date, slot);
+			ret.add(p);
+		}
+		
+		for(Pasto p:ret) {
+			p.setNome(getNomeRicettaFromId(p.getIdRicetta()));
+		}
+		
+		return ret;
+	}
+	
+	public void insertSingleMealEatingHistory(int idMeal, String user, int ricetta, LocalTime orario, LocalDate giorno, int slot, LocalDate week, int idTest) throws SQLException {
+		//System.out.println(idMeal + ",   " + user  + ",   " + ricetta + ",   " + orario + ",   "+ giorno + ",   " + slot + ",   " + week + ",   " + idTest);
+		
+		String query = "INSERT INTO diet.eatinghistory (id, utente, alimento, orario, giorno, slot, week, id_test)"
+				+ " VALUES('"+idMeal+"','"+user+"', '"+ricetta+"', '"+orario+"', '"+giorno+"', '"+slot+"', '"+week+"', '"+idTest+"');";
+		System.out.println(query);
+		
+		stmt.executeUpdate(query);
+		
 	}
 	
 }

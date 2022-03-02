@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -26,9 +27,16 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonValue;
 
 import monfroglio.elena.model.ArgType;
+import monfroglio.elena.model.Concept;
+import monfroglio.elena.model.Emotion;
+import monfroglio.elena.model.EmotionName;
+import monfroglio.elena.model.EmotionType;
 import monfroglio.elena.model.Macronutriente;
+import monfroglio.elena.model.MacronutrienteType;
+import monfroglio.elena.model.Pasto;
 import monfroglio.elena.model.Phrase;
 import monfroglio.elena.model.PhraseType;
+import monfroglio.elena.model.Settimana;
 import simplenlg.features.Form;
 import simplenlg.features.Gender;
 import simplenlg.features.Tense;
@@ -39,6 +47,7 @@ public class SentencePlanner {
 	private String lingua;
 	private String nomeUtente;
 	private String sessoUtente;
+	private Settimana thisWeek;
 	private int indiceMed;
 	private int lastIndiceMed;
 	private int etaUtente;
@@ -52,11 +61,13 @@ public class SentencePlanner {
 	private ArrayList<String> macronutrientiVeryBad;
 	public ArrayList<Phrase> phrases;
 	private Phrase temp;
+	private SenticnetManager sm;
 	
 
-	public SentencePlanner(String filename, ArrayList<String> order) {
+	public SentencePlanner(String filename, ArrayList<String> order, Settimana thisWeek) {
 		this.fileName = filename;
 		this.order = order;
+		this.thisWeek = thisWeek;
 		allMacronutrienti = new ArrayList<>();
 		phrases = new ArrayList<Phrase>();
 	}
@@ -131,7 +142,9 @@ public class SentencePlanner {
 		extractUtente(jsonObject);
 		
 		loadDictionary();
+		loadSenticnet();
 		aggregatorMacronutrienti();
+		extractBestMeal();
 		//RIMUOVO DALL'ORDINE GLOBALE NEL CASO IN CUI AVESSI MACRONUTRIENTI VUOTI
 		for(String type: order) {
 			if (macronutrientiVeryGood.isEmpty())	order.remove(PhraseType.VERYGOOD);
@@ -174,6 +187,15 @@ public class SentencePlanner {
 		return ret;
 	}
 	
+	public void extractBestMeal() {
+		ArrayList<String> veryGoodMacros = new ArrayList<>();
+		veryGoodMacros.add(MacronutrienteType.CEREALI);
+		veryGoodMacros.add(MacronutrienteType.PATATE);
+		veryGoodMacros.add(MacronutrienteType.VERDURA);
+		Pasto p = thisWeek.getPastoVeryGood(veryGoodMacros,dictionary);
+		p.print();	
+	}
+	
 	private void extractUtente(JsonObject object) {
 		nomeUtente = object.getString("nome utente");
 		sessoUtente = object.getString("sesso utente");
@@ -190,115 +212,200 @@ public class SentencePlanner {
 		lastIndiceMed = object.getInt("last indice Med");
 		totalePunteggioEnvironment = object.getInt("totalePunteggioEnvironment");
 		//System.out.println(totalePunteggioEnvironment);
-		JsonObject jsonObject = object.getJsonObject("Cereali");
-		Macronutriente cereali = new Macronutriente("cer",
+		JsonObject jsonObject = object.getJsonObject(MacronutrienteType.CEREALI);
+		Macronutriente cereali = new Macronutriente(MacronutrienteType.CEREALI,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(cereali);
 		
-		jsonObject = object.getJsonObject("Patate");
-		Macronutriente patate = new Macronutriente("pot",
+		jsonObject = object.getJsonObject(MacronutrienteType.PATATE);
+		Macronutriente patate = new Macronutriente(MacronutrienteType.PATATE,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(patate);
 		
-		jsonObject = object.getJsonObject("Frutta");
-		Macronutriente frutta = new Macronutriente("fru",
+		jsonObject = object.getJsonObject(MacronutrienteType.FRUTTA);
+		Macronutriente frutta = new Macronutriente(MacronutrienteType.FRUTTA,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(frutta);
 
-		jsonObject = object.getJsonObject("Verdura");
-		Macronutriente verdura = new Macronutriente("veg",
+		jsonObject = object.getJsonObject(MacronutrienteType.VERDURA);
+		Macronutriente verdura = new Macronutriente(MacronutrienteType.VERDURA,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(verdura);
 
-		jsonObject = object.getJsonObject("Legumi");
-		Macronutriente legumi = new Macronutriente("leg",
+		jsonObject = object.getJsonObject(MacronutrienteType.LEGUMI);
+		Macronutriente legumi = new Macronutriente(MacronutrienteType.LEGUMI,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(legumi);
 
-		jsonObject = object.getJsonObject("Pesce");
-		Macronutriente pesce = new Macronutriente("fish",
+		jsonObject = object.getJsonObject(MacronutrienteType.PESCE);
+		Macronutriente pesce = new Macronutriente(MacronutrienteType.PESCE,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pesce);
 
-		jsonObject = object.getJsonObject("UsoOlioOliva");
-		Macronutriente usoOlioOliva = new Macronutriente("oil",
+		jsonObject = object.getJsonObject(MacronutrienteType.USOOLIOOLIVA);
+		Macronutriente usoOlioOliva = new Macronutriente(MacronutrienteType.USOOLIOOLIVA,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(usoOlioOliva);
 		
-		jsonObject = object.getJsonObject("CarneRossa");
-		Macronutriente carneRossa = new Macronutriente("rmeat",
+		jsonObject = object.getJsonObject(MacronutrienteType.CARNEROSSA);
+		Macronutriente carneRossa = new Macronutriente(MacronutrienteType.CARNEROSSA,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(carneRossa);
 
-		jsonObject = object.getJsonObject("Pollame");
-		Macronutriente pollame = new Macronutriente("poul",
+		jsonObject = object.getJsonObject(MacronutrienteType.POLLAME);
+		Macronutriente pollame = new Macronutriente(MacronutrienteType.POLLAME,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pollame);
 
-		jsonObject = object.getJsonObject("Latticini");
-		Macronutriente latticini = new Macronutriente("ffdp",
+		jsonObject = object.getJsonObject(MacronutrienteType.LATTICINI);
+		Macronutriente latticini = new Macronutriente(MacronutrienteType.LATTICINI,
 				jsonObject.getInt("punteggio"),
 				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(latticini);
 	}
 	
+	private void loadSenticnet() {
+		sm = new SenticnetManager("italiano");
+		sm.readCSV();
+	}
+	
+	private String getFirstWord(String conceptToFind) {
+		Concept ret = null;
+		ArrayList<String> wordsToFind = dictionary.get(conceptToFind);
+		return wordsToFind.get(0).replace("_", " ");
+	}
+	
+	private String getRandomWord(String conceptToFind) {
+		Concept ret = null;
+		ArrayList<String> wordsToFind = dictionary.get(conceptToFind);
+		
+		int size = wordsToFind.size();
+		
+		int index = (int) ((Math.random() * (size - 0)) + 0);
+		
+		return wordsToFind.get(index).replace("_", " ");
+	}
+	
+	private String getMostIntenseWord(String conceptToFind) {
+		Concept ret = null;
+		ArrayList<String> wordsToFind = dictionary.get(conceptToFind);
+		if(wordsToFind.size()==1) return wordsToFind.get(0).replace("_", " ");
+		ArrayList<Concept> conceptNet = sm.getConcepts();
+		ArrayList<String> wordNet = sm.getWords();
+		int maxIntensity = -10;
+		int currentIntensity = 0;
+		for(String w: wordsToFind) {
+			int index = wordNet.indexOf(w);
+			if(index!=-1) {
+				currentIntensity = conceptNet.get(index).getPrimaryEmotion().getIntesity();
+				if(currentIntensity>maxIntensity) {
+					maxIntensity = currentIntensity;
+					ret = conceptNet.get(index);
+				}
+			}
+		}
+		if(ret!=null)		return ret.getTitle().replace("_", " ");
+		else				return wordsToFind.get(0).replace("_", " ");
+	}
+	
+	private String getBestWord(String conceptToFind, String eType) {
+		Concept ret = null;
+		ArrayList<String> wordsToFind = dictionary.get(conceptToFind);
+		if(wordsToFind.size()==1) return wordsToFind.get(0).replace("_", " ");
+		ArrayList<Concept> conceptNet = sm.getConcepts();
+		ArrayList<String> wordNet = sm.getWords();
+		int maxIntensity = -10;
+		int currentIntensity = 0;
+		for(String w: wordsToFind) {
+			int index = wordNet.indexOf(w);
+			if(index!=-1) {
+				Concept currentConcept = conceptNet.get(index);
+				currentIntensity = conceptNet.get(index).getPrimaryEmotion().getIntesity();
+				if(currentIntensity>maxIntensity && currentConcept.hasPrimaryEmotionType(eType)) {
+					maxIntensity = currentIntensity;
+					ret = conceptNet.get(index);
+				}
+			}
+		}
+		if(ret!=null)		return ret.getTitle().replace("_", " ");
+		else				return wordsToFind.get(0).replace("_", " ");
+	}
+	
+	
 	private String getWord(String concept) {
-		return dictionary.get(concept).get(0);
+		//in this method I will choose the euristic based on the user model
+		//return getMostIntenseWord(concept);
+		//return getRandomWord(concept);
+		//return getFirstWord(concept);
+		return getBestWord(concept, EmotionType.SENSITIVITY);
 	}
 	
 	public void lexicalisation() {
-		//ArrayList<String> macronutrientiVeryGoodMoreIsBetter
+		//ArrayList<String> macronutrientiVeryGoodMoreIsBetter		
 		String oldItem = "";
 		int iter = 0;
 		lexicaliseWelcome();
+		Phrase phrase = null;
 		for(String item: order) {
 			switch(item) {
 				case PhraseType.VERYBAD:
-					if(!macronutrientiVeryBad.isEmpty()) 
-						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
-							lexicaliseVeryBad(getWord("but"));
-						else if(oldItem!="") 	lexicaliseVeryBad(getWord("and"));
-						else lexicaliseVeryBad("");
+					if(!macronutrientiVeryBad.isEmpty()) {
+						if(isDietician())	phrase = lexicaliseVeryBadDietician("");
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							phrase = lexicaliseVeryBad(getWord("but"));
+						else if(oldItem!="") 	phrase = lexicaliseVeryBad(getWord("and"));
+						else phrase = lexicaliseVeryBad("");
+						phrases.add(phrase);
+					}
 					break;
 				case PhraseType.BAD:
-					if(!macronutrientiVeryBad.isEmpty()) 
-						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
-							lexicaliseBad(getWord("but"));
-						else if(oldItem!="") 	lexicaliseBad(getWord("and"));
-						else lexicaliseBad("");
+					if(!macronutrientiBad.isEmpty()) {
+						if(isDietician())	phrase = lexicaliseBadDietician("");
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							phrase = lexicaliseBad(getWord("but"));
+						else if(oldItem!="") 	phrase = lexicaliseBad(getWord("and"));
+						else phrase = lexicaliseBad("");
+						phrases.add(phrase);
+					}
 					break;
 				case PhraseType.VERYGOOD:
-					if(!macronutrientiVeryBad.isEmpty()) 
-						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
-							lexicaliseVeryGood(getWord("but"));
-						else if(oldItem!="") 	lexicaliseVeryGood(getWord("and"));
-						else lexicaliseVeryGood("");
+					if(!macronutrientiVeryGood.isEmpty()) {
+						if(isDietician())	break;
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							phrase = lexicaliseVeryGood(getWord("but"));
+						else if(oldItem!="") 	phrase = lexicaliseVeryGood(getWord("and"));
+						else phrase = lexicaliseVeryGood("");
+						phrases.add(phrase);
+					}
 					break;
 				case PhraseType.GOOD:
-					if(!macronutrientiVeryBad.isEmpty()) 
-						if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
-							lexicaliseGood(getWord("but"));
-						else if(oldItem!="") 	lexicaliseGood(getWord("and"));
-						else lexicaliseGood("");
+					if(!macronutrientiGood.isEmpty()) {  
+						if(isDietician())	break;
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+							phrase = lexicaliseGood(getWord("but"));
+						else if(oldItem!="") 	phrase = lexicaliseGood(getWord("and"));
+						else phrase = lexicaliseGood("");
+						phrases.add(phrase);
+					}
 					break;
 			}
 			iter++;
@@ -310,40 +417,49 @@ public class SentencePlanner {
 			}
 		}
 
-		if(totalePunteggioEnvironment!=-1) 
-			lexicaliseEnvironment();
+		if(totalePunteggioEnvironment!=-1) {
+			phrase = lexicaliseEnvironment();
+			phrases.add(phrase);
+		}
 		
-		if(etaUtente>18)	setFormalPhrase();
+		if(etaUtente>18 && lingua.equals("italiano"))	
+			setFormalPhrase();
 	}
 	
 	private void setFormalPhrase() {
 		for (Phrase p:phrases) {
 			p.setFormal(true);
-			if(p.getCoordinatedPhrase()!=null)	p.getCoordinatedPhrase().setFormal(true);
+			if(p.getCoordinatedPhrase()!=null)	p.getCoordinatedPhrase().setFormal(true);			
 		}
 	}
 	
-	private void lexicaliseEnvironment() {
+	private Phrase lexicaliseEnvironment() {
 		ArrayList<String> sub = new ArrayList<>();
-		//sub.add(getWord("you"));
+		if(lingua.equals("english"))	sub.add(getWord("you"));
 		ArrayList<String> ob = new ArrayList<>();
-		ob.add(getWord("carbon-emission"));
+		ob.add(getWord("emissions"));
 		String verb = getWord("discharge");
-		ArrayList<String> adjp = new ArrayList<>();
+		ArrayList<String> preModifierObject = new ArrayList<>();
 		Phrase p = new Phrase(PhraseType.ENVIRONMENT,sub,verb,ob,new ArrayList<String>());
 		p.setPreModifierPhrase(getWord("finally"));
+		ArrayList<String> objectArgs = new ArrayList<>();
+		objectArgs.add(getWord("carbon"));
+		p.setObjectArgs(objectArgs);
+	
+		p.setPostModifierPhrase(getWord("of"));
 		p.setTense(Tense.PAST);
 		p.setPerfect(true);
 		
-		if(totalePunteggioEnvironment<50)	adjp.add(getWord("too-much"));
-		else	adjp.add(getWord("too-much"));
+		if(totalePunteggioEnvironment<50)	preModifierObject.add(getWord("too-much"));
+		else	preModifierObject.add(getWord("too-much"));
 		
-		p.setAdjp(adjp);
+		p.setPreModifierObject(preModifierObject);
 		
-		phrases.add(p);
+		//phrases.add(p);
+		return p;
 	}
 	
-	private void lexicaliseWelcome() {
+	private Phrase lexicaliseWelcome() {
 		String saluto = getWord("good-evening");
 		Calendar c = Calendar.getInstance();
 		int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -360,58 +476,73 @@ public class SentencePlanner {
 		Phrase phraseWelcome1 = new Phrase(PhraseType.WELCOME,sub,"",new ArrayList<String>(),new ArrayList<String>());
 		
 		phraseWelcome1.setPreModifierPhrase(saluto);
-		phrases.add(phraseWelcome1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+		if(!isDietician())	phrases.add(phraseWelcome1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		
 		
 		sub = new ArrayList<>();
-		//sub.add(getWord("you"));
+		if(lingua.equals("english"))		sub.add(getWord("you"));
 		ArrayList<String> obj = new ArrayList<>();
-		obj.add("un "+getWord("mscore"));
+		obj.add(getWord("mscore"));
 		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
 		phraseWelcome2.setPreModifierPhrase(getWord("this-week"));
+		phraseWelcome2.setObjectArticle(getWord("a"));
 		phraseWelcome2.setTense(Tense.PAST);
 		phraseWelcome2.setPerfect(true);
 		ArrayList<String> args = new ArrayList<>();
 		args.add(Integer.toString(indiceMed));
 		phraseWelcome2.setPostModifierPhrase(getWord("equal"));
 		phraseWelcome2.setPhraseArgs(args);
-		
+
 		Phrase indPhrase = lexicaliseIndiceMed();
+		
+		if(isDietician()) {
+			sub.add(getWord("patient"));
+			phraseWelcome2.setSubject(sub);
+			phraseWelcome2.setSubjectArticle(getWord("the"));
+		}
+		
 		phraseWelcome2.setConjunction(getWord("and"));
 		phraseWelcome2.setCoordinatedPhrase(indPhrase);
 		
 		phrases.add(phraseWelcome2);
-		//Se è un dietista non faccio esclamazioni
-		if(conoscenzaDominio<2)	phrases.add(temp);
+		//Se è un dietista o devo darle del lei, non faccio esclamazioni
+		if(etaUtente<18 && !isDietician()){
+			phrases.add(temp);
+		}
+		return phraseWelcome2;
+		
+		
 	}
 	
 	private Phrase lexicaliseIndiceMed() {
 		Phrase p = new Phrase();
 		
 		ArrayList<String> sub = new ArrayList<>();
-		//sub.add(getWord("you"));
+
+		if(lingua.equals("english")) 	sub.add(getWord("you"));
+		
 		p.setSubject(sub);
 		p.setVerb(getWord("to-be"));
 		
-		ArrayList<String> ob = new ArrayList<>();
+		ArrayList<String> adj = new ArrayList<>();
 		
 		if(indiceMed<lastIndiceMed) {
 			//p.setVerb(getWord("to-get-worse"));
 			//p.setModal(getWord("to-be"));
-			ob.add(getWord("improved"));
+			adj.add(getWord("improved"));
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("congratulation"),new ArrayList<String>());
 			temp.setForm(Form.INFINITIVE);
-			if(etaUtente>18)	temp.setFormal(true);
+			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
 		}else {
 			//p.setVerb(getWord("to-improve"));
-			ob.add(getWord("not-improved"));
+			adj.add(getWord("not-improved"));
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("to-give-up"),new ArrayList<String>());
 			temp.setNegative(true);
 			temp.setForm(Form.INFINITIVE);
-			if(etaUtente>18)	temp.setFormal(true);
+			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
 		}
 		
-		p.setAdjp(ob);
+		p.setAdjp(adj);
 		if(sessoUtente.equals("F"))	p.setAdjpGender(Gender.FEMININE);
 		else	p.setAdjpGender(Gender.MASCULINE);
 		
@@ -426,37 +557,39 @@ public class SentencePlanner {
 		
 	}
 	
-	private void lexicaliseVeryGood(String connection) {
+	private Phrase lexicaliseVeryGood(String connection) {
 		Phrase phraseVeryGood;
-		//subject.add(getWord("you"));
+		ArrayList<String> subject = new ArrayList<>();
+		if(lingua.equals("english")) 	subject.add(getWord("you"));
 		String verb = getWord("to-do");
 		ArrayList<String> object = new ArrayList<String>();
 		object.add(getWord("job"));
-		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, new ArrayList<>(), verb, object, macronutrientiVeryGood);
+		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
 		phraseVeryGood.setTense(Tense.PAST);
 		phraseVeryGood.setPerfect(true);
 		phraseVeryGood.setPreModifierPhrase(connection);
-		ArrayList<String> preModifierObject = new ArrayList<>();
-		preModifierObject.add(getWord("a"));
 		ArrayList<String> adjp = new ArrayList<String>();
 		adjp.add(getWord("very-good"));
 		phraseVeryGood.setAdjp(adjp);
-		phraseVeryGood.setPreModifierObject(preModifierObject);
+		phraseVeryGood.setObjectArticle(getWord("a"));
 		phraseVeryGood.setPostModifierPhrase(getWord("with"));
-		phrases.add(phraseVeryGood);
+		//phrases.add(phraseVeryGood);
+		return phraseVeryGood;
 	}
 	
-	private void lexicaliseGood(String connection) {
+	private Phrase lexicaliseGood(String connection) {
 		Phrase phraseGood;
 		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("the"));
 		subject.add(getWord("portion"));
 		String verb = getWord("to-be");
-		ArrayList<String> object = new ArrayList<String>();
-		object.add(getWord("very-good"));
-		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, object, new ArrayList<>());
+		ArrayList<String> adjp = new ArrayList<String>();
+		adjp.add(getWord("very-good"));
+		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, new ArrayList<>(), new ArrayList<>());
 		phraseGood.setSubjectArgs(macronutrientiGood);
 		phraseGood.setTense(Tense.PAST);
+		phraseGood.setAdjp(adjp);
+		phraseGood.setAdjpGender(Gender.FEMININE);
+		phraseGood.setSubjectArticle(getWord("the"));
 		phraseGood.setPreModifierPhrase(connection);
 		phraseGood.setPostModifierSubject(getWord("of"));
 		//ArrayList<String> adjp = new ArrayList<String>();
@@ -466,44 +599,219 @@ public class SentencePlanner {
 		//phraseGood.setAdjp(adjp);
 		phraseGood.setPreModifierObject(preModifierObject);
 		phraseGood.setPostModifierPhrase(getWord("of"));
-		phrases.add(phraseGood);
+		//phrases.add(phraseGood);
+		return phraseGood;
 	}
 	
-	private void lexicaliseBad(String connection) {
+	private Phrase lexicaliseBad(String connection) {
 		Phrase phraseBad;
 		ArrayList<String> subject = new ArrayList<>();
-		if(conoscenzaDominio==2)		subject.add(getWord("patient"));
-		//subject.add(getWord("you"));
+		
+		String article = "";
+		if(isDietician()) {
+			subject.add(getWord("patient"));
+			article = getWord("the");
+		}else if(lingua.equals("english")) 	
+			subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
 		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), macronutrientiBad);
 		phraseBad.setModal(modal);
 		phraseBad.setPreModifierPhrase(connection);
+		if(macronutrientiBad.size()==1)	phraseBad.setArgsArticle(getWord("the"));
+		phraseBad.setSubjectArticle(article);		
 		phraseBad.setPostModifierPhrase(getWord("with"));
-		phrases.add(phraseBad);
+		//phrases.add(phraseBad);
+		return phraseBad;
+	}
+	
+	private Phrase lexicaliseBadDietician(String connection) {
+		//Phrase p = lexicaliseBad("");
+
+		//phrases.add(p);
+		
+		ArrayList<String> punteggio1 = new ArrayList<>();
+		ArrayList<String> punteggio2 = new ArrayList<>();
+
+		for(String mBad:macronutrientiBad) {
+			for(Macronutriente mAll:allMacronutrienti) {
+				Macronutriente mTemp = new Macronutriente(mBad);
+				if(mTemp.isThisType(mAll.getNome(),dictionary))	{
+					if(mAll.getPunteggio()==1)	punteggio1.add(mBad);
+					else						punteggio2.add(mBad);
+				}
+			}
+		}
+		
+		Phrase phrase1;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("score"));
+		String verb = getWord("to-be");
+		
+		phrase1 = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<>(), new ArrayList<>());
+		
+		phrase1.setSubjectArgs(punteggio1);
+		phrase1.setPostModifierSubject(getWord("of"));
+		phrase1.setSubjectArticle(getWord("the"));
+		phrase1.setPostModifierPhrase(getWord("equal"));
+		ArrayList<String> args1 = new ArrayList<>();
+		args1.add("1");
+		phrase1.setPhraseArgs(args1);
+		
+		Phrase phrase2;
+		phrase2 = new Phrase(phrase1);
+		phrase2.setPreModifierPhrase(getWord("while"));
+		phrase2.setSubjectArgs(punteggio2);
+		ArrayList<String> args2 = new ArrayList<>();
+		args2.add("2");
+		phrase2.setPhraseArgs(args2);
+		
+		phrase1.setCoordinatedPhrase(phrase2);
+		
+		//phrases.add(phraseBad);
+		return phrase1;
 	}
 
-	private void lexicaliseVeryBad(String connection) {
+	private Phrase lexicaliseVeryBad(String connection) {
 		Phrase phraseVeryBad;
+		
+		
 		ArrayList<String> subject = new ArrayList<>();
-		//subject.add(getWord("you"));
-		if(conoscenzaDominio==2) //IF dietista
-			subject.add(getWord("patient"));
+		List<String> firstMacros = new ArrayList<>();
+		List<String> lastMacros = new ArrayList<>();
+		if(macronutrientiVeryBad.size()>3) { 
+			firstMacros = macronutrientiVeryBad.subList(0, 3);
+			lastMacros = macronutrientiVeryBad.subList(3, macronutrientiVeryBad.size());
+		}
+		else firstMacros = macronutrientiVeryBad;
+		
+		if(isDietician()) //IF dietista
+			subject.add(nomeUtente);
+		else if(lingua.equals("english"))	subject.add(getWord("you"));
+		
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
 		ArrayList<String> preModifierObject = new ArrayList<String>();
-		for (String m: macronutrientiVeryBad) {
+		for (String m: firstMacros) {
 			object.add(m);
-			if(Macronutriente.isMoreBetter(m))	preModifierObject.add(getWord("more"));
+			Macronutriente macronutriente = new Macronutriente(m);
+			if(macronutriente.isMoreBetter(dictionary))	preModifierObject.add(getWord("more"));
 			else preModifierObject.add(getWord("less"));
 		}
 		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
 		phraseVeryBad.setModal(getWord("to-must"));
-		if(conoscenzaDominio==2) //IF dietista
+		if(isDietician() && lingua.equals("italiano")) //IF dietista
 			phraseVeryBad.setFormal(true);	
 		phraseVeryBad.setPreModifierPhrase(connection);
 		phraseVeryBad.setPreModifierObject(preModifierObject);
-		phrases.add(phraseVeryBad);
+		//phrases.add(phraseVeryBad);
+		if(macronutrientiVeryBad.size()>3) { 
+			Phrase phraseCoord = new Phrase(phraseVeryBad);
+			phraseCoord.setVerb(getWord("to-consume"));
+			object = new ArrayList<String>();
+			for (String m: lastMacros) {
+				object.add(m);
+				Macronutriente macronutriente = new Macronutriente(m);
+				if(macronutriente.isMoreBetter(dictionary))	preModifierObject.add(getWord("more"));
+				else preModifierObject.add(getWord("less"));
+			}
+			phraseCoord.setObject(object);
+			phraseVeryBad.setCoordinatedPhrase(phraseCoord);
+			phraseVeryBad.setConjunction(getWord("and"));
+		}
+		return phraseVeryBad;
+		
+		
+		
+		
+		/*
+		if(macronutrientiVeryBad.size()<=3) {
+			ArrayList<String> subject = new ArrayList<>();
+			//subject.add(getWord("you"));
+			if(isDietician()) //IF dietista
+				subject.add(nomeUtente);
+			String verb = getWord("to-eat");
+			ArrayList<String> object = new ArrayList<String>();
+			ArrayList<String> preModifierObject = new ArrayList<String>();
+			for (String m: macronutrientiVeryBad) {
+				object.add(m);
+				Macronutriente macronutriente = new Macronutriente(m);
+				if(macronutriente.isMoreBetter(dictionary))	preModifierObject.add(getWord("more"));
+				else preModifierObject.add(getWord("less"));
+			}
+			phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
+			phraseVeryBad.setModal(getWord("to-must"));
+			if(isDietician()) //IF dietista
+				phraseVeryBad.setFormal(true);	
+			phraseVeryBad.setPreModifierPhrase(connection);
+			phraseVeryBad.setPreModifierObject(preModifierObject);
+			//phrases.add(phraseVeryBad);
+			return phraseVeryBad;
+		}else {
+			ArrayList<String> subject = new ArrayList<>();
+			List<String> firstMacros = macronutrientiVeryBad.subList(0, 3);
+			List<String> lastMacros = macronutrientiVeryBad.subList(3, macronutrientiVeryBad.size());
+			//subject.add(getWord("you"));
+			if(isDietician()) //IF dietista
+				subject.add(nomeUtente);
+			String verb = getWord("to-eat");
+			ArrayList<String> object = new ArrayList<String>();
+			ArrayList<String> preModifierObject = new ArrayList<String>();
+			for (String m: firstMacros) {
+				object.add(m);
+				Macronutriente macronutriente = new Macronutriente(m);
+				if(macronutriente.isMoreBetter(dictionary))	preModifierObject.add(getWord("more"));
+				else preModifierObject.add(getWord("less"));
+			}
+			phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
+			phraseVeryBad.setModal(getWord("to-must"));
+			if(isDietician()) //IF dietista
+				phraseVeryBad.setFormal(true);	
+			phraseVeryBad.setPreModifierPhrase(connection);
+			phraseVeryBad.setPreModifierObject(preModifierObject);
+			//phrases.add(phraseVeryBad);
+			Phrase phraseCoord = new Phrase(phraseVeryBad);
+			phraseCoord.setVerb(getWord("to-consume"));
+			object = new ArrayList<String>();
+			for (String m: lastMacros) {
+				object.add(m);
+				Macronutriente macronutriente = new Macronutriente(m);
+				if(macronutriente.isMoreBetter(dictionary))	preModifierObject.add(getWord("more"));
+				else preModifierObject.add(getWord("less"));
+			}
+			phraseCoord.setObject(object);
+			phraseVeryBad.setCoordinatedPhrase(phraseCoord);
+			phraseVeryBad.setConjunction(getWord("and"));
+			
+			return phraseVeryBad;
+		}*/
+	}
+	
+	private Phrase lexicaliseVeryBadDietician(String connection) {
+		Phrase p = lexicaliseVeryBad("");
+		Phrase phraseVeryBad;
+		ArrayList<String> subject = new ArrayList<>();
+		if(lingua.equals("english")) 	subject.add(getWord("you"));
+		subject.add(getWord("score"));
+		String verb = getWord("to-be");
+		ArrayList<String> subjectArgs = new ArrayList<String>();
+		for (String m: macronutrientiVeryBad) {
+			subjectArgs.add(m);
+		}
+		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, new ArrayList<>(), new ArrayList<>());
+		if(isDietician()  && lingua.equals("italiano")) //IF dietista
+			phraseVeryBad.setFormal(true);
+		//phraseVeryBad.setSubjectArgs(subjectArgs);
+		//phraseVeryBad.setPostModifierSubject(getWord("of"));
+		phraseVeryBad.setSubjectArticle(getWord("the"));
+		phraseVeryBad.setPreModifierPhrase(connection);
+		phraseVeryBad.setPostModifierPhrase(getWord("equal"));
+		ArrayList<String> args = new ArrayList<>();
+		args.add("0");
+		phraseVeryBad.setPhraseArgs(args);
+		p.setRelativePhrase(phraseVeryBad);
+		//phrases.add(phraseVeryBad);
+		return p;
 	}
 	
 	private JsonObject readJson() {
@@ -540,5 +848,9 @@ public class SentencePlanner {
 				|| macronutriente.equals("verdura")) 
 			ret = Gender.FEMININE;
 		return ret;
+	}
+	
+	private boolean isDietician() {
+		return (conoscenzaDominio==2);
 	}
 }

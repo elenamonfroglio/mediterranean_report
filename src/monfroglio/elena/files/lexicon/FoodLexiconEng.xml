@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Italian default lexicon for simpleNLG -->
+<lexicon>
+<!--###############################
+ MANUAL LEXICON
+ ###############################-->
+<!--###############################
+ MANUAL LEXICON
+ ###############################-->
+<!-- ADJECTIVES-->
+	<word>
+		<base> optimal </base>
+		<category> adjective </category>
+		<id> optimal </id>
+		<plural> optimal </plural>
+		<qualitative/>
+	</word>
+	<word>
+		<base> awesome </base>
+		<category> adjective </category>
+		<id> awesome </id>
+		<plural> awesome </plural>
+		<qualitative/>
+	</word>
+	<word>
+		<base> abundant </base>
+		<category> adjective </category>
+		<id> abundant </id>
+		<qualitative/>
+	</word>
+	<!-- NOUNS -->
+	<word>
+		<base>carbohydrate</base>
+		<category>noun</category>
+		<id>carb</id>
+		<plural>carbohydrates</plural>
+	</word>
+	<word>
+		<base>olive</base>
+		<category>noun</category>
+		<id>olive</id>
+	</word>
+	<word>
+		<base>poultry</base>
+		<category>noun</category>
+		<id>poultry</id>
+	</word>
+	<word>
+		<base>pasta</base>
+		<category>noun</category>
+		<id>pasta</id>
+		<plural>pasta</plural>
+	</word>
+	<word>
+		<base>legume</base>
+		<category>noun</category>
+		<id>leg</id>
+	</word>
+	<word>
+		<base>lipid</base>
+		<category>noun</category>
+		<id>lip</id>
+	</word>
+	<word>
+		<base>congratulation</base>
+		<category>noun</category>
+		<id>congr</id>
+	</word>
+	<word>
+		<base> med score </base>
+		<category> noun </category>
+		<id> mscore </id>
+		<plural> med score </plural>
+	</word>
+	<word>
+		<base>derivative</base>
+		<category>noun</category>
+		<id>deriv</id>
+	</word>
+<!-- ADVERBS -->
+
+<!-- VERBS -->
+
+	
+</lexicon>

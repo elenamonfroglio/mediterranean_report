@@ -1,0 +1,21 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f0650020381, pid=9553, tid=9590
+#
+# JRE version: OpenJDK Runtime Environment (11.0.13+8) (build 11.0.13+8-Ubuntu-0ubuntu1.18.04)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.13+8-Ubuntu-0ubuntu1.18.04, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x2381]
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/uni/Documenti/UNIVERSITA'/TESI/PROGETTO/gitclone/mediterranean_report/core.9553)
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:41155 -javaagent:/home/uni/.eclipse/360744286_linux_gtk_x86_64/configuration/org.eclipse.osgi/222/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 --module-path=/home/uni/Documenti/UNIVERSITA'/TESI/PROGETTO/postgresql-42.3.1.jar:/home/uni/Documenti/UNIVERSITA'/TESI/PROGETTO/javax.json-1.1.4.jar:/home/uni/Documenti/UNIVERSITA'/TESI/PROGETTO/simplenlg-it.jar:/home/uni/Documenti/UNIVERSITA'/TESI/PROGETTO/opencsv-3.8.jar monfroglio.elena.Main
+
+Host: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz, 8 cores, 7G, 
