@@ -5,6 +5,7 @@ public abstract class PhraseType {
 	  public static final java.lang.String GOOD = "good";
 	  public static final java.lang.String BAD = "bad";
 	  public static final java.lang.String VERYBAD = "very bad";
+	  public static final java.lang.String MEAL = "meal";
 	  public static final java.lang.String WELCOME = "welcome";
 	  public static final java.lang.String EXCLAMATION = "esclamation";
 	  public static final java.lang.String ENVIRONMENT = "environment";

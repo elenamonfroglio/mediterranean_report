@@ -48,6 +48,7 @@ public class SentencePlanner {
 	private String nomeUtente;
 	private String sessoUtente;
 	private Settimana thisWeek;
+	private Pasto veryGoodPasto;
 	private int indiceMed;
 	private int lastIndiceMed;
 	private int etaUtente;
@@ -182,18 +183,15 @@ public class SentencePlanner {
 		for (Macronutriente m:allMacronutrienti) 
 			//la condizione in or permette di considerare i good su due valori 2 e 3 e i bad su 1 e 2
 			if(m.getPunteggio()==valuation || m.getPunteggio()==(valuation+1))
-				ret.add(getWord(m.getNome()));
+				ret.add(m.getNome());
+				//ret.add(getWord(m.getNome()));
 		
 		return ret;
 	}
 	
 	public void extractBestMeal() {
-		ArrayList<String> veryGoodMacros = new ArrayList<>();
-		veryGoodMacros.add(MacronutrienteType.CEREALI);
-		veryGoodMacros.add(MacronutrienteType.PATATE);
-		veryGoodMacros.add(MacronutrienteType.VERDURA);
-		Pasto p = thisWeek.getPastoVeryGood(veryGoodMacros,dictionary);
-		p.print();	
+		veryGoodPasto = thisWeek.getPastoVeryGood(macronutrientiVeryGood,dictionary);
+		veryGoodPasto.print();	
 	}
 	
 	private void extractUtente(JsonObject object) {
@@ -416,7 +414,10 @@ public class SentencePlanner {
 				oldItem = item;
 			}
 		}
-
+		
+		Phrase veryGoodPastoPhrase = lexicaliseVeryGoodPasto("");
+		phrases.add(veryGoodPastoPhrase);
+		
 		if(totalePunteggioEnvironment!=-1) {
 			phrase = lexicaliseEnvironment();
 			phrases.add(phrase);
@@ -564,7 +565,11 @@ public class SentencePlanner {
 		String verb = getWord("to-do");
 		ArrayList<String> object = new ArrayList<String>();
 		object.add(getWord("job"));
-		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGood);
+		ArrayList<String> macronutrientiVeryGoodWords = new ArrayList<>();
+		for(String m:macronutrientiVeryGood) {
+			macronutrientiVeryGoodWords.add(getWord(m));
+		}
+		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGoodWords);
 		phraseVeryGood.setTense(Tense.PAST);
 		phraseVeryGood.setPerfect(true);
 		phraseVeryGood.setPreModifierPhrase(connection);
@@ -584,8 +589,12 @@ public class SentencePlanner {
 		String verb = getWord("to-be");
 		ArrayList<String> adjp = new ArrayList<String>();
 		adjp.add(getWord("very-good"));
+		ArrayList<String> macronutrientiGoodWords = new ArrayList<>();
+		for(String m:macronutrientiGood) {
+			macronutrientiGoodWords.add(getWord(m));
+		}
 		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, new ArrayList<>(), new ArrayList<>());
-		phraseGood.setSubjectArgs(macronutrientiGood);
+		phraseGood.setSubjectArgs(macronutrientiGoodWords);
 		phraseGood.setTense(Tense.PAST);
 		phraseGood.setAdjp(adjp);
 		phraseGood.setAdjpGender(Gender.FEMININE);
@@ -615,7 +624,11 @@ public class SentencePlanner {
 			subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
-		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), macronutrientiBad);
+		ArrayList<String> macronutrientiBadWords = new ArrayList<>();
+		for(String m:macronutrientiBad) {
+			macronutrientiBadWords.add(getWord(m));
+		}
+		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), macronutrientiBadWords);
 		phraseBad.setModal(modal);
 		phraseBad.setPreModifierPhrase(connection);
 		if(macronutrientiBad.size()==1)	phraseBad.setArgsArticle(getWord("the"));
@@ -634,11 +647,12 @@ public class SentencePlanner {
 		ArrayList<String> punteggio2 = new ArrayList<>();
 
 		for(String mBad:macronutrientiBad) {
+			String mBadWord = getWord(mBad);
 			for(Macronutriente mAll:allMacronutrienti) {
-				Macronutriente mTemp = new Macronutriente(mBad);
+				Macronutriente mTemp = new Macronutriente(mBadWord);
 				if(mTemp.isThisType(mAll.getNome(),dictionary))	{
-					if(mAll.getPunteggio()==1)	punteggio1.add(mBad);
-					else						punteggio2.add(mBad);
+					if(mAll.getPunteggio()==1)	punteggio1.add(mBadWord);
+					else						punteggio2.add(mBadWord);
 				}
 			}
 		}
@@ -679,11 +693,15 @@ public class SentencePlanner {
 		ArrayList<String> subject = new ArrayList<>();
 		List<String> firstMacros = new ArrayList<>();
 		List<String> lastMacros = new ArrayList<>();
-		if(macronutrientiVeryBad.size()>3) { 
-			firstMacros = macronutrientiVeryBad.subList(0, 3);
-			lastMacros = macronutrientiVeryBad.subList(3, macronutrientiVeryBad.size());
+		ArrayList<String> macronutrientiVeryBadWords = new ArrayList<>();
+		for(String m:macronutrientiVeryBad) {
+			macronutrientiVeryBadWords.add(getWord(m));
 		}
-		else firstMacros = macronutrientiVeryBad;
+		if(macronutrientiVeryBadWords.size()>3) { 
+			firstMacros = macronutrientiVeryBadWords.subList(0, 3);
+			lastMacros = macronutrientiVeryBadWords.subList(3, macronutrientiVeryBadWords.size());
+		}
+		else firstMacros = macronutrientiVeryBadWords;
 		
 		if(isDietician()) //IF dietista
 			subject.add(nomeUtente);
@@ -811,6 +829,35 @@ public class SentencePlanner {
 		phraseVeryBad.setPhraseArgs(args);
 		p.setRelativePhrase(phraseVeryBad);
 		//phrases.add(phraseVeryBad);
+		return p;
+	}
+	
+	private Phrase lexicaliseVeryGoodPasto(String connection) {
+		Phrase p = null;
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("dish"));
+		String verb = getWord("to-be");
+		ArrayList<String> subjectArgs = new ArrayList<String>();
+		
+		// da mettere in metodo apposito
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(veryGoodPasto.getGiorno());		
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		String wordDayOfWeek = "lunedì";
+		subjectArgs.add(wordDayOfWeek);
+		
+		
+		p = new Phrase(PhraseType.MEAL, subject, verb, new ArrayList<>(), new ArrayList<>());
+		if(isDietician()  && lingua.equals("italiano")) //IF dietista
+			p.setFormal(true);
+		p.setSubjectArticle(getWord("the"));
+		p.setSubjectArgs(subjectArgs);
+		p.setTense(Tense.PAST);
+		ArrayList<String> adjp = new ArrayList<>();
+		adjp.add(getWord("very-good"));
+		p.setAdjp(adjp);
+		p.setPostModifierSubject(getWord("of"));
+		
 		return p;
 	}
 	
