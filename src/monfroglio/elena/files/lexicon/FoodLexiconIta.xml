@@ -17,6 +17,15 @@
 		<feminine_plural>ottimali</feminine_plural>
 		<qualitative/>
 	</word>
+	<word>
+		<base> inappropriato </base>
+		<category> adjective </category>
+		<id> inappropriato </id>
+		<plural> inappropriati </plural>
+		<feminine_singular>inappropriata</feminine_singular>
+		<feminine_plural>inappropriate</feminine_plural>
+		<qualitative/>
+	</word>
 	<!-- NOUNS -->
 	<word>
 		<base>buonasera</base>

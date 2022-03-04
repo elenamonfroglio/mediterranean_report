@@ -115,7 +115,7 @@ public class Settimana {
 		return ret;
 	}
 	
-	public Pasto getPastoVeryGood(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+	public Pasto getPastoWithMacros(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
 		Pasto bestPasto = null;
 		float maxScore = -1;
 		
@@ -131,6 +131,7 @@ public class Settimana {
 		
 		return bestPasto;
 	}
+	
 	/*
 	public Settimana(DatabaseManager dbmgr, int idtest, String cf) {
 		try {

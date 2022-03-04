@@ -351,7 +351,7 @@ public class ReportRealiser {
 	}
 	
 	private Gender getGender(String macronutriente) {
-		Gender ret = null;
+		Gender ret = Gender.MASCULINE;
 		if(macronutriente.equals("patate") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 
 				|| macronutriente.equals("verdura")) 
 			ret = Gender.FEMININE;

@@ -49,6 +49,7 @@ public class SentencePlanner {
 	private String sessoUtente;
 	private Settimana thisWeek;
 	private Pasto veryGoodPasto;
+	private Pasto veryBadPasto;
 	private int indiceMed;
 	private int lastIndiceMed;
 	private int etaUtente;
@@ -146,6 +147,7 @@ public class SentencePlanner {
 		loadSenticnet();
 		aggregatorMacronutrienti();
 		extractBestMeal();
+		extractWorstMeal();
 		//RIMUOVO DALL'ORDINE GLOBALE NEL CASO IN CUI AVESSI MACRONUTRIENTI VUOTI
 		for(String type: order) {
 			if (macronutrientiVeryGood.isEmpty())	order.remove(PhraseType.VERYGOOD);
@@ -190,8 +192,13 @@ public class SentencePlanner {
 	}
 	
 	public void extractBestMeal() {
-		veryGoodPasto = thisWeek.getPastoVeryGood(macronutrientiVeryGood,dictionary);
-		veryGoodPasto.print();	
+		veryGoodPasto = thisWeek.getPastoWithMacros(macronutrientiVeryGood,dictionary);
+		//veryGoodPasto.print();	
+	}
+	
+	public void extractWorstMeal() {
+		veryBadPasto = thisWeek.getPastoWithMacros(macronutrientiVeryBad,dictionary);
+		//veryBadPasto.print();	
 	}
 	
 	private void extractUtente(JsonObject object) {
@@ -417,6 +424,9 @@ public class SentencePlanner {
 		
 		Phrase veryGoodPastoPhrase = lexicaliseVeryGoodPasto("");
 		phrases.add(veryGoodPastoPhrase);
+
+		Phrase veryBadPastoPhrase = lexicaliseVeryBadPasto(getWord("while"));
+		phrases.add(veryBadPastoPhrase);
 		
 		if(totalePunteggioEnvironment!=-1) {
 			phrase = lexicaliseEnvironment();
@@ -814,7 +824,7 @@ public class SentencePlanner {
 		String verb = getWord("to-be");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
 		for (String m: macronutrientiVeryBad) {
-			subjectArgs.add(m);
+			subjectArgs.add(getWord(m));
 		}
 		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, new ArrayList<>(), new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
@@ -834,29 +844,148 @@ public class SentencePlanner {
 	
 	private Phrase lexicaliseVeryGoodPasto(String connection) {
 		Phrase p = null;
-		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("dish"));
+		ArrayList<String> subject1 = new ArrayList<>();
+		
+		String temp = "";
+		switch(veryGoodPasto.getSlot()) {
+			case 0:
+				temp = getWord("breakfast");
+				break;
+			case 1:
+				temp = getWord("morning-snack");
+				break;
+			case 2:
+				temp = getWord("lunch");
+				break;
+			case 3:
+				temp = getWord("afternoon-snack");
+				break;
+			case 4:
+				temp = getWord("dinner");
+				break;
+		}
+		subject1.add(temp);
+		
 		String verb = getWord("to-be");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
 		
 		// da mettere in metodo apposito
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(veryGoodPasto.getGiorno());		
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		String wordDayOfWeek = "lunedì";
+		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+		
 		subjectArgs.add(wordDayOfWeek);
 		
+		ArrayList<String> obj = new ArrayList<>();
+		obj.add(getWord("choice"));
 		
-		p = new Phrase(PhraseType.MEAL, subject, verb, new ArrayList<>(), new ArrayList<>());
+		
+		p = new Phrase(PhraseType.MEAL, subject1, verb, new ArrayList<>(), new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
 			p.setFormal(true);
 		p.setSubjectArticle(getWord("the"));
 		p.setSubjectArgs(subjectArgs);
-		p.setTense(Tense.PAST);
-		ArrayList<String> adjp = new ArrayList<>();
-		adjp.add(getWord("very-good"));
-		p.setAdjp(adjp);
+		p.setObject(obj);
+		//p.setModal(getWord("to-be"));
+		p.setObjectArticle(getWord("a"));
+		p.setTense(Tense.PLUS_PAST);
+		//p.setPerfect(true);
+		ArrayList<String> adjp1 = new ArrayList<>();
+		adjp1.add(getWord("very-good"));
+		p.setAdjp(adjp1);
 		p.setPostModifierSubject(getWord("of"));
+		
+		String conjunction = getWord("because");
+		ArrayList<String> subject2 = new ArrayList<>();
+		subject2.add(veryGoodPasto.getNome());
+		
+		ArrayList<String> object2 = new ArrayList<>();
+		object2.add(getWord("portion"));
+		ArrayList<String> adjp2 = new ArrayList<>();
+		adjp2.add(getWord("good"));
+		
+		String verb2 = getWord("to-have");
+		Phrase coordinatedPhrase = new Phrase(PhraseType.MEAL, subject2, verb2, object2, new ArrayList<>());
+		p.setConjunction(conjunction);
+		coordinatedPhrase.setSubjectArticle(getWord("the"));
+		coordinatedPhrase.setAdjp(adjp2);
+		ArrayList<String> objectArgs = new ArrayList<>();
+		for (String m: macronutrientiVeryGood) {
+			objectArgs.add(getWord(m));
+		}
+		coordinatedPhrase.setObjectArticle(getWord("a"));
+		coordinatedPhrase.setObjectArgs(objectArgs);
+		coordinatedPhrase.setPostModifierPhrase(getWord("of"));
+		
+		p.setCoordinatedPhrase(coordinatedPhrase);
+		
+		return p;
+	}
+	
+	private Phrase lexicaliseVeryBadPasto(String connection) {
+		Phrase p = null;
+		
+		String verb1 = getWord("to-avoid");
+		ArrayList<String> subjectArgs = new ArrayList<String>();
+		
+		// da mettere in metodo apposito
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(veryBadPasto.getGiorno());		
+		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+		
+		subjectArgs.add(wordDayOfWeek);
+		
+		ArrayList<String> obj1 = new ArrayList<>();
+		obj1.add(veryBadPasto.getNome());
+		
+		
+		p = new Phrase(PhraseType.MEAL, new ArrayList<>(), verb1,  obj1, new ArrayList<>());
+		if(isDietician()  && lingua.equals("italiano")) //IF dietista
+			p.setFormal(true);
+		
+		p.setObjectArticle(getWord("the"));
+		p.setModal(getWord("to-must"));
+		p.setTense(Tense.CONDITIONAL);
+		ArrayList<String> obj2 = new ArrayList<>();
+		ArrayList<String> args2 = new ArrayList<>();
+		ArrayList<String> adj2 = new ArrayList<>();
+		
+		String temp = "";
+		switch(veryBadPasto.getSlot()) {
+			case 0:
+				temp = getWord("breakfast");
+				break;
+			case 1:
+				temp = getWord("morning-snack");
+				break;
+			case 2:
+				temp = getWord("lunch");
+				break;
+			case 3:
+				temp = getWord("afternoon-snack");
+				break;
+			case 4:
+				temp = getWord("dinner");
+				break;
+		}
+		args2.add(temp);
+		obj2.add(wordDayOfWeek);
+		adj2.add(getWord("last"));
+		
+		//p.setObjectArgs(args);
+		//p.setPostModifierPhrase(getWord("of"));
+		
+		p.setPreModifierPhrase(getWord("next-week"));
+		
+		String verb2 = getWord("to-eat");
+		Phrase relativePhrase = new Phrase(PhraseType.MEAL, new ArrayList<>(), verb2,  obj2, new ArrayList<>());
+		relativePhrase.setPerfect(true);
+		relativePhrase.setPhraseArgs(args2);
+		relativePhrase.setPostModifierPhrase(getWord("at"));
+		relativePhrase.setAdjp(adj2);
+		relativePhrase.setObjectArticle(getWord("the"));
+		
+		p.setRelativePhrase(relativePhrase);
 		
 		return p;
 	}

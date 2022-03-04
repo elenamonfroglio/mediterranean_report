@@ -16,6 +16,13 @@
 		<qualitative/>
 	</word>
 	<word>
+		<base> unsuitable </base>
+		<category> adjective </category>
+		<id> unsuitable </id>
+		<plural> unsuitable </plural>
+		<qualitative/>
+	</word>
+	<word>
 		<base> awesome </base>
 		<category> adjective </category>
 		<id> awesome </id>
@@ -55,6 +62,11 @@
 		<base>legume</base>
 		<category>noun</category>
 		<id>leg</id>
+	</word>
+	<word>
+		<base>snack</base>
+		<category>noun</category>
+		<id>snack</id>
 	</word>
 	<word>
 		<base>lipid</base>

@@ -45,12 +45,20 @@ public class Pasto {
 		this.slot = -1;
 	}
 	
+	public String getNome() {
+		return nome;
+	}
+	
 	public int getIdRicetta() {
 		return idRicetta;
 	}
 	
 	public Date getGiorno() {
 		return giorno;
+	}
+	
+	public int getSlot() {
+		return slot;
 	}
 	
 	public HashMap<String,Float> getPunteggi(){
