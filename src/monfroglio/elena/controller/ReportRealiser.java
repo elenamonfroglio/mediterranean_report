@@ -355,7 +355,7 @@ public class ReportRealiser {
 			ret = Gender.MASCULINE;
 		return ret;
 	}
-	
+		
 	private boolean isPlural(String macronutriente) {
 		boolean ret = false;
 		if(macronutriente.equals("pesce") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 

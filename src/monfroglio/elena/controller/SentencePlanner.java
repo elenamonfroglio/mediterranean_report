@@ -193,12 +193,12 @@ public class SentencePlanner {
 	
 	public void extractBestMeal() {
 		veryGoodPasto = thisWeek.getPastoWithMacros(macronutrientiVeryGood,dictionary);
-		//veryGoodPasto.print();	
+		veryGoodPasto.print();	
 	}
 	
 	public void extractWorstMeal() {
 		veryBadPasto = thisWeek.getPastoWithMacros(macronutrientiVeryBad,dictionary);
-		//veryBadPasto.print();	
+		veryBadPasto.print();	
 	}
 	
 	private void extractUtente(JsonObject object) {
