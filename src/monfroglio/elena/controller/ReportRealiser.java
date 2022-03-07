@@ -179,7 +179,7 @@ public class ReportRealiser {
 				subject.setSpecifier(p.getSubjectArticle());
 			}
 		}
-
+		subject.setPlural(p.getSubjectPlural());
 		clause.setSubject(subject);
 		return subject;
 	}
@@ -224,11 +224,6 @@ public class ReportRealiser {
 				//scelgo se mettere l'aggettivo prima o dopo l'oggetto
 				obj.addModifier(p.getAdjp().get(i));
 			}
-			WordElement e = lexicons.getWord(m);
-			boolean b = lexicons.hasWord(m);
-			WordElement id = lexicons.lookupWord(m);
-			Object o1 = e.getFeature(LexicalFeature.GENDER);
-			Object o2 = id.getFeature(LexicalFeature.GENDER);
 			if(!p.getPreModifierObject().isEmpty()) {
 				AdjPhraseSpec adjPreModifier = nlgFactory.createAdjectivePhrase(p.getPreModifierObject().get(i));
 				obj.addPreModifier(adjPreModifier);
@@ -304,19 +299,18 @@ public class ReportRealiser {
 	}
 	
 	private SPhraseSpec createAndSetRelativePhrase(SPhraseSpec clause, Phrase p, NLGElement elemToBeModified) {
+		NPPhraseSpec np = nlgFactory.createNounPhrase(elemToBeModified);
 		//CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		SPhraseSpec clauseRecursive = createGenericPhrase(p.getRelativePhrase());
+		SPhraseSpec clauseRelative = createGenericPhrase(p.getRelativePhrase());
 		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
-
+		
 		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
 		//clauseRecursive.addModifier(elemToBeModified);
-		clauseRecursive.setFeature(ItalianFeature.RELATIVE_PHRASE, elemToBeModified);
+		clauseRelative.setFeature(ItalianFeature.RELATIVE_PHRASE, np);
 		//clauseRecursive.setFeature(ItalianLexicalFeature.NO_COMMA, false);
-		//coord.addCoordinate(clauseRecursive);
 		
-		
-		clause.addPostModifier(clauseRecursive);
-		return clauseRecursive;
+		clause.addPostModifier(clauseRelative);
+		return clauseRelative;
 	}
 	
 	private void extractUtente(JsonObject jsonObject) {
@@ -363,10 +357,13 @@ public class ReportRealiser {
 	}
 	
 	private boolean isPlural(String macronutriente) {
-		boolean ret = true;
+		boolean ret = false;
 		if(macronutriente.equals("pesce") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 
 				|| macronutriente.equals("verdura") || macronutriente.equals("pollame") || macronutriente.equals("olio")) 
 			ret = false;
+		else if(macronutriente.equals("legumi") || macronutriente.equals("latticini") || macronutriente.equals("patate") 
+				|| macronutriente.equals("cereali"))
+			ret = true;
 		return ret;
 	}
 	  

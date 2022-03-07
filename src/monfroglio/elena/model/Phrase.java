@@ -19,6 +19,7 @@ public class Phrase {
 	String subjectArticle = "";
 	ArrayList<String> subject = new ArrayList<>();
 	ArrayList<String> subjectArgs = new ArrayList<>();
+	boolean subjectIsPlural = false;
 	String postmodifierSubject = "";
 	String modal = "";
 	String verb = "";
@@ -174,6 +175,10 @@ public class Phrase {
 		this.subjectArgs = subjectArgs;
 	}
 	
+	public void setSubjectPlural(boolean subjectIsPlural) {
+		this.subjectIsPlural = subjectIsPlural;
+	}
+	
 	public void setModal(String modal) {
 		this.modal = modal;
 	}
@@ -284,6 +289,10 @@ public class Phrase {
 	
 	public ArrayList<String> getSubjectArgs() {
 		return subjectArgs;
+	}
+	
+	public boolean getSubjectPlural() {
+		return subjectIsPlural;
 	}
 	
 	public String getConjunction() {

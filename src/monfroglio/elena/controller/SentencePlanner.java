@@ -925,8 +925,10 @@ public class SentencePlanner {
 	private Phrase lexicaliseVeryBadPasto(String connection) {
 		Phrase p = null;
 		
-		String verb1 = getWord("to-avoid");
+		String verb1 = getWord("to-advise-against");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
+		ArrayList<String> subject = new ArrayList<>();
+		subject.add(getWord("experts"));
 		
 		// da mettere in metodo apposito
 		Calendar cal = Calendar.getInstance();
@@ -939,12 +941,13 @@ public class SentencePlanner {
 		obj1.add(veryBadPasto.getNome());
 		
 		
-		p = new Phrase(PhraseType.MEAL, new ArrayList<>(), verb1,  obj1, new ArrayList<>());
+		p = new Phrase(PhraseType.MEAL, subject, verb1,  obj1, new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
 			p.setFormal(true);
 		
 		p.setObjectArticle(getWord("the"));
-		p.setModal(getWord("to-must"));
+		p.setSubjectArticle(getWord("the"));
+		p.setSubjectPlural(true);
 		p.setTense(Tense.CONDITIONAL);
 		ArrayList<String> obj2 = new ArrayList<>();
 		ArrayList<String> args2 = new ArrayList<>();
@@ -975,7 +978,7 @@ public class SentencePlanner {
 		//p.setObjectArgs(args);
 		//p.setPostModifierPhrase(getWord("of"));
 		
-		p.setPreModifierPhrase(getWord("next-week"));
+		//p.setPreModifierPhrase(getWord("next-week"));
 		
 		String verb2 = getWord("to-eat");
 		Phrase relativePhrase = new Phrase(PhraseType.MEAL, new ArrayList<>(), verb2,  obj2, new ArrayList<>());
