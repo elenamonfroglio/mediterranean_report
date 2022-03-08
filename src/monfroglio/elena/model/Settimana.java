@@ -2,7 +2,10 @@ package monfroglio.elena.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import monfroglio.elena.Main.Point;
 
 public class Settimana {
 	private LocalDate giornoInizio;//TBC
@@ -113,6 +116,24 @@ public class Settimana {
 		}
 		
 		return ret;
+	}
+	
+	public Pasto getParetoOptimal(ArrayList<String> veryGoodMacros) {
+		Pasto bestPasto = null;
+		
+		createComparator(veryGoodMacros);
+		
+		for(Pasto p:pasti) {
+			HashMap<String,Float> consumption = p.getPunteggi();
+			//devo considerare i tipi verygood e trovare il pasto con il più alto punteggio per queste categorie
+			
+		}
+		
+		return bestPasto;
+	}
+	
+	public void createComparator(ArrayList<String> veryGoodMacros) {
+		ParetoComparator<Point> comparator = new ParetoComparator<Point>();
 	}
 	
 	public Pasto getPastoWithMacros(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {

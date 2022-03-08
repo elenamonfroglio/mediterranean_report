@@ -22,8 +22,8 @@ import monfroglio.elena.model.Utente;
 public class Main {
 	public static void main(String[] args) {
 		DatabaseManager dbmgr = new DatabaseManager();
-		//test1(dbmgr);
-		test3();
+		test1(dbmgr);
+		//test3();
 	}
 	
 	public static void test3() {
@@ -36,6 +36,11 @@ public class Main {
 		comparator.add(new Comparator<Point>() {
 			public int compare(Point o1, Point o2) {
 				return Integer.valueOf(o1.y).compareTo(Integer.valueOf(o2.y));
+			}
+		});
+		comparator.add(new Comparator<Point>() {
+			public int compare(Point o1, Point o2) {
+				return Integer.valueOf(o1.z).compareTo(Integer.valueOf(o2.z));
 			}
 		});
 
@@ -52,19 +57,20 @@ public class Main {
 		{
 			Point ref = p00;
 			assertTrue(comparator.compare(ref, p00) == 0);
-			assertTrue(comparator.compare(ref, p01) < 0);
-			assertTrue(comparator.compare(ref, p02) < 0);
-			assertTrue(comparator.compare(ref, p10) < 0);
-			assertTrue(comparator.compare(ref, p11) < 0);
-			assertTrue(comparator.compare(ref, p12) < 0);
+			assertTrue(comparator.compare(ref, p01) == 0);
+			assertTrue(comparator.compare(ref, p02) == 0);
+			assertTrue(comparator.compare(ref, p10) == 0);
+			assertTrue(comparator.compare(ref, p11) == 0);
+			assertTrue(comparator.compare(ref, p12) == 0);
 			assertTrue(comparator.compare(ref, p20) < 0);
 			assertTrue(comparator.compare(ref, p21) < 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
 			Point ref = p01;
-			assertTrue(comparator.compare(ref, p00) > 0);
+			assertTrue(comparator.compare(ref, p00) == 0);
 			assertTrue(comparator.compare(ref, p01) == 0);
 			assertTrue(comparator.compare(ref, p02) < 0);
 			assertTrue(comparator.compare(ref, p10) == 0);
@@ -73,11 +79,12 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) == 0);
 			assertTrue(comparator.compare(ref, p21) < 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
 			Point ref = p02;
-			assertTrue(comparator.compare(ref, p00) > 0);
+			assertTrue(comparator.compare(ref, p00) == 0);
 			assertTrue(comparator.compare(ref, p01) > 0);
 			assertTrue(comparator.compare(ref, p02) == 0);
 			assertTrue(comparator.compare(ref, p10) == 0);
@@ -86,11 +93,12 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) == 0);
 			assertTrue(comparator.compare(ref, p21) == 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
 			Point ref = p10;
-			assertTrue(comparator.compare(ref, p00) > 0);
+			assertTrue(comparator.compare(ref, p00) == 0);
 			assertTrue(comparator.compare(ref, p01) == 0);
 			assertTrue(comparator.compare(ref, p02) == 0);
 			assertTrue(comparator.compare(ref, p10) == 0);
@@ -99,11 +107,12 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) < 0);
 			assertTrue(comparator.compare(ref, p21) < 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
 			Point ref = p11;
-			assertTrue(comparator.compare(ref, p00) > 0);
+			assertTrue(comparator.compare(ref, p00) == 0);
 			assertTrue(comparator.compare(ref, p01) > 0);
 			assertTrue(comparator.compare(ref, p02) == 0);
 			assertTrue(comparator.compare(ref, p10) > 0);
@@ -112,11 +121,12 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) == 0);
 			assertTrue(comparator.compare(ref, p21) < 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
 			Point ref = p12;
-			assertTrue(comparator.compare(ref, p00) > 0);
+			assertTrue(comparator.compare(ref, p00) == 0);
 			assertTrue(comparator.compare(ref, p01) > 0);
 			assertTrue(comparator.compare(ref, p02) > 0);
 			assertTrue(comparator.compare(ref, p10) > 0);
@@ -125,6 +135,7 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) == 0);
 			assertTrue(comparator.compare(ref, p21) == 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
@@ -138,6 +149,7 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) == 0);
 			assertTrue(comparator.compare(ref, p21) < 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
@@ -151,6 +163,7 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) > 0);
 			assertTrue(comparator.compare(ref, p21) == 0);
 			assertTrue(comparator.compare(ref, p22) < 0);
+			System.out.println("");
 		}
 
 		{
@@ -164,6 +177,7 @@ public class Main {
 			assertTrue(comparator.compare(ref, p20) > 0);
 			assertTrue(comparator.compare(ref, p21) > 0);
 			assertTrue(comparator.compare(ref, p22) == 0);
+			System.out.println("");
 		}
 
 	}
