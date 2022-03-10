@@ -598,7 +598,12 @@ public class SentencePlanner {
 		subject.add(getWord("portion"));
 		String verb = getWord("to-be");
 		ArrayList<String> adjp = new ArrayList<String>();
+		adjp.add(getWord("nearly"));
 		adjp.add(getWord("very-good"));
+		
+		List<String> firstMacros = new ArrayList<>();
+		List<String> lastMacros = new ArrayList<>();
+		
 		ArrayList<String> macronutrientiGoodWords = new ArrayList<>();
 		for(String m:macronutrientiGood) {
 			macronutrientiGoodWords.add(getWord(m));
@@ -611,14 +616,9 @@ public class SentencePlanner {
 		phraseGood.setSubjectArticle(getWord("the"));
 		phraseGood.setPreModifierPhrase(connection);
 		phraseGood.setPostModifierSubject(getWord("of"));
-		//ArrayList<String> adjp = new ArrayList<String>();
 		ArrayList<String> preModifierObject = new ArrayList<String>();
 		preModifierObject.add(getWord("nearly"));
-		//adjp.add(getWord("very-good"));
-		//phraseGood.setAdjp(adjp);
-		phraseGood.setPreModifierObject(preModifierObject);
 		phraseGood.setPostModifierPhrase(getWord("of"));
-		//phrases.add(phraseGood);
 		return phraseGood;
 	}
 	
@@ -634,16 +634,40 @@ public class SentencePlanner {
 			subject.add(getWord("you"));
 		String modal = getWord("to-can");
 		String verb = getWord("to-improve");
+		
+		List<String> firstMacros = new ArrayList<>();
+		List<String> lastMacros = new ArrayList<>();
+		
 		ArrayList<String> macronutrientiBadWords = new ArrayList<>();
 		for(String m:macronutrientiBad) {
 			macronutrientiBadWords.add(getWord(m));
 		}
-		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), macronutrientiBadWords);
+		if(macronutrientiBadWords.size()>3) { 
+			firstMacros = macronutrientiBadWords.subList(0, 3);
+			lastMacros = macronutrientiBadWords.subList(3, macronutrientiBadWords.size());
+		}else firstMacros = macronutrientiBadWords;
+		ArrayList<String> args1 = new ArrayList<>();
+		for(String m:firstMacros)
+			args1.add(m);
+		phraseBad = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<String>(), args1);
 		phraseBad.setModal(modal);
 		phraseBad.setPreModifierPhrase(connection);
-		if(macronutrientiBad.size()==1)	phraseBad.setArgsArticle(getWord("the"));
+		if(macronutrientiBad.size()==1) {
+			phraseBad.setArgsArticle(getWord("the"));
+		}
 		phraseBad.setSubjectArticle(article);		
 		phraseBad.setPostModifierPhrase(getWord("with"));
+		
+		Phrase coordinatedPhrase = new Phrase(PhraseType.BAD,new ArrayList<>(),"",new ArrayList<String>(), new ArrayList<String>());
+		ArrayList<String> args2 = new ArrayList<>();
+		coordinatedPhrase.setPreModifierPhrase(getWord("and"));
+		coordinatedPhrase.setPostModifierPhrase(getWord("with"));
+		for(String m:lastMacros) {
+			args2.add(m);
+		}
+		coordinatedPhrase.setPhraseArgs(args2);
+		if(macronutrientiBadWords.size()>3)
+			phraseBad.setCoordinatedPhrase(coordinatedPhrase);
 		//phrases.add(phraseBad);
 		return phraseBad;
 	}
@@ -698,7 +722,6 @@ public class SentencePlanner {
 
 	private Phrase lexicaliseVeryBad(String connection) {
 		Phrase phraseVeryBad;
-		
 		
 		ArrayList<String> subject = new ArrayList<>();
 		List<String> firstMacros = new ArrayList<>();
@@ -927,8 +950,8 @@ public class SentencePlanner {
 		
 		String verb1 = getWord("to-advise-against");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
-		ArrayList<String> subject = new ArrayList<>();
-		subject.add(getWord("experts"));
+		ArrayList<String> sub1 = new ArrayList<>();
+		sub1.add(getWord("experts"));
 		
 		// da mettere in metodo apposito
 		Calendar cal = Calendar.getInstance();
@@ -941,7 +964,7 @@ public class SentencePlanner {
 		obj1.add(veryBadPasto.getNome());
 		
 		
-		p = new Phrase(PhraseType.MEAL, subject, verb1,  obj1, new ArrayList<>());
+		p = new Phrase(PhraseType.MEAL, sub1, verb1,  obj1, new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
 			p.setFormal(true);
 		
@@ -988,8 +1011,31 @@ public class SentencePlanner {
 		relativePhrase.setAdjp(adj2);
 		relativePhrase.setObjectArticle(getWord("the"));
 		
-		p.setRelativePhrase(relativePhrase);
 		
+		ArrayList<String> sub2 = new ArrayList<>();
+		sub2.add(getWord("portion"));
+		Phrase coordinatedPhrase = new Phrase(PhraseType.MEAL, sub2, getWord("to-be"), new ArrayList<>(), new ArrayList<>());
+		coordinatedPhrase.setSubjectArticle(getWord("the"));
+		coordinatedPhrase.setPreModifierPhrase(getWord("because"));
+		ArrayList<String> adjp2 = new ArrayList<>();
+		coordinatedPhrase.setNegative(true);
+		
+		ArrayList<String> subjectArgs2 = new ArrayList<>();
+		for (String m: macronutrientiVeryBad) {
+			subjectArgs2.add(getWord(m));
+		}
+		coordinatedPhrase.setSubjectArgs(subjectArgs2);
+		coordinatedPhrase.setPostModifierSubject(getWord("of"));
+		
+		adjp2.add(getWord("good"));
+		coordinatedPhrase.setAdjp(adjp2);
+		coordinatedPhrase.setAdjpGender(Gender.FEMININE);
+		
+		relativePhrase.setCoordinatedPhrase(coordinatedPhrase);
+		
+		
+
+		p.setRelativePhrase(relativePhrase);
 		return p;
 	}
 	

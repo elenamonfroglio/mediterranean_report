@@ -97,7 +97,12 @@ public class ReportRealiser {
 			output = "";
 			if(clause!=null)	output = realiser.realiseSentence(clause);
 			if(p.getType().equals(PhraseType.EXCLAMATION))	output = (output.substring(0, output.length() - 1));
-		    System.out.print(output+" ");
+		    if(output.length()>18) {
+				String substring1 = output.substring(0,18).replace(",", "");
+				String substring2 = output.substring(18);
+			    output = substring1+substring2;
+		    }
+			System.out.print(output+" ");
 		}
 	}
 	
@@ -117,7 +122,8 @@ public class ReportRealiser {
 		//OGGETTO
 		NLGElement object = null;
 		if(!p.getObject().isEmpty()) {
-			if(p.getRelativePhrase()!=null)		object = createAndSetObjectRelativePhrase(clause,p);
+			if(p.getRelativePhrase()!=null)		
+				object = createAndSetObjectRelativePhrase(clause,p);
 			else	object = createAndSetObject(clause,p);
 		}
 		else if(!p.getAdjp().isEmpty()) 
@@ -239,23 +245,33 @@ public class ReportRealiser {
 		return ret;
 	}
 	
-	private AdjPhraseSpec createAndSetAdjp(SPhraseSpec clause, Phrase p) {
-		AdjPhraseSpec adjPhrase = nlgFactory.createAdjectivePhrase(p.getAdjp().get(0));
-		adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
-		//if(!p.getPreModifierObject().isEmpty())		adjPhrase.addPreModifier(p.getPreModifierObject());
-		clause.addModifier(adjPhrase);
-		return adjPhrase;
+	private ArrayList<AdjPhraseSpec> createAndSetAdjp(SPhraseSpec clause, Phrase p) {
+		ArrayList<AdjPhraseSpec> list = new ArrayList<>();
+		for(String adj:p.getAdjp()) {
+			AdjPhraseSpec adjPhrase = nlgFactory.createAdjectivePhrase(adj);
+			list.add(adjPhrase);
+			adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+			adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+			//if(!p.getPreModifierObject().isEmpty())		adjPhrase.addPreModifier(p.getPreModifierObject());
+			clause.addModifier(adjPhrase);
+		}
+		
+		return list;
 	}
 	
 	private CoordinatedPhraseElement createAndSetArgs(SPhraseSpec clause, Phrase p, ArrayList<String> args, NLGElement elemToBeModfied, String particle) {
 		ArrayList<NPPhraseSpec> macronutrientiList = new ArrayList<NPPhraseSpec>();
+		boolean plural;
 		
 		for(String m: args) {
 			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
 			if(getGender(m)!=null) {
 				temp.setFeature(LexicalFeature.GENDER, getGender(m));
 				temp.setPlural(isPlural(m));
+				plural = isPlural(m);
+				if(args.size()==1 && !p.getArgsArticle().equals(""))	temp.setSpecifier(p.getArgsArticle());
 			}
+			
 			macronutrientiList.add(temp);
 		}
 		CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
@@ -265,10 +281,7 @@ public class ReportRealiser {
 				coord.addCoordinate(elem);
 			}
 		}else {
-			NPPhraseSpec elem = nlgFactory.createNounPhrase(macronutrientiList.get(0));
-			if(p.getArgsArticle()!="")
-				elem.setSpecifier(p.getArgsArticle());
-			coord.addCoordinate(elem);
+			coord.addCoordinate(macronutrientiList.get(0));
 		}		
 
 		if(elemToBeModfied==null) { //modifier of Clause
