@@ -124,7 +124,7 @@ public class Pasto {
 		return currentScore;
 	}
 	
-	private static int fromConsumptionToScore(float currentConsumption, boolean moreIsBetter) {
+	private int fromConsumptionToScore(float currentConsumption, boolean moreIsBetter) {
 		int ret = 0;
 		if(moreIsBetter) {
 			if(currentConsumption==0)			ret = 0;
@@ -141,6 +141,19 @@ public class Pasto {
 			else if(currentConsumption<=3)		ret = 2;
 			else if(currentConsumption<=4.5)	ret = 1;
 			else 						ret = 0;
+		}
+		return ret;
+	}
+	
+	public ArrayList<Float> getSubScore(ArrayList<String> veryGoodMacros){
+		ArrayList<Float> ret = new ArrayList<>();
+		for(String m:veryGoodMacros) {
+			boolean isMoreBetter = Macronutriente.isMoreBetter(m);
+			if(!isMoreBetter) {
+				int a = 0;
+			}
+			Float temp = (float) fromConsumptionToScore(punteggi.get(m),isMoreBetter);
+			ret.add(temp);
 		}
 		return ret;
 	}

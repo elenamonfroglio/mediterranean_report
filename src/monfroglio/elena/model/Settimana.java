@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Random;
 
 import monfroglio.elena.Main.Point;
 
@@ -136,6 +137,42 @@ public class Settimana {
 		ParetoComparator<Point> comparator = new ParetoComparator<Point>();
 	}
 	
+	public Pasto getPastoWithMacrosPareto(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+		Pasto bestPasto = null;
+		
+		ArrayList<Point> listOfPoints = new ArrayList<>();
+		int index = 0;
+		for(Pasto p:pasti) {
+			Point point = new Point("p"+index,p.getSubScore(veryGoodMacros));
+			index++;
+			listOfPoints.add(point);
+		}
+		
+		ArrayList<Point> optimalList = (ArrayList<Point>) listOfPoints.clone();
+		for(Point pointA: listOfPoints) {
+			for(Point pointB: listOfPoints) {
+				if(!pointA.equal(pointB)) {
+					if(pointA.isBetter(pointB)) {
+						optimalList.remove(pointB);
+					}else if(pointB.isBetter(pointA)){
+						optimalList.remove(pointA);
+					}
+				}
+			}
+		}
+		
+		Random r = new Random();
+		int low = 0;
+		int high = optimalList.size()-1;
+		int indexOptimalList = r.nextInt(high-low) + low;
+		
+		String substring = optimalList.get(indexOptimalList).name.substring(1);
+		int finalIndex = Integer.parseInt(substring);
+		
+		bestPasto = pasti.get(finalIndex);
+		return bestPasto;
+	}
+	/*
 	public Pasto getPastoWithMacros(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
 		Pasto bestPasto = null;
 		float maxScore = -1;
@@ -150,19 +187,48 @@ public class Settimana {
 			}
 		}
 		
+		
 		return bestPasto;
-	}
-	
-	/*
-	public Settimana(DatabaseManager dbmgr, int idtest, String cf) {
-		try {
-			pasti = dbmgr.getPasti(idtest);
-			utente = dbmgr.getUtente(cf);
-			calcolaIndiceMed(idtest);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	}*/
+
+	public class Point{
+		String name;
+		ArrayList<Float> coordinates;
+		public Point() {
+			
+		}
+		
+		public Point(String name,ArrayList<Float> coordinates) {
+			this.name = name;
+			this.coordinates = coordinates;
+		}
+		
+		public boolean equal(Point bis) {
+			for(int i=0;i<coordinates.size();i++) {
+				if(!this.coordinates.get(i).equals(bis.coordinates.get(i))) return false;
+			}
+			return true;
+		}
+		
+		public boolean isBetter(Point a) {
+			
+			for(Float f1:this.coordinates) {
+				for(Float f2:a.coordinates) {
+					if(f1<f2) return false;
+				}
+			}
+			return true;
+		}
+		
+		public String toString() {
+			String ret = name+":(";
+			for(Float f:coordinates) {
+				ret += f+"  ";
+			}
+			ret += ")";
+			return ret;
 		}
 	}
-	*/
+
 }
+

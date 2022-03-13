@@ -52,7 +52,10 @@ public class Macronutriente {
 		
 		if(type.equals("CarneRossa") || 
 			type.equals("Pollame") || 
-			type.equals("Latticini"))
+			type.equals("Latticini") ||
+			type.equals(MacronutrienteType.CARNEROSSA) ||
+			type.equals(MacronutrienteType.POLLAME) ||
+			type.equals(MacronutrienteType.LATTICINI))
 			ret = false;
 		
 		return ret;

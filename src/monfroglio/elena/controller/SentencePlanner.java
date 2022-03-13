@@ -195,12 +195,12 @@ public class SentencePlanner {
 	}
 	
 	public void extractBestMeal() {
-		veryGoodPasto = thisWeek.getPastoWithMacros(macronutrientiVeryGood,dictionary);
+		veryGoodPasto = thisWeek.getPastoWithMacrosPareto(macronutrientiVeryGood,dictionary);
 		veryGoodPasto.print();	
 	}
 	
 	public void extractWorstMeal() {
-		veryBadPasto = thisWeek.getPastoWithMacros(macronutrientiVeryBad,dictionary);
+		veryBadPasto = thisWeek.getPastoWithMacrosPareto(macronutrientiVeryBad,dictionary);
 		veryBadPasto.print();	
 	}
 	
