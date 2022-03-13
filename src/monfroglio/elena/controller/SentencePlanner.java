@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import javax.json.Json;
@@ -430,10 +431,21 @@ public class SentencePlanner {
 	
 			Phrase veryBadPastoPhrase = lexicaliseVeryBadPasto(getWord("while"));
 			phrases.add(veryBadPastoPhrase);
+			
 		}
 		if(totalePunteggioEnvironment!=-1) {
 			phrase = lexicaliseEnvironment();
 			phrases.add(phrase);
+		}
+		
+		if(!isDietician()) {
+			Random r = new Random();
+			int low = 1;
+			int high = 5;
+			int index = r.nextInt(high-low) + low;
+			
+			Phrase generalKnowledgePhrase = lexicaliseGeneralKonwledge(index);
+			phrases.add(generalKnowledgePhrase);
 		}
 		
 		if(etaUtente>18 && lingua.equals("italiano"))	
@@ -445,6 +457,115 @@ public class SentencePlanner {
 			p.setFormal(true);
 			if(p.getCoordinatedPhrase()!=null)	p.getCoordinatedPhrase().setFormal(true);			
 		}
+	}
+	
+	private Phrase lexicaliseGeneralKonwledge(int index) {
+		index = 5;
+		Phrase p1 = null;
+		Phrase p2 = null;
+		ArrayList<String> subject1 = new ArrayList<>();
+		ArrayList<String> subject2 = new ArrayList<>();
+		ArrayList<String> object1 = new ArrayList<>();
+		ArrayList<String> object2 = new ArrayList<>();
+		String connection = "";
+		String verb = "";
+		String subjectArticle = "";
+		String objectArticle = "";
+		String adjpSubject = "";
+		String postModifierObject1 = "";
+		String postModifierObject2 = "";
+		String postmodifierSubject = "";
+		ArrayList<String> preModifierObject = new ArrayList<>();
+		ArrayList<String> args1 = new ArrayList<>();
+		ArrayList<String> args2 = new ArrayList<>();
+		ArrayList<String> objectAdjp = new ArrayList<>();
+		Gender subjectGender = Gender.MASCULINE;
+		
+		switch(index) {
+			case 1:
+				subject1.add(getWord("diet"));
+				adjpSubject = getWord("very-bad");
+				subjectArticle = getWord("a");
+				verb = getWord("to-kill");
+				preModifierObject.add(getWord("more-than"));
+				object1.add(getWord("smoke"));
+				subjectGender = Gender.FEMININE;
+			break;
+			case 2:
+				subject1.add(getWord("diet"));
+				subjectGender = Gender.FEMININE;
+				adjpSubject = getWord("good");
+				subjectArticle = getWord("a");
+				if(lingua.equals("italiano"))	verb = getWord("to-lead");
+				else	verb = getWord("to-bring");
+				object1.add(getWord("quality"));
+				objectArticle = getWord("a");
+				objectAdjp.add(getWord("better"));
+				args1.add(getWord("sleep"));
+				postModifierObject1 = getWord("of");
+			break;
+			case 3:
+				subject1.add(getWord("med-diet"));
+				//postmodifierSubject = getWord("mediterranean");
+				subjectGender = Gender.FEMININE;
+				subjectArticle = getWord("the");
+				verb = getWord("to-reduce");
+				object1.add(getWord("risk"));
+				objectArticle = getWord("the");
+				args1.add(getWord("cancer"));
+				postModifierObject1 = getWord("of");
+			break;
+			case 4:
+				connection = getWord("if");
+				if(lingua.equals("english"))	subject1.add(getWord("you"));
+				subjectGender = Gender.FEMININE;
+				objectAdjp.add(getWord("mediterranean"));
+				verb = getWord("to-follow");
+				object1.add(getWord("diet"));
+				objectArticle = getWord("the");
+				postModifierObject1 = getWord("of");
+				if(lingua.equals("english"))	subject2.add(getWord("you"));
+				object2.add(getWord("risk"));
+				args2.add(getWord("cardiovascular-disease"));
+				postModifierObject2 = getWord("cardiovascular-disease");
+				p2 = new Phrase(PhraseType.KNOWLEDGE,subject2,getWord("to-reduce"),object2);
+				p2.setObjectArticle(getWord("the"));
+				if(lingua.equals("italiano"))	p2.setTense(Tense.FUTURE);
+				p2.setPostModifierPhrase(getWord("of"));
+				p2.setPhraseArgs(args2);
+				//p2.setPostModifierPhrase(postModifierObject2);
+			break;
+			case 5:
+				subject1.add(getWord("med-diet"));
+				//postmodifierSubject = getWord("mediterranean");
+				subjectGender = Gender.FEMININE;
+				subjectArticle = getWord("the");
+				verb = getWord("to-reduce");
+				object1.add(getWord("risk"));
+				objectArticle = getWord("the");
+				args1.add(getWord("stroke"));
+				postModifierObject1 = getWord("of");
+			break;
+		}
+		p1 = new Phrase(PhraseType.KNOWLEDGE,subject1,verb,object1);
+		p1.setPreModifierPhrase(connection);
+		p1.setSubjectAdjp(adjpSubject);
+		p1.setPostModifierSubject(postmodifierSubject);
+		p1.setSubjectArticle(subjectArticle);
+		p1.setObjectArticle(objectArticle);
+		p1.setAdjp(objectAdjp);
+		p1.setPhraseArgs(args1);
+		p1.setPostModifierPhrase(postModifierObject1);
+		p1.setPreModifierObject(preModifierObject);
+		p1.setSubjectGender(subjectGender);
+		if(p2!=null)	p1.setCoordinatedPhrase(p2);
+		
+		ArrayList<String> sub0 = new ArrayList<>();
+		sub0.add(getWord("to-remember"));
+		Phrase remember = new Phrase(PhraseType.KNOWLEDGE, sub0, "", new ArrayList<>());
+		remember.setCoordinatedPhrase(p1);
+		
+		return remember;
 	}
 	
 	private Phrase lexicaliseEnvironment() {
@@ -526,7 +647,7 @@ public class SentencePlanner {
 		phraseWelcome2.setPreModifierPhrase(getWord("this-week"));
 		phraseWelcome2.setObjectArticle(getWord("a"));
 		phraseWelcome2.setTense(Tense.PAST);
-		phraseWelcome2.setPerfect(true);
+		if(lingua.equals("italiano"))	phraseWelcome2.setPerfect(true);
 		ArrayList<String> args = new ArrayList<>();
 		args.add(Integer.toString(indiceMed));
 		phraseWelcome2.setPostModifierPhrase(getWord("equal"));
@@ -561,23 +682,31 @@ public class SentencePlanner {
 		if(lingua.equals("english")) 	sub.add(getWord("you"));
 		
 		p.setSubject(sub);
-		p.setVerb(getWord("to-be"));
+		if(lingua.equals("italiano")) 	p.setVerb(getWord("to-be"));
+		else{
+			p.setVerb(getWord("to-improve"));
+			p.setTense(Tense.PAST);
+		}
 		
 		ArrayList<String> adj = new ArrayList<>();
-		
 		if(indiceMed<lastIndiceMed) {
 			//p.setVerb(getWord("to-get-worse"));
 			//p.setModal(getWord("to-be"));
-			adj.add(getWord("improved"));
+			if(lingua.equals("italiano")) 	
+				adj.add(getWord("improved"));
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("congratulation"),new ArrayList<String>());
-			temp.setForm(Form.INFINITIVE);
+			if(lingua.equals("italiano")) temp.setForm(Form.INFINITIVE);
 			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
 		}else {
 			//p.setVerb(getWord("to-improve"));
-			adj.add(getWord("not-improved"));
+			if(lingua.equals("italiano")) 	
+				adj.add(getWord("not-improved"));
+			else 
+				p.setNegative(true);
+			
 			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("to-give-up"),new ArrayList<String>());
 			temp.setNegative(true);
-			temp.setForm(Form.INFINITIVE);
+			if(lingua.equals("italiano")) temp.setForm(Form.INFINITIVE);
 			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
 		}
 		
@@ -608,6 +737,7 @@ public class SentencePlanner {
 			macronutrientiVeryGoodWords.add(getWord(m));
 		}
 		phraseVeryGood = new Phrase(PhraseType.VERYGOOD, subject, verb, object, macronutrientiVeryGoodWords);
+		
 		phraseVeryGood.setTense(Tense.PAST);
 		phraseVeryGood.setPerfect(true);
 		phraseVeryGood.setPreModifierPhrase(connection);
@@ -616,7 +746,7 @@ public class SentencePlanner {
 		phraseVeryGood.setAdjp(adjp);
 		phraseVeryGood.setObjectArticle(getWord("a"));
 		phraseVeryGood.setPostModifierPhrase(getWord("with"));
-		//phrases.add(phraseVeryGood);
+		
 		return phraseVeryGood;
 	}
 	
@@ -639,6 +769,7 @@ public class SentencePlanner {
 		phraseGood = new Phrase(PhraseType.GOOD, subject, verb, new ArrayList<>(), new ArrayList<>());
 		phraseGood.setSubjectArgs(macronutrientiGoodWords);
 		phraseGood.setTense(Tense.PAST);
+		//phraseGood.setSubjectGender(Gender.FEMININE);
 		phraseGood.setAdjp(adjp);
 		phraseGood.setAdjpGender(Gender.FEMININE);
 		phraseGood.setSubjectArticle(getWord("the"));
@@ -646,7 +777,7 @@ public class SentencePlanner {
 		phraseGood.setPostModifierSubject(getWord("of"));
 		ArrayList<String> preModifierObject = new ArrayList<String>();
 		preModifierObject.add(getWord("nearly"));
-		phraseGood.setPostModifierPhrase(getWord("of"));
+		//phraseGood.setPostModifierPhrase(getWord("of"));
 		return phraseGood;
 	}
 	
@@ -929,9 +1060,12 @@ public class SentencePlanner {
 		// da mettere in metodo apposito
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(veryGoodPasto.getGiorno());		
-		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+		Locale lang = null;
+		if (lingua.equals("english"))	lang = Locale.ENGLISH;
+		else if(lingua.equals("italiano"))	lang = Locale.ITALIAN;
+		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, lang);
 		
-		subjectArgs.add(wordDayOfWeek);
+		if(lingua.equals("italiano"))	subjectArgs.add(wordDayOfWeek);
 		
 		ArrayList<String> obj = new ArrayList<>();
 		obj.add(getWord("choice"));
@@ -940,17 +1074,23 @@ public class SentencePlanner {
 		p = new Phrase(PhraseType.MEAL, subject1, verb, new ArrayList<>(), new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
 			p.setFormal(true);
-		p.setSubjectArticle(getWord("the"));
+		if(lingua.equals("italiano")) {
+			p.setSubjectArticle(getWord("the"));
+			p.setPostModifierSubject(getWord("of"));
+		}else {
+			p.setSubjectPlural(false);
+			p.setSubjectAdjp(wordDayOfWeek);
+		}
 		p.setSubjectArgs(subjectArgs);
 		p.setObject(obj);
 		//p.setModal(getWord("to-be"));
 		p.setObjectArticle(getWord("a"));
-		p.setTense(Tense.PLUS_PAST);
+		if(lingua.equals("italiano"))	p.setTense(Tense.PLUS_PAST);
+		else p.setTense(Tense.PAST);
 		//p.setPerfect(true);
 		ArrayList<String> adjp1 = new ArrayList<>();
 		adjp1.add(getWord("very-good"));
 		p.setAdjp(adjp1);
-		p.setPostModifierSubject(getWord("of"));
 		
 		String conjunction = getWord("because");
 		ArrayList<String> subject2 = new ArrayList<>();
@@ -995,8 +1135,8 @@ public class SentencePlanner {
 	
 	private Phrase lexicaliseVeryBadPasto(String connection) {
 		Phrase p = null;
-		
 		String verb1 = getWord("to-advise-against");
+		
 		ArrayList<String> subjectArgs = new ArrayList<String>();
 		ArrayList<String> sub1 = new ArrayList<>();
 		sub1.add(getWord("experts"));
@@ -1004,7 +1144,10 @@ public class SentencePlanner {
 		// da mettere in metodo apposito
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(veryBadPasto.getGiorno());		
-		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+		Locale lang = null;
+		if (lingua.equals("english"))	lang = Locale.ENGLISH;
+		else if(lingua.equals("italiano"))	lang = Locale.ITALIAN;
+		String wordDayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, lang);
 		
 		subjectArgs.add(wordDayOfWeek);
 		
@@ -1019,7 +1162,7 @@ public class SentencePlanner {
 		p.setObjectArticle(getWord("the"));
 		p.setSubjectArticle(getWord("the"));
 		p.setSubjectPlural(true);
-		p.setTense(Tense.CONDITIONAL);
+		if(lingua.equals("italiano"))	p.setTense(Tense.CONDITIONAL);
 		ArrayList<String> obj2 = new ArrayList<>();
 		ArrayList<String> args2 = new ArrayList<>();
 		ArrayList<String> adj2 = new ArrayList<>();
@@ -1052,21 +1195,30 @@ public class SentencePlanner {
 		//p.setPreModifierPhrase(getWord("next-week"));
 		
 		String verb2 = getWord("to-eat");
-		Phrase relativePhrase = new Phrase(PhraseType.MEAL, new ArrayList<>(), verb2,  obj2, new ArrayList<>());
-		relativePhrase.setPerfect(true);
+		ArrayList<String> sub2 = new ArrayList<>();
+		if(lingua.equals("english"))	sub2.add(getWord("you"));
+		Phrase relativePhrase = new Phrase(PhraseType.MEAL, sub2, verb2,  obj2, new ArrayList<>());
+		if(lingua.equals("italiano")) {
+			relativePhrase.setObjectArticle(getWord("the"));
+			relativePhrase.setPerfect(true);
+		}
+		else	relativePhrase.setTense(Tense.PAST);
 		relativePhrase.setPhraseArgs(args2);
 		relativePhrase.setPostModifierPhrase(getWord("at"));
 		relativePhrase.setAdjp(adj2);
-		relativePhrase.setObjectArticle(getWord("the"));
 		
 		
-		ArrayList<String> sub2 = new ArrayList<>();
-		sub2.add(getWord("portion"));
-		Phrase coordinatedPhrase = new Phrase(PhraseType.MEAL, sub2, getWord("to-be"), new ArrayList<>(), new ArrayList<>());
+		ArrayList<String> sub3 = new ArrayList<>();
+		sub3.add(getWord("portion"));
+		Phrase coordinatedPhrase = new Phrase(PhraseType.MEAL, sub3, getWord("to-be"), new ArrayList<>(), new ArrayList<>());
 		coordinatedPhrase.setSubjectArticle(getWord("the"));
 		coordinatedPhrase.setPreModifierPhrase(getWord("because"));
 		ArrayList<String> adjp2 = new ArrayList<>();
-		coordinatedPhrase.setNegative(true);
+		if(lingua.equals("italiano")) {
+			coordinatedPhrase.setNegative(true);
+			adjp2.add(getWord("good"));
+		}else 
+			adjp2.add(getWord("not-good"));
 		
 		ArrayList<String> subjectArgs2 = new ArrayList<>();
 		for (String m: macronutrientiVeryBad) {

@@ -127,7 +127,7 @@ public class TextPlanner {
 			}
 			index += intake;
 		}
-		System.out.println("max intake: "+maxIntake+"\n--Macronutriente with max Intake-- \n"+maxIntakeMacronutriente.toString());
+		//System.out.println("max intake: "+maxIntake+"\n--Macronutriente with max Intake-- \n"+maxIntakeMacronutriente.toString());
 		
 		builder.add("totalePunteggioEnvironment", index);
 		builder.add("badMacronutrienteEnvironment", maxIntakeMacronutriente.getNome());

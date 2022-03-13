@@ -109,15 +109,14 @@ public class ReportRealiser {
 	private SPhraseSpec createGenericPhrase(Phrase p) {
 		SPhraseSpec clause = nlgFactory.createClause();
 
-		//VERBO 
-		if(p.getVerb()!="") 
-			createAndSetVerb(clause,p);
-		
-		
 		//SOGGETTO
 		NPPhraseSpec subject = null;
 		if(!p.getSubject().isEmpty())	
 			subject = createAndSetSubject(clause,p);
+		
+		//VERBO 
+		if(p.getVerb()!="") 
+			createAndSetVerb(clause,p);
 		
 		//OGGETTO
 		NLGElement object = null;
@@ -163,13 +162,16 @@ public class ReportRealiser {
 			}
 		}else if(p.getForm()!=null) 
 			clause.setFeature(Feature.FORM, p.getForm());
-		clause.setVerb(verb);
-		if(!p.getModal().equals("")) 
+		if(!p.getModal().equals("")) {
 			clause.setFeature(Feature.MODAL, p.getModal());
+			if(lingua.equals("english"))
+				verb.setFeature(Feature.PERSON, Person.SECOND);
+		}
+		verb.setFeature(Feature.PERSON, Person.THIRD);
 		clause.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
-		
 		clause.setFeature(Feature.PERFECT, p.isPerfect());
+		clause.setVerb(verb);
 		return verb;
 	}
 	
@@ -185,8 +187,10 @@ public class ReportRealiser {
 			subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
 			if(!p.getSubjectArticle().equals("")) {
 				subject.setSpecifier(p.getSubjectArticle());
-				subject.setFeature(LexicalFeature.GENDER,p.getSubjectGender());
+				if(p.getSubjectGender()!=null)	subject.setFeature(LexicalFeature.GENDER,p.getSubjectGender());
 			}
+			subject.addPreModifier(p.getSubjectAdjp());
+			//subject.addModifier(p.getAdjp());
 		}
 		subject.setPlural(p.getSubjectPlural());
 		clause.setSubject(subject);
@@ -211,7 +215,7 @@ public class ReportRealiser {
 			Object o2 = id.getFeature(LexicalFeature.GENDER);
 			if(!p.getPreModifierObject().isEmpty()) {
 				AdjPhraseSpec adjPreModifier = nlgFactory.createAdjectivePhrase(p.getPreModifierObject().get(i));
-				adjPreModifier.setFeature(LexicalFeature.GENDER, p.getAdjpGender());	
+				if(p.getAdjpGender()!=null)	adjPreModifier.setFeature(LexicalFeature.GENDER, p.getAdjpGender());	
 				adjPreModifier.setPlural(p.getObjectIsPlural());
 				obj.addPreModifier(adjPreModifier);
 				
@@ -256,8 +260,8 @@ public class ReportRealiser {
 		for(String adj:p.getAdjp()) {
 			AdjPhraseSpec adjPhrase = nlgFactory.createAdjectivePhrase(adj);
 			list.add(adjPhrase);
-			adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
-			adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+			if(p.getAdjpGender()!=null) adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
+			//adjPhrase.setFeature(LexicalFeature.GENDER, p.getAdjpGender());
 			//if(!p.getPreModifierObject().isEmpty())		adjPhrase.addPreModifier(p.getPreModifierObject());
 			clause.addModifier(adjPhrase);
 		}
@@ -276,6 +280,7 @@ public class ReportRealiser {
 				temp.setPlural(isPlural(m));
 				plural = isPlural(m);
 				if(args.size()==1 && !p.getArgsArticle().equals(""))	temp.setSpecifier(p.getArgsArticle());
+				
 			}
 			
 			macronutrientiList.add(temp);
@@ -378,10 +383,14 @@ public class ReportRealiser {
 	private boolean isPlural(String macronutriente) {
 		boolean ret = false;
 		if(macronutriente.equals("pesce") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 
-				|| macronutriente.equals("verdura") || macronutriente.equals("pollame") || macronutriente.equals("olio")) 
+				|| macronutriente.equals("verdura") || macronutriente.equals("pollame") || macronutriente.equals("olio")
+				|| macronutriente.equals("carne bovina") || macronutriente.equals("fish") || macronutriente.equals("red meat")
+				|| macronutriente.equals("meat") || macronutriente.equals("fruit") || macronutriente.equals("poultry")
+				|| macronutriente.equals("oil") || macronutriente.equals("white meat")) 
 			ret = false;
 		else if(macronutriente.equals("legumi") || macronutriente.equals("latticini") || macronutriente.equals("patate") 
-				|| macronutriente.equals("cereali"))
+				|| macronutriente.equals("cereali") || macronutriente.equals("vegetable") || macronutriente.equals("cereal")
+				|| macronutriente.equals("potato"))
 			ret = true;
 		return ret;
 	}

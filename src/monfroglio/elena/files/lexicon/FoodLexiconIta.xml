@@ -84,9 +84,16 @@
 		<gender> masculine </gender>
 	</word>
 	<word>
+		<base> quantita </base>
+		<category> noun </category>
+		<id> portion2 </id>
+		<plural> quantita </plural>
+		<gender> feminine </gender>
+	</word>
+	<word>
 		<base> quantità </base>
 		<category> noun </category>
-		<id> portion </id>
+		<id> portion1 </id>
 		<plural> quantità </plural>
 		<gender> feminine </gender>
 	</word>

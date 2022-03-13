@@ -9,7 +9,7 @@ public abstract class PhraseType {
 	  public static final java.lang.String WELCOME = "welcome";
 	  public static final java.lang.String EXCLAMATION = "esclamation";
 	  public static final java.lang.String ENVIRONMENT = "environment";
-	  
+	  public static final java.lang.String KNOWLEDGE = "knowledge";
 	  
 	  public static boolean isOpposite(String a, String b) {
 		  boolean ret = false;

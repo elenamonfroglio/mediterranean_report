@@ -19,8 +19,9 @@ public class Phrase {
 	String subjectArticle = "";
 	ArrayList<String> subject = new ArrayList<>();
 	ArrayList<String> subjectArgs = new ArrayList<>();
+	String subjectAdjp = "";
 	boolean subjectIsPlural = false;
-	Gender subjectGender = Gender.MASCULINE;
+	Gender subjectGender = null;
 	String postmodifierSubject = "";
 	String modal = "";
 	String verb = "";
@@ -30,7 +31,7 @@ public class Phrase {
 	boolean objectIsPlural = false;
 	ArrayList<String> adjp = new ArrayList<>();
 	ArrayList<String> preModifierObject = new ArrayList<>();
-	Gender adjpGender = Gender.MASCULINE;
+	Gender adjpGender = null;
 	String postmodifierPhrase = "";
 	ArrayList<String> phraseArgs = new ArrayList<>();
 	String argsArticle = "";
@@ -182,6 +183,10 @@ public class Phrase {
 	public void setSubjectArgs(ArrayList<String> subjectArgs) {
 		this.subjectArgs = subjectArgs;
 	}
+
+	public void setSubjectAdjp(String subjectAdjp) {
+		this.subjectAdjp = subjectAdjp;
+	}
 	
 	public void setSubjectPlural(boolean subjectIsPlural) {
 		this.subjectIsPlural = subjectIsPlural;
@@ -313,6 +318,10 @@ public class Phrase {
 	
 	public ArrayList<String> getSubjectArgs() {
 		return subjectArgs;
+	}
+	
+	public String getSubjectAdjp() {
+		return subjectAdjp;
 	}
 	
 	public boolean getSubjectPlural() {
