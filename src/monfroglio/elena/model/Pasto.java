@@ -134,7 +134,8 @@ public class Pasto {
 			else if(currentConsumption<=4.5)	ret = 4;
 			else 						ret = 5;
 		}else {
-			if(currentConsumption==0)			ret = 5;
+			if(currentConsumption==0)			
+				ret = 5;
 			else if(currentConsumption<=1)		ret = 4;
 			else if(currentConsumption<=2)		ret = 3;
 			else if(currentConsumption<=3)		ret = 2;

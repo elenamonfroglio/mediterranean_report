@@ -70,14 +70,9 @@ public class TextPlanner {
 					.add("punteggioEnvironment", Double.toString(m.getPunteggioEnvironment()))
 					.add("moreIsBetter", m.getMoreIsBetter()));
 		}		
-		/*
-		builder.add("thisWeek", Json.createObjectBuilder()
-				.add("indiceMed", settimana.getIndiceMed())
-				.add("idTest", settimana.getIdTest())
-				.add("bestMealName", settimana.getBestMeal()));
-		*/
 		if(user.getInteresseAmbientale())
-			builder.add("totalePunteggioEnvironment", getIndexAmbientalePerEmissioni());
+			setIndexAmbientalePerEmissioni(builder);
+			//builder.add("totalePunteggioEnvironment", getIndexAmbientalePerEmissioni());
 		else 	builder.add("totalePunteggioEnvironment", -1);
 		JsonObject value = builder.build();
 		createJsonFile(value);	    
@@ -93,9 +88,11 @@ public class TextPlanner {
 	}
 		
 	//Valore compreso tra 0 e 976
-	private double getIndexAmbientalePerEmissioni() {
+	private double setIndexAmbientalePerEmissioni(JsonObjectBuilder builder) {
 		double index = 0;
 		double indexTemp = 0;
+		double maxIntake = 0;
+		Macronutriente maxIntakeMacronutriente = settimana.getMacronutrienti().get(0);
 		int count = 0;
 		for(Macronutriente m:settimana.getMacronutrienti()) {
 			indexTemp = m.getPunteggioEnvironment();
@@ -123,8 +120,18 @@ public class TextPlanner {
 						break;
 				}
 			}
-			index += count*indexTemp;
+			double intake = count*indexTemp;
+			if(intake>maxIntake) {
+				maxIntake = intake;
+				maxIntakeMacronutriente = m;
+			}
+			index += intake;
 		}
+		System.out.println("max intake: "+maxIntake+"\n--Macronutriente with max Intake-- \n"+maxIntakeMacronutriente.toString());
+		
+		builder.add("totalePunteggioEnvironment", index);
+		builder.add("badMacronutrienteEnvironment", maxIntakeMacronutriente.getNome());
+		
 		return index;
 	}
 	

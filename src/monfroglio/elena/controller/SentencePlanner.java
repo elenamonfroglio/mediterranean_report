@@ -50,6 +50,7 @@ public class SentencePlanner {
 	private Settimana thisWeek;
 	private Pasto veryGoodPasto;
 	private Pasto veryBadPasto;
+	private String badMacronutrienteEnvironment;
 	private int indiceMed;
 	private int lastIndiceMed;
 	private int etaUtente;
@@ -148,8 +149,9 @@ public class SentencePlanner {
 		aggregatorMacronutrienti();
 		extractBestMeal();
 		extractWorstMeal();
+		ArrayList<String> orderTemp = (ArrayList<String>) order.clone();
 		//RIMUOVO DALL'ORDINE GLOBALE NEL CASO IN CUI AVESSI MACRONUTRIENTI VUOTI
-		for(String type: order) {
+		for(String m: orderTemp) {
 			if (macronutrientiVeryGood.isEmpty())	order.remove(PhraseType.VERYGOOD);
 			else if (macronutrientiGood.isEmpty()) 	order.remove(PhraseType.GOOD);
 			else if (macronutrientiBad.isEmpty()) 		order.remove(PhraseType.BAD);
@@ -216,6 +218,7 @@ public class SentencePlanner {
 		indiceMed = object.getInt("indice Med");
 		lastIndiceMed = object.getInt("last indice Med");
 		totalePunteggioEnvironment = object.getInt("totalePunteggioEnvironment");
+		badMacronutrienteEnvironment = object.getString("badMacronutrienteEnvironment");
 		//System.out.println(totalePunteggioEnvironment);
 		JsonObject jsonObject = object.getJsonObject(MacronutrienteType.CEREALI);
 		Macronutriente cereali = new Macronutriente(MacronutrienteType.CEREALI,
@@ -421,13 +424,13 @@ public class SentencePlanner {
 				oldItem = item;
 			}
 		}
-		
-		Phrase veryGoodPastoPhrase = lexicaliseVeryGoodPasto("");
-		phrases.add(veryGoodPastoPhrase);
-
-		Phrase veryBadPastoPhrase = lexicaliseVeryBadPasto(getWord("while"));
-		phrases.add(veryBadPastoPhrase);
-		
+		if(!isDietician()) {
+			Phrase veryGoodPastoPhrase = lexicaliseVeryGoodPasto("");
+			phrases.add(veryGoodPastoPhrase);
+	
+			Phrase veryBadPastoPhrase = lexicaliseVeryBadPasto(getWord("while"));
+			phrases.add(veryBadPastoPhrase);
+		}
 		if(totalePunteggioEnvironment!=-1) {
 			phrase = lexicaliseEnvironment();
 			phrases.add(phrase);
@@ -463,10 +466,35 @@ public class SentencePlanner {
 		
 		if(totalePunteggioEnvironment<50)	preModifierObject.add(getWord("too-much"));
 		else	preModifierObject.add(getWord("too-much"));
-		
+		p.setObjectIsPlural(true);
 		p.setPreModifierObject(preModifierObject);
+		p.setAdjpGender(Gender.FEMININE);
 		
-		//phrases.add(p);
+		
+		ArrayList<String> subject2 = new ArrayList<>();
+		subject2.add(getWord(badMacronutrienteEnvironment));
+		ArrayList<String> subjectArgs = new ArrayList<>();
+		subjectArgs.add(getWord("consumed"));
+		ArrayList<String> object2 = new ArrayList<>();
+		object2.add(getWord("impact"));
+		ArrayList<String> adjp2 = new ArrayList<>();
+		adjp2.add(getWord("environmental"));
+		ArrayList<String> preModifierObjectList = new ArrayList<>();
+		preModifierObjectList.add(getWord("good"));
+		
+		Phrase coordinatedPhrase = new Phrase(PhraseType.ENVIRONMENT,subject2,getWord("to-have"),object2);
+		coordinatedPhrase.setObjectArticle(getWord("a"));
+		coordinatedPhrase.setNegative(true);
+		coordinatedPhrase.setAdjp(adjp2);
+		coordinatedPhrase.setPreModifierObject(preModifierObjectList);
+		coordinatedPhrase.setSubjectArticle(getWord("the"));
+		coordinatedPhrase.setSubjectGender(Gender.FEMININE);
+		coordinatedPhrase.setSubjectArgs(subjectArgs);
+		p.setConjunction(getWord("because"));
+		
+		
+		p.setCoordinatedPhrase(coordinatedPhrase);
+		
 		return p;
 	}
 	
@@ -698,23 +726,25 @@ public class SentencePlanner {
 		
 		phrase1 = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<>(), new ArrayList<>());
 		
-		phrase1.setSubjectArgs(punteggio1);
-		phrase1.setPostModifierSubject(getWord("of"));
-		phrase1.setSubjectArticle(getWord("the"));
-		phrase1.setPostModifierPhrase(getWord("equal"));
-		ArrayList<String> args1 = new ArrayList<>();
-		args1.add("1");
-		phrase1.setPhraseArgs(args1);
-		
-		Phrase phrase2;
-		phrase2 = new Phrase(phrase1);
-		phrase2.setPreModifierPhrase(getWord("while"));
-		phrase2.setSubjectArgs(punteggio2);
-		ArrayList<String> args2 = new ArrayList<>();
-		args2.add("2");
-		phrase2.setPhraseArgs(args2);
-		
-		phrase1.setCoordinatedPhrase(phrase2);
+		if(!punteggio1.isEmpty()) {
+			phrase1.setSubjectArgs(punteggio1);
+			phrase1.setPostModifierSubject(getWord("of"));
+			phrase1.setSubjectArticle(getWord("the"));
+			phrase1.setPostModifierPhrase(getWord("equal"));
+			ArrayList<String> args1 = new ArrayList<>();
+			args1.add("1");
+			phrase1.setPhraseArgs(args1);
+		}	
+		if(!punteggio2.isEmpty()) {
+			Phrase phrase2;
+			phrase2 = new Phrase(phrase1);
+			phrase2.setPreModifierPhrase(getWord("while"));
+			phrase2.setSubjectArgs(punteggio2);
+			ArrayList<String> args2 = new ArrayList<>();
+			args2.add("2");
+			phrase2.setPhraseArgs(args2);
+			phrase1.setCoordinatedPhrase(phrase2);
+		}
 		
 		//phrases.add(phraseBad);
 		return phrase1;
@@ -843,24 +873,28 @@ public class SentencePlanner {
 		Phrase phraseVeryBad;
 		ArrayList<String> subject = new ArrayList<>();
 		if(lingua.equals("english")) 	subject.add(getWord("you"));
-		subject.add(getWord("score"));
-		String verb = getWord("to-be");
+		String verb = getWord("to-obtain");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
 		for (String m: macronutrientiVeryBad) {
 			subjectArgs.add(getWord(m));
 		}
-		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, new ArrayList<>(), new ArrayList<>());
+		ArrayList<String> object = new ArrayList<>();
+		object.add(getWord("score"));
+		phraseVeryBad = new Phrase(PhraseType.VERYBAD, subject, verb, object, new ArrayList<>());
 		if(isDietician()  && lingua.equals("italiano")) //IF dietista
 			phraseVeryBad.setFormal(true);
 		//phraseVeryBad.setSubjectArgs(subjectArgs);
 		//phraseVeryBad.setPostModifierSubject(getWord("of"));
+		phraseVeryBad.setObjectArticle(getWord("a"));
 		phraseVeryBad.setSubjectArticle(getWord("the"));
+		phraseVeryBad.setPerfect(true);
 		phraseVeryBad.setPreModifierPhrase(connection);
 		phraseVeryBad.setPostModifierPhrase(getWord("equal"));
 		ArrayList<String> args = new ArrayList<>();
 		args.add("0");
 		phraseVeryBad.setPhraseArgs(args);
-		p.setRelativePhrase(phraseVeryBad);
+		p.setConjunction(getWord("because"));
+		p.setCoordinatedPhrase(phraseVeryBad);
 		//phrases.add(phraseVeryBad);
 		return p;
 	}
@@ -928,19 +962,33 @@ public class SentencePlanner {
 		adjp2.add(getWord("good"));
 		
 		String verb2 = getWord("to-have");
-		Phrase coordinatedPhrase = new Phrase(PhraseType.MEAL, subject2, verb2, object2, new ArrayList<>());
+		Phrase coordinatedPhraseMore = new Phrase(PhraseType.MEAL, subject2, verb2, object2, new ArrayList<>());
 		p.setConjunction(conjunction);
-		coordinatedPhrase.setSubjectArticle(getWord("the"));
-		coordinatedPhrase.setAdjp(adjp2);
-		ArrayList<String> objectArgs = new ArrayList<>();
+		coordinatedPhraseMore.setSubjectArticle(getWord("the"));
+		coordinatedPhraseMore.setAdjp(adjp2);
+		ArrayList<String> objectArgsMore = new ArrayList<>();
+		ArrayList<String> objectArgsLess = new ArrayList<>();
 		for (String m: macronutrientiVeryGood) {
-			objectArgs.add(getWord(m));
+			if(m.equals(MacronutrienteType.CARNEROSSA) 
+					|| m.equals(MacronutrienteType.LATTICINI) 
+					|| m.equals(MacronutrienteType.POLLAME)) {
+				objectArgsLess.add(getWord(m));
+			}else	objectArgsMore.add(getWord(m));
 		}
-		coordinatedPhrase.setObjectArticle(getWord("a"));
-		coordinatedPhrase.setObjectArgs(objectArgs);
-		coordinatedPhrase.setPostModifierPhrase(getWord("of"));
+		coordinatedPhraseMore.setObjectArticle(getWord("a"));
+		coordinatedPhraseMore.setObjectArgs(objectArgsMore);
+		coordinatedPhraseMore.setPostModifierPhrase(getWord("of"));
 		
-		p.setCoordinatedPhrase(coordinatedPhrase);
+		if(!objectArgsLess.isEmpty()) {
+			ArrayList<String> object3 = new ArrayList<>();
+			object3.add(getWord("portion"));
+			ArrayList<String> adjp3 = new ArrayList<>();
+			adjp3.add(getWord("poor"));
+			Phrase coordinatedPhraseLess = new Phrase(PhraseType.MEAL, new ArrayList<String>(), getWord("to-have"), object3, objectArgsLess);
+			coordinatedPhraseLess.setPostModifierPhrase(getWord("of"));
+		}
+		
+		p.setCoordinatedPhrase(coordinatedPhraseMore);
 		
 		return p;
 	}
@@ -1035,7 +1083,7 @@ public class SentencePlanner {
 		
 		
 
-		p.setRelativePhrase(relativePhrase);
+		p.setRelativeObjectPhrase(relativePhrase);
 		return p;
 	}
 	

@@ -20,12 +20,14 @@ public class Phrase {
 	ArrayList<String> subject = new ArrayList<>();
 	ArrayList<String> subjectArgs = new ArrayList<>();
 	boolean subjectIsPlural = false;
+	Gender subjectGender = Gender.MASCULINE;
 	String postmodifierSubject = "";
 	String modal = "";
 	String verb = "";
 	ArrayList<String> object = new ArrayList<>();
 	ArrayList<String> objectArgs = new ArrayList<>();
 	String objectArticle = "";
+	boolean objectIsPlural = false;
 	ArrayList<String> adjp = new ArrayList<>();
 	ArrayList<String> preModifierObject = new ArrayList<>();
 	Gender adjpGender = Gender.MASCULINE;
@@ -34,7 +36,8 @@ public class Phrase {
 	String argsArticle = "";
 	String conjunction = "";
 	Phrase coordinatedPhrase = null;
-	Phrase relativePhrase = null;
+	Phrase relativeSubjectPhrase = null;
+	Phrase relativeObjectPhrase = null;
 	
 	public Phrase(Phrase p) {
 		this.premodifierPhrase = p.premodifierPhrase;
@@ -61,7 +64,8 @@ public class Phrase {
 		this.argsArticle = p.argsArticle;
 		this.conjunction = p.conjunction;
 		this.coordinatedPhrase = p.coordinatedPhrase;
-		this.relativePhrase = p.relativePhrase;
+		this.relativeObjectPhrase = p.relativeObjectPhrase;
+		this.relativeSubjectPhrase = p.relativeSubjectPhrase;
 	}
 	
 	//modificare per snellire metodi Sentence Planner. Settare a null tutti gli altri campi
@@ -143,6 +147,10 @@ public class Phrase {
 		this.objectArticle = objectArticle;
 	}
 	
+	public void setObjectIsPlural(boolean objectIsPlural) {
+		this.objectIsPlural = objectIsPlural;
+	}
+	
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
@@ -179,6 +187,10 @@ public class Phrase {
 		this.subjectIsPlural = subjectIsPlural;
 	}
 	
+	public void setSubjectGender(Gender subjectGender) {
+		this.subjectGender = subjectGender;
+	}
+	
 	public void setModal(String modal) {
 		this.modal = modal;
 	}
@@ -207,8 +219,12 @@ public class Phrase {
 		this.coordinatedPhrase = coordinatedPhrase;
 	}
 	
-	public void setRelativePhrase(Phrase relativePhrase) {
-		this.relativePhrase = relativePhrase;
+	public void setRelativeSubjectPhrase(Phrase relativeSubjectPhrase) {
+		this.relativeSubjectPhrase = relativeSubjectPhrase;
+	}
+	
+	public void setRelativeObjectPhrase(Phrase relativeObjectPhrase) {
+		this.relativeObjectPhrase = relativeObjectPhrase;
 	}
 	
 	public ArrayList<String> getPreModifierObject() {
@@ -255,12 +271,20 @@ public class Phrase {
 		return subject;
 	}
 	
+	public Gender getSubjectGender() {
+		return subjectGender;
+	}
+	
 	public ArrayList<String> getObject() {
 		return object;
 	}
 	
 	public ArrayList<String> getObjectArgs(){
 		return objectArgs;
+	}
+	
+	public boolean getObjectIsPlural() {
+		return objectIsPlural;
 	}
 	
 	public String getObjectArticle() {
@@ -303,8 +327,12 @@ public class Phrase {
 		return coordinatedPhrase;
 	}
 	
-	public Phrase getRelativePhrase() {
-		return relativePhrase;
+	public Phrase getRelativeObjectPhrase() {
+		return relativeObjectPhrase;
+	}
+	
+	public Phrase getRelativeSubjectPhrase() {
+		return relativeSubjectPhrase;
 	}
 	
 	public boolean isActive() {

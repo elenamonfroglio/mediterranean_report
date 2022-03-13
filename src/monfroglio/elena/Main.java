@@ -191,9 +191,9 @@ public class Main {
 	public static void test1(DatabaseManager dbmgr) {
 		try {
 			//recupero user model dal codice fiscale
-			Utente u = dbmgr.getUtente("FRRLSS00A41F848C");
-			int idTest = 91234;
-			int idTestPreviousWeek = 91001;
+			Utente u = dbmgr.getUtente("RSSFNC80A01A001I");
+			int idTest = 91086;
+			int idTestPreviousWeek = 91222;
 			
 			//creo una settimana relativa all'utente u
 			LocalDate start = LocalDate.of(2022, Month.JANUARY, 3);
@@ -224,9 +224,6 @@ public class Main {
 			ReportRealiser rr = new ReportRealiser(sp.getFileName(), sp.phrases);
 			//rr.createLongSentence_old();
 			rr.createLongSentence_new();
-			
-			
-					
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

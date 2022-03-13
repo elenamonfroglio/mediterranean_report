@@ -122,7 +122,7 @@ public class ReportRealiser {
 		//OGGETTO
 		NLGElement object = null;
 		if(!p.getObject().isEmpty()) {
-			if(p.getRelativePhrase()!=null)		
+			if(p.getRelativeObjectPhrase()!=null)		
 				object = createAndSetObjectRelativePhrase(clause,p);
 			else	object = createAndSetObject(clause,p);
 		}
@@ -140,8 +140,10 @@ public class ReportRealiser {
 		if(p.getCoordinatedPhrase()!=null) 
 			createAndSetCoordinatedPhrase(clause,p);
 		
-		if(p.getRelativePhrase()!=null)
-			createAndSetRelativePhrase(clause,p,object);
+		if(p.getRelativeObjectPhrase()!=null)
+			createAndSetRelativePhrase(clause,p.getRelativeObjectPhrase(),object);
+		if(p.getRelativeSubjectPhrase()!=null)
+			createAndSetRelativePhrase(clause,p.getRelativeSubjectPhrase(),subject);
 		
 		clause.addFrontModifier(p.getPreModifierPhrase());
 			
@@ -183,6 +185,7 @@ public class ReportRealiser {
 			subject = nlgFactory.createNounPhrase(p.getSubject().get(0));
 			if(!p.getSubjectArticle().equals("")) {
 				subject.setSpecifier(p.getSubjectArticle());
+				subject.setFeature(LexicalFeature.GENDER,p.getSubjectGender());
 			}
 		}
 		subject.setPlural(p.getSubjectPlural());
@@ -208,7 +211,10 @@ public class ReportRealiser {
 			Object o2 = id.getFeature(LexicalFeature.GENDER);
 			if(!p.getPreModifierObject().isEmpty()) {
 				AdjPhraseSpec adjPreModifier = nlgFactory.createAdjectivePhrase(p.getPreModifierObject().get(i));
+				adjPreModifier.setFeature(LexicalFeature.GENDER, p.getAdjpGender());	
+				adjPreModifier.setPlural(p.getObjectIsPlural());
 				obj.addPreModifier(adjPreModifier);
+				
 				i++;
 			}
 			coord.addCoordinate(obj);		
@@ -314,7 +320,7 @@ public class ReportRealiser {
 	private SPhraseSpec createAndSetRelativePhrase(SPhraseSpec clause, Phrase p, NLGElement elemToBeModified) {
 		NPPhraseSpec np = nlgFactory.createNounPhrase(elemToBeModified);
 		//CoordinatedPhraseElement coord = nlgFactory.createCoordinatedPhrase();
-		SPhraseSpec clauseRelative = createGenericPhrase(p.getRelativePhrase());
+		SPhraseSpec clauseRelative = createGenericPhrase(p);
 		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
 		
 		//PPPhraseSpec pp = nlgFactory.createPrepositionPhrase(elemToBeModified);
