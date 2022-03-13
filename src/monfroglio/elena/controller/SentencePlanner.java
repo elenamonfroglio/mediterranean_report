@@ -1227,7 +1227,7 @@ public class SentencePlanner {
 		coordinatedPhrase.setSubjectArgs(subjectArgs2);
 		coordinatedPhrase.setPostModifierSubject(getWord("of"));
 		
-		adjp2.add(getWord("good"));
+		//adjp2.add(getWord("good"));
 		coordinatedPhrase.setAdjp(adjp2);
 		coordinatedPhrase.setAdjpGender(Gender.FEMININE);
 		

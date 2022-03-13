@@ -189,7 +189,7 @@ public class ReportRealiser {
 				subject.setSpecifier(p.getSubjectArticle());
 				if(p.getSubjectGender()!=null)	subject.setFeature(LexicalFeature.GENDER,p.getSubjectGender());
 			}
-			subject.addPreModifier(p.getSubjectAdjp());
+			if(!p.getSubjectAdjp().equals(""))	subject.addPreModifier(p.getSubjectAdjp());
 			//subject.addModifier(p.getAdjp());
 		}
 		subject.setPlural(p.getSubjectPlural());
@@ -369,7 +369,7 @@ public class ReportRealiser {
 	}
 	
 	private Gender getGender(String macronutriente) {
-		Gender ret = Gender.MASCULINE;
+		Gender ret = null;
 		if(macronutriente.equals("patate") || macronutriente.equals("carne rossa") || macronutriente.equals("frutta") 
 				|| macronutriente.equals("verdura")) 
 			ret = Gender.FEMININE;
