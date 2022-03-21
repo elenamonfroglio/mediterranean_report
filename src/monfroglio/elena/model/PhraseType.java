@@ -13,6 +13,7 @@ public abstract class PhraseType {
 	  
 	  public static boolean isOpposite(String a, String b) {
 		  boolean ret = false;
+		  if(a.equals("") || b.equals(""))	return false;
 		  if((a.equals(PhraseType.VERYGOOD) && b.equals(PhraseType.VERYBAD)) || 
 				  (b.equals(PhraseType.VERYGOOD) && a.equals(PhraseType.VERYBAD)))
 			  ret = true;

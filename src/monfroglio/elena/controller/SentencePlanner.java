@@ -56,6 +56,7 @@ public class SentencePlanner {
 	private int lastIndiceMed;
 	private int etaUtente;
 	private int conoscenzaDominio;
+	private int stressUtente;
 	private double totalePunteggioEnvironment;
 	private HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> order;
@@ -195,19 +196,20 @@ public class SentencePlanner {
 	}
 	
 	public void extractBestMeal() {
-		veryGoodPasto = thisWeek.getPastoWithMacrosPareto(macronutrientiVeryGood,dictionary);
-		veryGoodPasto.print();	
+		veryGoodPasto = thisWeek.getPastoWithGoodMacrosPareto(macronutrientiVeryGood,dictionary);
+		//veryGoodPasto.print();	
 	}
 	
 	public void extractWorstMeal() {
-		veryBadPasto = thisWeek.getPastoWithMacrosPareto(macronutrientiVeryBad,dictionary);
-		veryBadPasto.print();	
+		veryBadPasto = thisWeek.getPastoWithWorstMacrosPareto(macronutrientiVeryBad,dictionary);
+		//veryBadPasto.print();	
 	}
 	
 	private void extractUtente(JsonObject object) {
 		nomeUtente = object.getString("nome utente");
 		sessoUtente = object.getString("sesso utente");
 		etaUtente = object.getInt("eta utente");
+		stressUtente = object.getInt("stress utente");
 		conoscenzaDominio = object.getInt("conoscenza dominio");
 	}
 	
@@ -219,7 +221,7 @@ public class SentencePlanner {
 		indiceMed = object.getInt("indice Med");
 		lastIndiceMed = object.getInt("last indice Med");
 		totalePunteggioEnvironment = object.getInt("totalePunteggioEnvironment");
-		badMacronutrienteEnvironment = object.getString("badMacronutrienteEnvironment");
+		if(totalePunteggioEnvironment!=-1)	badMacronutrienteEnvironment = object.getString("badMacronutrienteEnvironment");
 		//System.out.println(totalePunteggioEnvironment);
 		JsonObject jsonObject = object.getJsonObject(MacronutrienteType.CEREALI);
 		Macronutriente cereali = new Macronutriente(MacronutrienteType.CEREALI,
@@ -361,11 +363,26 @@ public class SentencePlanner {
 	
 	
 	private String getWord(String concept) {
+		String emotionType = "";
+		switch(stressUtente) {
+			case 0:
+				emotionType = EmotionType.SENSITIVITY;
+			break;
+			case 1:
+				emotionType = EmotionType.INTROSPECTION;
+			break;
+			case 2:
+				emotionType = EmotionType.ATTITUDE;
+			break;
+			case 3:
+				emotionType = EmotionType.TEMPER;
+			break;
+		}
 		//in this method I will choose the euristic based on the user model
 		//return getMostIntenseWord(concept);
 		//return getRandomWord(concept);
 		//return getFirstWord(concept);
-		return getBestWord(concept, EmotionType.SENSITIVITY);
+		return getBestWord(concept, emotionType);
 	}
 	
 	public void lexicalisation() {
@@ -374,55 +391,89 @@ public class SentencePlanner {
 		int iter = 0;
 		lexicaliseWelcome();
 		Phrase phrase = null;
+		boolean first = true;
 		for(String item: order) {
 			switch(item) {
 				case PhraseType.VERYBAD:
 					if(!macronutrientiVeryBad.isEmpty()) {
 						if(isDietician())	phrase = lexicaliseVeryBadDietician("");
-						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="" && !first)
 							phrase = lexicaliseVeryBad(getWord("but"));
-						else if(oldItem!="") 	phrase = lexicaliseVeryBad(getWord("and"));
+						else if(oldItem!="" && !first) 	phrase = lexicaliseVeryBad(getWord("and"));
 						else phrase = lexicaliseVeryBad("");
-						phrases.add(phrase);
+						if(stressUtente==0 || isDietician())	{
+							if(phrase!=null) phrases.add(phrase);
+							first = false;
+							iter++;
+							if(iter==2) {
+								oldItem="";
+								iter = 0;
+							}else {
+								oldItem = item;
+							}
+						}
 					}
 					break;
 				case PhraseType.BAD:
 					if(!macronutrientiBad.isEmpty()) {
 						if(isDietician())	phrase = lexicaliseBadDietician("");
-						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="" && !first)
 							phrase = lexicaliseBad(getWord("but"));
-						else if(oldItem!="") 	phrase = lexicaliseBad(getWord("and"));
+						else if(oldItem!="" && !first) 	phrase = lexicaliseBad(getWord("and"));
 						else phrase = lexicaliseBad("");
-						phrases.add(phrase);
+						if((stressUtente!=3 && stressUtente!=2) || isDietician())	{
+							if(phrase!=null) phrases.add(phrase);
+							first = false;
+							iter++;
+							if(iter==2) {
+								oldItem="";
+								iter = 0;
+							}else {
+								oldItem = item;
+							}
+						}
 					}
 					break;
 				case PhraseType.VERYGOOD:
 					if(!macronutrientiVeryGood.isEmpty()) {
 						if(isDietician())	break;
-						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="" && !first)
 							phrase = lexicaliseVeryGood(getWord("but"));
-						else if(oldItem!="") 	phrase = lexicaliseVeryGood(getWord("and"));
+						else if(oldItem!="" && !first) 	phrase = lexicaliseVeryGood(getWord("and"));
 						else phrase = lexicaliseVeryGood("");
-						phrases.add(phrase);
+						if(stressUtente!=3 || isDietician()){
+							if(phrase!=null) phrases.add(phrase);
+							first = false;
+							iter++;
+							if(iter==2) {
+								oldItem="";
+								iter = 0;
+							}else {
+								oldItem = item;
+							}
+						}
 					}
 					break;
 				case PhraseType.GOOD:
 					if(!macronutrientiGood.isEmpty()) {  
 						if(isDietician())	break;
-						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="")
+						else if(PhraseType.isOpposite(item, oldItem) && oldItem!="" && !first)
 							phrase = lexicaliseGood(getWord("but"));
-						else if(oldItem!="") 	phrase = lexicaliseGood(getWord("and"));
+						else if(oldItem!="" && !first) 	phrase = lexicaliseGood(getWord("and"));
 						else phrase = lexicaliseGood("");
-						phrases.add(phrase);
+						if(stressUtente!=3 || isDietician()) {
+							if(phrase!=null) phrases.add(phrase);
+							first = false;
+							iter++;
+							if(iter==2) {
+								oldItem="";
+								iter = 0;
+							}else {
+								oldItem = item;
+							}
+						}
 					}
 					break;
-			}
-			iter++;
-			if(iter==2) {
-				oldItem="";
-				iter = 0;
-			}else {
-				oldItem = item;
 			}
 		}
 		if(!isDietician()) {
@@ -460,7 +511,7 @@ public class SentencePlanner {
 	}
 	
 	private Phrase lexicaliseGeneralKonwledge(int index) {
-		index = 5;
+		
 		Phrase p1 = null;
 		Phrase p2 = null;
 		ArrayList<String> subject1 = new ArrayList<>();
@@ -640,7 +691,9 @@ public class SentencePlanner {
 		
 		
 		sub = new ArrayList<>();
-		if(lingua.equals("english"))		sub.add(getWord("you"));
+		if(lingua.equals("english")) {
+			if(!isDietician())		sub.add(getWord("you"));
+		}
 		ArrayList<String> obj = new ArrayList<>();
 		obj.add(getWord("mscore"));
 		Phrase phraseWelcome2 = new Phrase(PhraseType.WELCOME,sub,getWord("to-obtain"),obj,new ArrayList<String>());
@@ -850,14 +903,20 @@ public class SentencePlanner {
 			}
 		}
 		
-		Phrase phrase1;
+		Phrase phrase1 = null;
 		ArrayList<String> subject = new ArrayList<>();
 		subject.add(getWord("score"));
 		String verb = getWord("to-be");
+		if(punteggio1.isEmpty()) {
+			punteggio1 = (ArrayList<String>) punteggio2.clone();
+			punteggio2 = new ArrayList<>(); 
+		}
 		
+		if(punteggio1.isEmpty() && punteggio2.isEmpty())	return null;
+
 		phrase1 = new Phrase(PhraseType.BAD, subject, verb, new ArrayList<>(), new ArrayList<>());
-		
 		if(!punteggio1.isEmpty()) {
+		
 			phrase1.setSubjectArgs(punteggio1);
 			phrase1.setPostModifierSubject(getWord("of"));
 			phrase1.setSubjectArticle(getWord("the"));
@@ -865,8 +924,8 @@ public class SentencePlanner {
 			ArrayList<String> args1 = new ArrayList<>();
 			args1.add("1");
 			phrase1.setPhraseArgs(args1);
-		}	
-		if(!punteggio2.isEmpty()) {
+		}if(!punteggio2.isEmpty()) {
+			
 			Phrase phrase2;
 			phrase2 = new Phrase(phrase1);
 			phrase2.setPreModifierPhrase(getWord("while"));
@@ -1108,12 +1167,16 @@ public class SentencePlanner {
 		coordinatedPhraseMore.setAdjp(adjp2);
 		ArrayList<String> objectArgsMore = new ArrayList<>();
 		ArrayList<String> objectArgsLess = new ArrayList<>();
+		
+		HashMap<String,Float> punteggi = veryBadPasto.getPunteggi();
 		for (String m: macronutrientiVeryGood) {
-			if(m.equals(MacronutrienteType.CARNEROSSA) 
-					|| m.equals(MacronutrienteType.LATTICINI) 
-					|| m.equals(MacronutrienteType.POLLAME)) {
-				objectArgsLess.add(getWord(m));
-			}else	objectArgsMore.add(getWord(m));
+			if(punteggi.get(m)>0) {
+				if(m.equals(MacronutrienteType.CARNEROSSA) 
+						|| m.equals(MacronutrienteType.LATTICINI) 
+						|| m.equals(MacronutrienteType.POLLAME)) {
+						objectArgsLess.add(getWord(m));
+				}else	objectArgsMore.add(getWord(m));
+			}
 		}
 		coordinatedPhraseMore.setObjectArticle(getWord("a"));
 		coordinatedPhraseMore.setObjectArgs(objectArgsMore);
@@ -1221,8 +1284,10 @@ public class SentencePlanner {
 			adjp2.add(getWord("not-good"));
 		
 		ArrayList<String> subjectArgs2 = new ArrayList<>();
+		HashMap<String,Float> punteggi = veryBadPasto.getPunteggi();
 		for (String m: macronutrientiVeryBad) {
-			subjectArgs2.add(getWord(m));
+			if(punteggi.get(m)>0)
+				subjectArgs2.add(getWord(m));
 		}
 		coordinatedPhrase.setSubjectArgs(subjectArgs2);
 		coordinatedPhrase.setPostModifierSubject(getWord("of"));
@@ -1276,6 +1341,6 @@ public class SentencePlanner {
 	}
 	
 	private boolean isDietician() {
-		return (conoscenzaDominio==2);
+		return (conoscenzaDominio==1);
 	}
 }

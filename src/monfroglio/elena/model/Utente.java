@@ -4,6 +4,7 @@ public class Utente {
 	private String nome;//*
 	private String cognome;//*
 	private String cf;
+	private String lingua;
 	private int eta;//*
 	private float peso;
 	private int altezza;
@@ -17,13 +18,14 @@ public class Utente {
 	private int stress;//*
 	private boolean interesseAmbientale;//*
 	
-	public Utente(String nome, String cognome, String cf, int eta, float peso, int altezza, float bmi,
+	public Utente(String nome, String cognome, String cf, String lingua, int eta, float peso, int altezza, float bmi,
 			String categoriaPeso, String valutazioneComplessiva,
 			String sesso, int abitudiniAlimentari, int indiceAttivitaFisica, 
 			int conoscenzaDominio, int stress, boolean interesseAmbientale) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.cf = cf;
+		this.lingua = lingua;
 		this.eta = eta;
 		this.peso = peso;
 		this.altezza = altezza;
@@ -40,7 +42,7 @@ public class Utente {
 	
 	//TOBE
 	
-	public Utente(String nome, String cognome, int eta, String sesso,
+	public Utente(String nome, String cognome, int eta, String sesso, String lingua,
 			int conoscenzaDominio, int stress, boolean interesseAmbientale) {
 		this.nome = nome;
 		this.cognome = cognome;
@@ -52,6 +54,7 @@ public class Utente {
 		this.categoriaPeso = "";
 		this.valutazioneComplessiva = "";
 		this.sesso = sesso;
+		this.lingua = lingua;
 		this.conoscenzaDominio = conoscenzaDominio;
 		this.stress = stress;
 		this.interesseAmbientale = interesseAmbientale;
@@ -108,6 +111,14 @@ public class Utente {
 	
 	public boolean getInteresseAmbientale() {
 		return interesseAmbientale;
+	}
+	
+	public int getStress() {
+		return stress;
+	}
+	
+	public String getLingua() {
+		return lingua;
 	}
 	
 	public void setCF(String cf) {

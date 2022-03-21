@@ -137,7 +137,7 @@ public class Settimana {
 		ParetoComparator<Point> comparator = new ParetoComparator<Point>();
 	}
 	
-	public Pasto getPastoWithMacrosPareto(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+	public Pasto getPastoWithGoodMacrosPareto(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
 		Pasto bestPasto = null;
 		
 		ArrayList<Point> listOfPoints = new ArrayList<>();
@@ -160,36 +160,58 @@ public class Settimana {
 				}
 			}
 		}
-		
-		Random r = new Random();
-		int low = 0;
-		int high = optimalList.size()-1;
-		int indexOptimalList = r.nextInt(high-low) + low;
-		
+		int indexOptimalList = 0;
+		if(optimalList.size()!=1) {
+			Random r = new Random();
+			int low = 0;
+			int high = optimalList.size()-1;
+			indexOptimalList = r.nextInt(high-low) + low;
+		}
 		String substring = optimalList.get(indexOptimalList).name.substring(1);
 		int finalIndex = Integer.parseInt(substring);
 		
 		bestPasto = pasti.get(finalIndex);
 		return bestPasto;
 	}
-	/*
-	public Pasto getPastoWithMacros(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+	
+	public Pasto getPastoWithWorstMacrosPareto(ArrayList<String> veryBadMacros,HashMap<String, ArrayList<String>> dictionary) {
 		Pasto bestPasto = null;
-		float maxScore = -1;
 		
+		ArrayList<Point> listOfPoints = new ArrayList<>();
+		int index = 0;
 		for(Pasto p:pasti) {
-			HashMap<String,Float> consumption = p.getPunteggi();
-			//devo considerare i tipi verygood e trovare il pasto con il più alto punteggio per queste categorie
-			float currentScore = p.getScore(veryGoodMacros,dictionary);
-			if(currentScore>maxScore) {
-				maxScore = currentScore;
-				bestPasto = p;
+			Point point = new Point("p"+index,p.getSubScore(veryBadMacros));
+			index++;
+			listOfPoints.add(point);
+		}
+		
+		ArrayList<Point> optimalList = (ArrayList<Point>) listOfPoints.clone();
+		for(Point pointA: listOfPoints) {
+			for(Point pointB: listOfPoints) {
+				if(!pointA.equal(pointB)) {
+					if(pointA.isBetter(pointB)) {
+						optimalList.remove(pointA);
+					}else if(pointB.isBetter(pointA)){
+						optimalList.remove(pointB);						
+					}
+				}
 			}
 		}
 		
+		int indexOptimalList = 0;
+		if(optimalList.size()!=1) {
+			Random r = new Random();
+			int low = 0;
+			int high = optimalList.size()-1;
+			indexOptimalList = r.nextInt(high-low) + low;
+		}
+			
+		String substring = optimalList.get(indexOptimalList).name.substring(1);
+		int finalIndex = Integer.parseInt(substring);
 		
+		bestPasto = pasti.get(finalIndex);
 		return bestPasto;
-	}*/
+	}
 
 	public class Point{
 		String name;

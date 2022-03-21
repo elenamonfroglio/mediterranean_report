@@ -21,7 +21,7 @@ import monfroglio.elena.model.Utente;
 
 
 public class DatabaseManager{
-	//valori normalizzati tra 1 e 2
+	//valori normalizzati tra 1 e 100
 	private static double emissioniCarneRossa = 100.00;//
 	private static double emissioniLatticini = 29.64;//
 	private static double emissioniPesce = 23.81;
@@ -136,10 +136,11 @@ public class DatabaseManager{
 			String cognome = rs.getString("cognome");
 			int eta = rs.getInt("età");
 			String sesso = rs.getString("sesso");
+			String lingua = rs.getString("lingua");
 			boolean interesseAmbientale = rs.getBoolean("interesseAmbientale");
 			int conoscenzaDominio  = rs.getInt("conoscenzaDominio");
 			int stress  = rs.getInt("stress");
-			ret = new Utente(nome,cognome,eta,sesso,conoscenzaDominio,stress,interesseAmbientale);
+			ret = new Utente(nome,cognome,eta,sesso,lingua,conoscenzaDominio,stress,interesseAmbientale);
 			ret.setCF(cf);
 			//ret.print();
 		}

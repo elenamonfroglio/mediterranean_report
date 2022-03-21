@@ -57,6 +57,7 @@ public class TextPlanner {
 				.add("indice Med", settimana.getIndiceMed())
 				.add("last indice Med", lastSettimana.getIndiceMed())
 				.add("sesso utente", user.getSesso())
+				.add("stress utente", user.getStress())
 				.add("conoscenza dominio", user.getConoscenzaDominio());
 		
 		int k = 0;

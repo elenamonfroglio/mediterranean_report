@@ -20,9 +20,34 @@ import monfroglio.elena.model.Utente;
 
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		DatabaseManager dbmgr = new DatabaseManager();
-		test1(dbmgr);
+		ArrayList<Utente> utenti = new ArrayList<>();
+		Utente u1 = dbmgr.getUtente("FRRLSS00A41F848C"); // // STRESS = 3 ITALIANO
+		Utente u2 = dbmgr.getUtente("FNTDVD76A01F012O"); // // STRESS = 2 ITALIANO
+		Utente u3 = dbmgr.getUtente("GLLLNE93A41D600J"); // // STRESS = 0 ITALIANO
+		Utente u4 = dbmgr.getUtente("CLMLSE63A41A089X"); // // DIETISTA ITALIANO
+		Utente u5 = dbmgr.getUtente("RSSFNC80A01A001I"); // // DIETISTA INGLESE
+		Utente u6 = dbmgr.getUtente("SPSGLI78A41G509X"); // // STRESS = 0 INGLESE
+		Utente u7 = dbmgr.getUtente("BNCLGU90A01G625S"); // // STRESS = 2 INGLESE
+		Utente u8 = dbmgr.getUtente("MRNMTT54A01G076R"); // // STRESS = 3 INGLESE
+		Utente u9 = dbmgr.getUtente("CSTSLV04A41A031D"); // // STRESS = 1 INGLESE
+		Utente u10 = dbmgr.getUtente("BRBTZN85A01B406S"); // // STRESS = 1 ITALIANO
+		
+		utenti.add(u1);
+		utenti.add(u2);
+		utenti.add(u3);
+		utenti.add(u4);
+		utenti.add(u5);
+		utenti.add(u6);
+		utenti.add(u7);
+		utenti.add(u8);
+		utenti.add(u9);
+		utenti.add(u10);
+		
+		for(Utente u:utenti) {
+			test1(dbmgr,u);
+		}
 		//test3();
 	}
 	
@@ -188,14 +213,15 @@ public class Main {
 		System.out.println("fine");
 	}
 	
-	public static void test1(DatabaseManager dbmgr) {
+	public static void test1(DatabaseManager dbmgr, Utente u) {
 		try {
 			//recupero user model dal codice fiscale
-			//Utente u = dbmgr.getUtente("RSSFNC80A01A001I");
-			Utente u = dbmgr.getUtente("FRRLSS00A41F848C");
 			
-			int idTest = 91086;
-			int idTestPreviousWeek = 91222;
+			
+			//91000
+			//91299
+			int idTest = 91001 + (int)(Math.random() * ((91299 - 91001) + 1));
+			int idTestPreviousWeek = idTest-1;
 			
 			//creo una settimana relativa all'utente u
 			LocalDate start = LocalDate.of(2022, Month.JANUARY, 3);
@@ -214,7 +240,8 @@ public class Main {
 			sem.setMacronutrienti(dbmgr.getPunteggiComponenti(sem));
 			
 			//Create a textPlanner
-			TextPlanner tp = new TextPlanner("italiano",u,sem,prevSem);
+			String lingua = u.getLingua();
+			TextPlanner tp = new TextPlanner(lingua,u,sem,prevSem);
 			tp.contentDetermination();
 			tp.textStructuring();
 			
