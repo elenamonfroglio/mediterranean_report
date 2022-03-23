@@ -1,5 +1,9 @@
 package monfroglio.elena.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -119,6 +123,36 @@ public class DatabaseManager{
 			ret.add(idPasto);
 		}
 		return ret;
+	}
+	
+	public ArrayList<String> getItalianReceipts() throws SQLException, IOException{
+		ArrayList<String> ret = new ArrayList<>();
+		String query = "SELECT * "
+				+ "FROM diet.ricetta "
+				+ "WHERE ricetta.origine = 'gedeone'";
+		
+		ResultSet rs = stmt.executeQuery(query);
+
+	    BufferedWriter writer = new BufferedWriter(new FileWriter("src/monfroglio/elena/files/lexicon/prova.txt", true));
+		while (rs.next()) {
+			String nome = rs.getString("nome");
+			int id = rs.getInt("id");
+			//ret.print();
+			ret.add(nome);
+
+		    writer.append("\t<word>\n\t\t");
+		    writer.append("<base>"+nome+"</base>\n\t\t");
+		    writer.append("<category>noun</category>\n\t\t");
+		    writer.append("<gender>feminine</gender>\n\t\t");
+		    writer.append("<id>ric"+id+"</id>\n\t\t");
+		    writer.append("<plural>"+nome+"</plural>\n");
+		    writer.append("\t</word>\n");
+		    
+		}
+
+	    writer.close();
+		return ret;
+		
 	}
 	
 

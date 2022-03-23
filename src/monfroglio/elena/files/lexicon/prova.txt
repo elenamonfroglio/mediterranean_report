@@ -1,57 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Italian default lexicon for simpleNLG -->
-<lexicon>
-<!--###############################
- MANUAL LEXICON
- ###############################-->
-<!--###############################
- MANUAL LEXICON
- ###############################-->
-<!-- ADJECTIVES-->
 	<word>
-		<base> ottimale </base>
-		<category> adjective </category>
-		<id> ottimale </id>
-		<plural> ottimali </plural>
-		<feminine_singular>ottimale</feminine_singular>
-		<feminine_plural>ottimali</feminine_plural>
-		<qualitative/>
-	</word>
-	<word>
-		<base> inappropriato </base>
-		<category> adjective </category>
-		<id> inappropriato </id>
-		<plural> inappropriati </plural>
-		<feminine_singular>inappropriata</feminine_singular>
-		<feminine_plural>inappropriate</feminine_plural>
-		<qualitative/>
-	</word>
-	<!-- NOUNS -->
-		<word>
-		<base>Affettato misto</base>
+		<base>Affettati misti</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric1</id>
 		<plural>Affettati misti</plural>
 	</word>
 	<word>
 		<base>Antipasto di mare</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric2</id>
-		<plural>Antipasti di mare</plural>
+		<plural>Antipasto di mare</plural>
 	</word>
 	<word>
 		<base>Antipasto di zucchine ripiene</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric3</id>
-		<plural>Antipasti di zucchine ripiene</plural>
+		<plural>Antipasto di zucchine ripiene</plural>
 	</word>
 	<word>
-		<base>Arancino di riso</base>
+		<base>Arancini di riso</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric4</id>
 		<plural>Arancini di riso</plural>
 	</word>
@@ -67,10 +38,10 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric6</id>
-		<plural>Bruschette</plural>
+		<plural>Bruschetta</plural>
 	</word>
 	<word>
-		<base>Bruschetta vegetariane</base>
+		<base>Bruschette vegetariane</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric7</id>
@@ -79,7 +50,7 @@
 	<word>
 		<base>Cocktail di scampi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric8</id>
 		<plural>Cocktail di scampi</plural>
 	</word>
@@ -88,33 +59,33 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric9</id>
-		<plural>Coppette di pompelmi con bresaola e rucola</plural>
+		<plural>Coppetta di pompelmi con bresaola e rucola</plural>
 	</word>
 	<word>
-		<base>Crostino con spuma di formaggi alla rucola</base>
+		<base>Crostini con spuma di formaggi alla rucola</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric10</id>
 		<plural>Crostini con spuma di formaggi alla rucola</plural>
 	</word>
 	<word>
-		<base>Crostino di tartufi neri</base>
+		<base>Crostini di tartufi neri</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric11</id>
 		<plural>Crostini di tartufi neri</plural>
 	</word>
 	<word>
-		<base>Crostone con cappelle di funghi porcini</base>
+		<base>Crostoni con cappelle di funghi porcini</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric12</id>
 		<plural>Crostoni con cappelle di funghi porcini</plural>
 	</word>
 	<word>
-		<base>Crostone di mozzarella</base>
+		<base>Crostoni di mozzarella</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric13</id>
 		<plural>Crostoni di mozzarella</plural>
 	</word>
@@ -123,68 +94,68 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric14</id>
-		<plural>Insalate russe</plural>
+		<plural>Insalata russa</plural>
 	</word>
 	<word>
 		<base>Insalata savoiarda</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric15</id>
-		<plural>Insalate savoiarde</plural>
+		<plural>Insalata savoiarda</plural>
 	</word>
 	<word>
-		<base>Involtino di bresaola a sorpresa</base>
+		<base>Involtini di bresaola a sorpresa</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric16</id>
 		<plural>Involtini di bresaola a sorpresa</plural>
 	</word>
 	<word>
 		<base>Panino mozzarella e  pomodoro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric17</id>
-		<plural>Panini mozzarella e  pomodoro</plural>
+		<plural>Panino mozzarella e  pomodoro</plural>
 	</word>
 	<word>
 		<base>Pate´ di magro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric18</id>
 		<plural>Pate´ di magro</plural>
 	</word>
 	<word>
 		<base>Pate´ di prosciutto al marsala</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric19</id>
 		<plural>Pate´ di prosciutto al marsala</plural>
 	</word>
 	<word>
 		<base>Prosciutto e melone</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric20</id>
-		<plural>Prosciutti e meloni</plural>
+		<plural>Prosciutto e melone</plural>
 	</word>
 	<word>
 		<base>Pizza capricciosa</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric42</id>
-		<plural>Pizze capricciose</plural>
+		<plural>Pizza capricciosa</plural>
 	</word>
 	<word>
 		<base>Rotolo di erbette e prosciutto cotto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric21</id>
-		<plural>Rotoli di erbette e prosciutto cotto</plural>
+		<plural>Rotolo di erbette e prosciutto cotto</plural>
 	</word>
 	<word>
 		<base>Toast</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric22</id>
 		<plural>Toast</plural>
 	</word>
@@ -198,98 +169,98 @@
 	<word>
 		<base>Calzone con ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric24</id>
-		<plural>Calzoni con ricotta</plural>
+		<plural>Calzone con ricotta</plural>
 	</word>
 	<word>
 		<base>Casatiello</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric25</id>
-		<plural>Casatielli</plural>
+		<plural>Casatiello</plural>
 	</word>
 	<word>
 		<base>Crostata agli asparagi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric26</id>
-		<plural>Crostate agli asparagi</plural>
+		<plural>Crostata agli asparagi</plural>
 	</word>
 	<word>
 		<base>Crostata di porri</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric27</id>
-		<plural>Crostate di porri</plural>
+		<plural>Crostata di porri</plural>
 	</word>
 	<word>
 		<base>Crostata di zucca</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric28</id>
-		<plural>Crostate di zucca</plural>
+		<plural>Crostata di zucca</plural>
 	</word>
 	<word>
 		<base>Erbazzone salato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric29</id>
-		<plural>Erbazzoni salati</plural>
+		<plural>Erbazzone salato</plural>
 	</word>
 	<word>
 		<base>Farinata</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric30</id>
-		<plural>Farinate</plural>
+		<plural>Farinata</plural>
 	</word>
 	<word>
 		<base>Focaccia al formaggio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric31</id>
-		<plural>Focacce al formaggio</plural>
+		<plural>Focaccia al formaggio</plural>
 	</word>
 	<word>
 		<base>Focaccia alla salvia e rosmarino</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric32</id>
-		<plural>Focacce alla salvia e rosmarino</plural>
+		<plural>Focaccia alla salvia e rosmarino</plural>
 	</word>
 	<word>
 		<base>Focaccia alle cipolle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric33</id>
-		<plural>Focacce alle cipolle</plural>
+		<plural>Focaccia alle cipolle</plural>
 	</word>
 	<word>
 		<base>Focaccia aromatica</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric34</id>
-		<plural>Focacce aromatica</plural>
+		<plural>Focaccia aromatica</plural>
 	</word>
 	<word>
 		<base>Gnocco all´emiliana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric35</id>
-		<plural>Gnocchi all´emiliana</plural>
+		<plural>Gnocco all´emiliana</plural>
 	</word>
 	<word>
 		<base>Pane fratau</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric36</id>
 		<plural>Pane fratau</plural>
 	</word>
 	<word>
 		<base>Pissaladiere</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric37</id>
 		<plural>Pissaladiere</plural>
 	</word>
@@ -298,84 +269,84 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric38</id>
-		<plural>Pizze ai cecinielli</plural>
+		<plural>Pizza ai cecinielli</plural>
 	</word>
 	<word>
 		<base>Pizza ai funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric39</id>
-		<plural>Pizze ai funghi</plural>
+		<plural>Pizza ai funghi</plural>
 	</word>
 	<word>
 		<base>Pizza al tonno e porri</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric40</id>
-		<plural>Pizze al tonno e porri</plural>
+		<plural>Pizza al tonno e porri</plural>
 	</word>
 	<word>
 		<base>Pizza alle alici</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric41</id>
-		<plural>Pizze alle alici</plural>
+		<plural>Pizza alle alici</plural>
 	</word>
 	<word>
 		<base>Pizza con ciccioli e uvetta</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric43</id>
-		<plural>Pizze con ciccioli e uvetta</plural>
+		<plural>Pizza con ciccioli e uvetta</plural>
 	</word>
 	<word>
 		<base>Pizza con la scarola e olive nere</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric44</id>
-		<plural>Pizze con la scarola e olive nere</plural>
+		<plural>Pizza con la scarola e olive nere</plural>
 	</word>
 	<word>
 		<base>Pizza di patate e cipolla</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric45</id>
-		<plural>Pizze di patate e cipolla</plural>
+		<plural>Pizza di patate e cipolla</plural>
 	</word>
 	<word>
 		<base>Pizza di scarola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric46</id>
-		<plural>Pizze di scarola</plural>
+		<plural>Pizza di scarola</plural>
 	</word>
 	<word>
 		<base>Pizza di scarola e pinoli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric47</id>
-		<plural>Pizze di scarola e pinoli</plural>
+		<plural>Pizza di scarola e pinoli</plural>
 	</word>
 	<word>
 		<base>Pizza di verdura</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric48</id>
-		<plural>Pizze di verdura</plural>
+		<plural>Pizza di verdura</plural>
 	</word>
 	<word>
 		<base>Pizza margherita</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric49</id>
-		<plural>Pizze margherita</plural>
+		<plural>Pizza margherita</plural>
 	</word>
 	<word>
 		<base>Pizza rustica</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric50</id>
-		<plural>Pizze rustica</plural>
+		<plural>Pizza rustica</plural>
 	</word>
 	<word>
 		<base>Quiche di asparagi</base>
@@ -394,89 +365,89 @@
 	<word>
 		<base>Rotolo di verdure</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric53</id>
-		<plural>Rotoli di verdure</plural>
+		<plural>Rotolo di verdure</plural>
 	</word>
 	<word>
 		<base>Schiacciata ai broccoli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric54</id>
-		<plural>Schiacciate ai broccoli</plural>
+		<plural>Schiacciata ai broccoli</plural>
 	</word>
 	<word>
 		<base>Schiacciata con cipolla</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric55</id>
-		<plural>Schiacciate con cipolla</plural>
+		<plural>Schiacciata con cipolla</plural>
 	</word>
 	<word>
 		<base>Sfogliata con olive</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric56</id>
-		<plural>Sfogliate con olive</plural>
+		<plural>Sfogliata con olive</plural>
 	</word>
 	<word>
 		<base>Sfogliata di zucchine</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric57</id>
-		<plural>Sfogliate di zucchine</plural>
+		<plural>Sfogliata di zucchine</plural>
 	</word>
 	<word>
 		<base>Sfogliata filante</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric58</id>
-		<plural>Sfogliate filante</plural>
+		<plural>Sfogliata filante</plural>
 	</word>
 	<word>
 		<base>Torta al tonno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric59</id>
-		<plural>Torte al tonno</plural>
+		<plural>Torta al tonno</plural>
 	</word>
 	<word>
 		<base>Torta di cipolle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric60</id>
-		<plural>Torte di cipolle</plural>
+		<plural>Torta di cipolle</plural>
 	</word>
 	<word>
 		<base>Torta di pasqua con formaggio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric61</id>
-		<plural>Torte di pasqua con formaggio</plural>
+		<plural>Torta di pasqua con formaggio</plural>
 	</word>
 	<word>
 		<base>Torta di verdura ricca</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric62</id>
-		<plural>Torte di verdura ricca</plural>
+		<plural>Torta di verdura ricca</plural>
 	</word>
 	<word>
 		<base>Torta di zucchine alla ligure</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric63</id>
-		<plural>Torte di zucchine alla ligure</plural>
+		<plural>Torta di zucchine alla ligure</plural>
 	</word>
 	<word>
 		<base>Torta pasqualina</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric64</id>
-		<plural>Torte pasqualina</plural>
+		<plural>Torta pasqualina</plural>
 	</word>
 	<word>
-		<base>Tortina vegetariana</base>
+		<base>Tortine vegetariane</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric65</id>
@@ -485,119 +456,119 @@
 	<word>
 		<base>Tortino di coste</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric66</id>
-		<plural>Tortini di coste</plural>
+		<plural>Tortino di coste</plural>
 	</word>
 	<word>
-		<base>Bucatino alla catalogna</base>
+		<base>Bucatini alla catalogna</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric67</id>
 		<plural>Bucatini alla catalogna</plural>
 	</word>
 	<word>
-		<base>Bucatino con salsa di zucchine e uova</base>
+		<base>Bucatini con salsa di zucchine e uova</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric68</id>
 		<plural>Bucatini con salsa di zucchine e uova</plural>
 	</word>
 	<word>
-		<base>Capellino d´angelo con ragu´ vegetale</base>
+		<base>Capellini d´angelo con ragu´ vegetale</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric69</id>
 		<plural>Capellini d´angelo con ragu´ vegetale</plural>
 	</word>
 	<word>
-		<base>Cipolla farcita</base>
+		<base>Cipolle farcite</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric70</id>
 		<plural>Cipolle farcite</plural>
 	</word>
 	<word>
-		<base>Conchiglietta all´amalfitana</base>
+		<base>Conchigliette all´amalfitana</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric71</id>
 		<plural>Conchigliette all´amalfitana</plural>
 	</word>
 	<word>
-		<base>Farfalla con asparagi, piselli e zucchine</base>
+		<base>Farfalle con asparagi, piselli e zucchine</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric72</id>
 		<plural>Farfalle con asparagi, piselli e zucchine</plural>
 	</word>
 	<word>
-		<base>Fusillo con zucchine e spinaci alla ricotta</base>
+		<base>Fusilli con zucchine e spinaci alla ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric73</id>
 		<plural>Fusilli con zucchine e spinaci alla ricotta</plural>
 	</word>
 	<word>
-		<base>Fusillo integrali in salsa saporita</base>
+		<base>Fusilli integrali in salsa saporita</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric74</id>
 		<plural>Fusilli integrali in salsa saporita</plural>
 	</word>
 	<word>
-		<base>Gnocchetto alle erbe aromatiche al pomodoro</base>
+		<base>Gnocchetti alle erbe aromatiche al pomodoro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric75</id>
 		<plural>Gnocchetti alle erbe aromatiche al pomodoro</plural>
 	</word>
 	<word>
-		<base>Gnocchetto di grano saraceno alla crema di zucca</base>
+		<base>Gnocchetti di grano saraceno alla crema di zucca</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric76</id>
 		<plural>Gnocchetti di grano saraceno alla crema di zucca</plural>
 	</word>
 	<word>
-		<base>Gnocchetto sardi al pomodoro</base>
+		<base>Gnocchetti sardi al pomodoro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric77</id>
 		<plural>Gnocchetti sardi al pomodoro</plural>
 	</word>
 	<word>
-		<base>Gnocco al gorgonzola</base>
+		<base>Gnocchi al gorgonzola</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric78</id>
 		<plural>Gnocchi al gorgonzola</plural>
 	</word>
 	<word>
-		<base>Gnocco alla romana</base>
+		<base>Gnocchi alla romana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric79</id>
 		<plural>Gnocchi alla romana</plural>
 	</word>
 	<word>
-		<base>Gnocco di patate</base>
+		<base>Gnocchi di patate</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric80</id>
 		<plural>Gnocchi di patate</plural>
 	</word>
 	<word>
-		<base>Gnocco di patate al gorgonzola</base>
+		<base>Gnocchi di patate al gorgonzola</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric81</id>
 		<plural>Gnocchi di patate al gorgonzola</plural>
 	</word>
 	<word>
-		<base>Gnocco verdi di ricotta</base>
+		<base>Gnocchi verdi di ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric82</id>
 		<plural>Gnocchi verdi di ricotta</plural>
 	</word>
@@ -606,101 +577,101 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric83</id>
-		<plural>Insalate di maccheroncelli</plural>
+		<plural>Insalata di maccheroncelli</plural>
 	</word>
 	<word>
 		<base>Insalata di riso</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric84</id>
-		<plural>Insalate di riso</plural>
+		<plural>Insalata di riso</plural>
 	</word>
 	<word>
 		<base>Insalata di riso e pollo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric85</id>
-		<plural>Insalate di riso e pollo</plural>
+		<plural>Insalata di riso e pollo</plural>
 	</word>
 	<word>
 		<base>Insalata di riso in cesto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric86</id>
-		<plural>Insalate di riso in cesto</plural>
+		<plural>Insalata di riso in cesto</plural>
 	</word>
 	<word>
-		<base>Lasagna al forno</base>
+		<base>Lasagne al forno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric87</id>
 		<plural>Lasagne al forno</plural>
 	</word>
 	<word>
-		<base>Lasagna al forno con i funghi</base>
+		<base>Lasagne al forno con i funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric88</id>
 		<plural>Lasagne al forno con i funghi</plural>
 	</word>
 	<word>
-		<base>Lasagna verde </base>
+		<base>Lasagne verdi </base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric89</id>
 		<plural>Lasagne verdi </plural>
 	</word>
 	<word>
-		<base>Lasagnetta ai funghi</base>
+		<base>Lasagnette ai funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric90</id>
 		<plural>Lasagnette ai funghi</plural>
 	</word>
 	<word>
-		<base>Linguina con le fave</base>
+		<base>Linguine con le fave</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric91</id>
 		<plural>Linguine con le fave</plural>
 	</word>
 	<word>
-		<base>Maccheroncino alla boscaiola</base>
+		<base>Maccheroncini alla boscaiola</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric92</id>
 		<plural>Maccheroncini alla boscaiola</plural>
 	</word>
 	<word>
-		<base>Maccherone gratinato</base>
+		<base>Maccheroni gratinati</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric93</id>
 		<plural>Maccheroni gratinati</plural>
 	</word>
 	<word>
-		<base>Maltagliato con fagioli</base>
+		<base>Maltagliati con fagioli</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric94</id>
 		<plural>Maltagliati con fagioli</plural>
 	</word>
 	<word>
-		<base>Orecchietta alle cime di rapa</base>
+		<base>Orecchiette alle cime di rapa</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric95</id>
 		<plural>Orecchiette alle cime di rapa</plural>
 	</word>
 	<word>
-		<base>Orecchietta con rucola</base>
+		<base>Orecchiette con rucola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric96</id>
 		<plural>Orecchiette con rucola</plural>
 	</word>
 	<word>
-		<base>Pappardella al limone alla partenopea</base>
+		<base>Pappardelle al limone alla partenopea</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric97</id>
@@ -711,131 +682,131 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric98</id>
-		<plural>Paste aglio, olio, peperoncino</plural>
+		<plural>Pasta aglio, olio, peperoncino</plural>
 	</word>
 	<word>
 		<base>Pasta ai quattro formaggi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric99</id>
-		<plural>Paste ai quattro formaggi</plural>
+		<plural>Pasta ai quattro formaggi</plural>
 	</word>
 	<word>
 		<base>Pasta al burro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric100</id>
-		<plural>Paste al burro</plural>
+		<plural>Pasta al burro</plural>
 	</word>
 	<word>
 		<base>Pasta al pesto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric101</id>
-		<plural>Paste al pesto</plural>
+		<plural>Pasta al pesto</plural>
 	</word>
 	<word>
 		<base>Pasta all´amatriciana</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric102</id>
-		<plural>Paste all´amatriciana</plural>
+		<plural>Pasta all´amatriciana</plural>
 	</word>
 	<word>
 		<base>Pasta alla carbonara</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric103</id>
-		<plural>Paste alla carbonara</plural>
+		<plural>Pasta alla carbonara</plural>
 	</word>
 	<word>
 		<base>Pasta con acciughe</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric104</id>
-		<plural>Paste con acciughe</plural>
+		<plural>Pasta con acciughe</plural>
 	</word>
 	<word>
 		<base>Pasta con le vongole</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric105</id>
-		<plural>Paste con le vongole</plural>
+		<plural>Pasta con le vongole</plural>
 	</word>
 	<word>
 		<base>Pasta e fagioli con le vongole</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric106</id>
-		<plural>Paste e fagioli con le vongole</plural>
+		<plural>Pasta e fagioli con le vongole</plural>
 	</word>
 	<word>
 		<base>Pasta e lenticchie</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric107</id>
-		<plural>Paste e lenticchie</plural>
+		<plural>Pasta e lenticchie</plural>
 	</word>
 	<word>
 		<base>Pasta pomodoro e basilico</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric108</id>
-		<plural>Paste pomodoro e basilico</plural>
+		<plural>Pasta pomodoro e basilico</plural>
 	</word>
 	<word>
 		<base>Pasta prosciutto e piselli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric109</id>
-		<plural>Paste prosciutto e piselli</plural>
+		<plural>Pasta prosciutto e piselli</plural>
 	</word>
 	<word>
-		<base>Penna ai carciofi</base>
+		<base>Penne ai carciofi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric110</id>
 		<plural>Penne ai carciofi</plural>
 	</word>
 	<word>
-		<base>Penna all´arrabbiata</base>
+		<base>Penne all´arrabbiata</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric111</id>
 		<plural>Penne all´arrabbiata</plural>
 	</word>
 	<word>
-		<base>Penna con verdure</base>
+		<base>Penne con verdure</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric112</id>
 		<plural>Penne con verdure</plural>
 	</word>
 	<word>
-		<base>Pennetta aglio e basilico</base>
+		<base>Pennette aglio e basilico</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric113</id>
 		<plural>Pennette aglio e basilico</plural>
 	</word>
 	<word>
-		<base>Pennetta con cavolfiore in salsa d´acciughe</base>
+		<base>Pennette con cavolfiore in salsa d´acciughe</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric114</id>
 		<plural>Pennette con cavolfiore in salsa d´acciughe</plural>
 	</word>
 	<word>
-		<base>Peperone imbottito</base>
+		<base>Peperoni imbottiti</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric115</id>
 		<plural>Peperoni imbottiti</plural>
 	</word>
 	<word>
-		<base>Pizzocchero alla valtellinese</base>
+		<base>Pizzoccheri alla valtellinese</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric116</id>
 		<plural>Pizzoccheri alla valtellinese</plural>
 	</word>
@@ -844,306 +815,306 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric117</id>
-		<plural>Polente al ragu´</plural>
+		<plural>Polenta al ragu´</plural>
 	</word>
 	<word>
-		<base>Raviolo al ragu´</base>
+		<base>Ravioli al ragu´</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric118</id>
 		<plural>Ravioli al ragu´</plural>
 	</word>
 	<word>
-		<base>Raviolo di magro al burro</base>
+		<base>Ravioli di magro al burro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric119</id>
 		<plural>Ravioli di magro al burro</plural>
 	</word>
 	<word>
-		<base>Rigatone con ricotta</base>
+		<base>Rigatoni con ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric120</id>
 		<plural>Rigatoni con ricotta</plural>
 	</word>
 	<word>
 		<base>Riso al salmone al profumo di limone</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric121</id>
-		<plural>Risi al salmone al profumo di limone</plural>
+		<plural>Riso al salmone al profumo di limone</plural>
 	</word>
 	<word>
 		<base>Riso bollito</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric122</id>
-		<plural>Risi bolliti</plural>
+		<plural>Riso bollito</plural>
 	</word>
 	<word>
 		<base>Riso con carciofi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric123</id>
-		<plural>Risi con carciofi</plural>
+		<plural>Riso con carciofi</plural>
 	</word>
 	<word>
 		<base>Riso con melanzane e pomodori al basilico</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric124</id>
-		<plural>Risi con melanzane e pomodori al basilico</plural>
+		<plural>Riso con melanzane e pomodori al basilico</plural>
 	</word>
 	<word>
 		<base>Riso con piselli e salsiccia</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric125</id>
-		<plural>Risi con piselli e salsiccia</plural>
+		<plural>Riso con piselli e salsiccia</plural>
 	</word>
 	<word>
 		<base>Riso con salsa di tonno e acciughe</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric126</id>
-		<plural>Risi con salsa di tonno e acciughe</plural>
+		<plural>Riso con salsa di tonno e acciughe</plural>
 	</word>
 	<word>
 		<base>Riso con verdure primaverili</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric127</id>
-		<plural>Risi con verdure primaverili</plural>
+		<plural>Riso con verdure primaverili</plural>
 	</word>
 	<word>
 		<base>Riso con zucchine e porri</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric128</id>
-		<plural>Risi con zucchine e porri</plural>
+		<plural>Riso con zucchine e porri</plural>
 	</word>
 	<word>
 		<base>Riso e piselli</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric129</id>
-		<plural>Risi e piselli</plural>
+		<plural>Riso e piselli</plural>
 	</word>
 	<word>
 		<base>Risotto al radicchio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric130</id>
-		<plural>Risotti al radicchio</plural>
+		<plural>Risotto al radicchio</plural>
 	</word>
 	<word>
 		<base>Risotto alla milanese</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric131</id>
-		<plural>Risotti alla milanese</plural>
+		<plural>Risotto alla milanese</plural>
 	</word>
 	<word>
 		<base>Risotto alla parmigiana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric132</id>
-		<plural>Risotti alla parmigiana</plural>
+		<plural>Risotto alla parmigiana</plural>
 	</word>
 	<word>
 		<base>Risotto alla pescatora</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric133</id>
-		<plural>Risotti alla pescatora</plural>
+		<plural>Risotto alla pescatora</plural>
 	</word>
 	<word>
 		<base>Risotto con carciofi e formaggio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric134</id>
-		<plural>Risotti con carciofi e formaggio</plural>
+		<plural>Risotto con carciofi e formaggio</plural>
 	</word>
 	<word>
-		<base>Canederlo semplice</base>
+		<base>Canederli semplici</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric164</id>
 		<plural>Canederli semplici</plural>
 	</word>
 	<word>
 		<base>Risotto con finocchi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric135</id>
-		<plural>Risotti con finocchi</plural>
+		<plural>Risotto con finocchi</plural>
 	</word>
 	<word>
 		<base>Risotto con gli scampi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric136</id>
-		<plural>Risotti con gli scampi</plural>
+		<plural>Risotto con gli scampi</plural>
 	</word>
 	<word>
 		<base>Risotto con i funghi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric137</id>
-		<plural>Risotti con i funghi</plural>
+		<plural>Risotto con i funghi</plural>
 	</word>
 	<word>
 		<base>Risotto con la zucca</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric138</id>
-		<plural>Risotti con la zucca</plural>
+		<plural>Risotto con la zucca</plural>
 	</word>
 	<word>
 		<base>Risotto con pomodori alla menta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric139</id>
-		<plural>Risotti con pomodori alla menta</plural>
+		<plural>Risotto con pomodori alla menta</plural>
 	</word>
 	<word>
 		<base>Risotto con spinaci e uova sbattute</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric140</id>
-		<plural>Risotti con spinaci e uova sbattute</plural>
+		<plural>Risotto con spinaci e uova sbattute</plural>
 	</word>
 	<word>
 		<base>Risotto con stracchino e crescione</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric141</id>
-		<plural>Risotti con stracchino e crescione</plural>
+		<plural>Risotto con stracchino e crescione</plural>
 	</word>
 	<word>
 		<base>Risotto con verza e prosciutto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric142</id>
-		<plural>Risotti con verza e prosciutto</plural>
+		<plural>Risotto con verza e prosciutto</plural>
 	</word>
 	<word>
 		<base>Risotto con zucchine e piselli</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric143</id>
-		<plural>Risotti con zucchine e piselli</plural>
+		<plural>Risotto con zucchine e piselli</plural>
 	</word>
 	<word>
-		<base>Spaghetto al tonno</base>
+		<base>Spaghetti al tonno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric144</id>
 		<plural>Spaghetti al tonno</plural>
 	</word>
 	<word>
-		<base>Spaghetto alla carrettiera</base>
+		<base>Spaghetti alla carrettiera</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric145</id>
 		<plural>Spaghetti alla carrettiera</plural>
 	</word>
 	<word>
-		<base>Spaghetto alla norma</base>
+		<base>Spaghetti alla norma</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric146</id>
 		<plural>Spaghetti alla norma</plural>
 	</word>
 	<word>
-		<base>Spaghetto alla puttanesca</base>
+		<base>Spaghetti alla puttanesca</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric147</id>
 		<plural>Spaghetti alla puttanesca</plural>
 	</word>
 	<word>
-		<base>Spaghetto alle cozze</base>
+		<base>Spaghetti alle cozze</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric148</id>
 		<plural>Spaghetti alle cozze</plural>
 	</word>
 	<word>
-		<base>Spaghetto capperi e olive nere</base>
+		<base>Spaghetti capperi e olive nere</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric149</id>
 		<plural>Spaghetti capperi e olive nere</plural>
 	</word>
 	<word>
-		<base>Spaghetto con le sarde</base>
+		<base>Spaghetti con le sarde</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric150</id>
 		<plural>Spaghetti con le sarde</plural>
 	</word>
 	<word>
-		<base>Spaghetto con le seppie</base>
+		<base>Spaghetti con le seppie</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric151</id>
 		<plural>Spaghetti con le seppie</plural>
 	</word>
 	<word>
-		<base>Spaghetto con zucchine</base>
+		<base>Spaghetti con zucchine</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric152</id>
 		<plural>Spaghetti con zucchine</plural>
 	</word>
 	<word>
-		<base>Spaghetto integrale di verdure miste</base>
+		<base>Spaghetti integrali di verdure miste</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric153</id>
 		<plural>Spaghetti integrali di verdure miste</plural>
 	</word>
 	<word>
-		<base>Spiedino di polenta</base>
+		<base>Spiedini di polenta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric154</id>
 		<plural>Spiedini di polenta</plural>
 	</word>
 	<word>
-		<base>Tagliatella ai funghi porcini</base>
+		<base>Tagliatelle ai funghi porcini</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric155</id>
 		<plural>Tagliatelle ai funghi porcini</plural>
 	</word>
 	<word>
-		<base>Tagliatella allo zafferano</base>
+		<base>Tagliatelle allo zafferano</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric156</id>
 		<plural>Tagliatelle allo zafferano</plural>
 	</word>
 	<word>
-		<base>Tagliatella con salsa di ricotta e timo</base>
+		<base>Tagliatelle con salsa di ricotta e timo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric157</id>
 		<plural>Tagliatelle con salsa di ricotta e timo</plural>
 	</word>
 	<word>
-		<base>Tagliatella di farina di castagne</base>
+		<base>Tagliatelle di farina di castagne</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric158</id>
 		<plural>Tagliatelle di farina di castagne</plural>
 	</word>
 	<word>
-		<base>Tagliolino ai funghi al profumo di limone</base>
+		<base>Tagliolini ai funghi al profumo di limone</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric159</id>
 		<plural>Tagliolini ai funghi al profumo di limone</plural>
 	</word>
@@ -1152,103 +1123,103 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric160</id>
-		<plural>Tielle pugliese</plural>
+		<plural>Tiella pugliese</plural>
 	</word>
 	<word>
 		<base>Timballo di pasta e melanzane</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric161</id>
-		<plural>Timballi di pasta e melanzane</plural>
+		<plural>Timballo di pasta e melanzane</plural>
 	</word>
 	<word>
-		<base>Vermicello con alici fresche</base>
+		<base>Vermicelli con alici fresche</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric162</id>
 		<plural>Vermicelli con alici fresche</plural>
 	</word>
 	<word>
 		<base>Cacciucco di ceci</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric163</id>
-		<plural>Cacciucchi di ceci</plural>
+		<plural>Cacciucco di ceci</plural>
 	</word>
 	<word>
 		<base>Crema di carciofi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric165</id>
-		<plural>Creme di carciofi</plural>
+		<plural>Crema di carciofi</plural>
 	</word>
 	<word>
 		<base>Crema di carciofi e patate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric166</id>
-		<plural>Creme di carciofi e patate</plural>
+		<plural>Crema di carciofi e patate</plural>
 	</word>
 	<word>
 		<base>Crema di carote, patate e porri</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric167</id>
-		<plural>Creme di carote, patate e porri</plural>
+		<plural>Crema di carote, patate e porri</plural>
 	</word>
 	<word>
 		<base>Crema di cipolle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric168</id>
-		<plural>Creme di cipolle</plural>
+		<plural>Crema di cipolle</plural>
 	</word>
 	<word>
 		<base>Crema di fagiolini e pomodoro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric169</id>
-		<plural>Creme di fagiolini e pomodoro</plural>
+		<plural>Crema di fagiolini e pomodoro</plural>
 	</word>
 	<word>
 		<base>Crema di fave e tarassaco</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric170</id>
-		<plural>Creme di fave e tarassaco</plural>
+		<plural>Crema di fave e tarassaco</plural>
 	</word>
 	<word>
 		<base>Crema di funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric171</id>
-		<plural>Creme di funghi</plural>
+		<plural>Crema di funghi</plural>
 	</word>
 	<word>
 		<base>Crema di pomodoro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric172</id>
-		<plural>Creme di pomodoro</plural>
+		<plural>Crema di pomodoro</plural>
 	</word>
 	<word>
 		<base>Crema di zucchine con dadini di prosciutto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric173</id>
-		<plural>Creme di zucchine con dadini di prosciutto</plural>
+		<plural>Crema di zucchine con dadini di prosciutto</plural>
 	</word>
 	<word>
 		<base>Crema leggera di verdure primaverili</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric174</id>
-		<plural>Creme leggere di verdure primaverili</plural>
+		<plural>Crema leggera di verdure primaverili</plural>
 	</word>
 	<word>
-		<base>Gnocchetto di patate e pollo in brodo vegetale</base>
+		<base>Gnocchetti di patate e pollo in brodo vegetale</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric175</id>
 		<plural>Gnocchetti di patate e pollo in brodo vegetale</plural>
 	</word>
@@ -1257,10 +1228,10 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric176</id>
-		<plural>Le pappe col pomodoro</plural>
+		<plural>La pappa col pomodoro</plural>
 	</word>
 	<word>
-		<base>Linguina con le fave</base>
+		<base>Linguine con le fave</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric177</id>
@@ -1271,40 +1242,40 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric178</id>
-		<plural>Minestre al profumo di maggiorana</plural>
+		<plural>Minestra al profumo di maggiorana</plural>
 	</word>
 	<word>
 		<base>Minestra delicata di pollo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric179</id>
-		<plural>Minestre delicata di pollo</plural>
+		<plural>Minestra delicata di pollo</plural>
 	</word>
 	<word>
 		<base>Minestra di farro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric180</id>
-		<plural>Minestre di farro</plural>
+		<plural>Minestra di farro</plural>
 	</word>
 	<word>
 		<base>Minestra di fave e zucchine</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric181</id>
-		<plural>Minestre di fave e zucchine</plural>
+		<plural>Minestra di fave e zucchine</plural>
 	</word>
 	<word>
 		<base>Minestra di lattuga e patate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric182</id>
-		<plural>Minestre di lattuga e patate</plural>
+		<plural>Minestra di lattuga e patate</plural>
 	</word>
 	<word>
-		<base>Filetto di pollo alla mediterranea</base>
+		<base>Filetti di pollo alla mediterranea</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric310</id>
 		<plural>Filetti di pollo alla mediterranea</plural>
 	</word>
@@ -1313,45 +1284,45 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric183</id>
-		<plural>Minestre di lenticchie</plural>
+		<plural>Minestra di lenticchie</plural>
 	</word>
 	<word>
 		<base>Minestra di riso con piselli e punte d´asparago</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric184</id>
-		<plural>Minestre di riso con piselli e punte d´asparago</plural>
+		<plural>Minestra di riso con piselli e punte d´asparago</plural>
 	</word>
 	<word>
 		<base>Minestra di riso e prezzemolo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric185</id>
-		<plural>Minestre di riso e prezzemolo</plural>
+		<plural>Minestra di riso e prezzemolo</plural>
 	</word>
 	<word>
 		<base>Minestra di zucchine</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric186</id>
-		<plural>Minestre di zucchine</plural>
+		<plural>Minestra di zucchine</plural>
 	</word>
 	<word>
 		<base>Minestra gustosa di pasta e patate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric187</id>
-		<plural>Minestre gustose di pasta e patate</plural>
+		<plural>Minestra gustosa di pasta e patate</plural>
 	</word>
 	<word>
 		<base>Minestra verde</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric188</id>
-		<plural>Minestre verdi</plural>
+		<plural>Minestra verde</plural>
 	</word>
 	<word>
-		<base>Minestra con erbette e patate</base>
+		<base>Minestre con erbette e patate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric189</id>
@@ -1360,84 +1331,84 @@
 	<word>
 		<base>Minestrone d´orzo alla trentina</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric190</id>
-		<plural>Minestroni d´orzo alla trentina</plural>
+		<plural>Minestrone d´orzo alla trentina</plural>
 	</word>
 	<word>
 		<base>Minestrone di verdure</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric191</id>
-		<plural>Minestroni di verdure</plural>
+		<plural>Minestrone di verdure</plural>
 	</word>
 	<word>
 		<base>Pancotto calabrese</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric192</id>
-		<plural>Pancotti calabresei</plural>
+		<plural>Pancotto calabrese</plural>
 	</word>
 	<word>
 		<base>Passato di verdure</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric193</id>
-		<plural>Passati di verdure</plural>
+		<plural>Passato di verdure</plural>
 	</word>
 	<word>
 		<base>Pasta e broccoli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric194</id>
-		<plural>Paste e broccoli</plural>
+		<plural>Pasta e broccoli</plural>
 	</word>
 	<word>
 		<base>Pasta e ceci</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric195</id>
-		<plural>Paste e ceci</plural>
+		<plural>Pasta e ceci</plural>
 	</word>
 	<word>
 		<base>Pasta e fagioli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric196</id>
-		<plural>Paste e fagioli</plural>
+		<plural>Pasta e fagioli</plural>
 	</word>
 	<word>
 		<base>Pastina in brodo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric197</id>
-		<plural>Pastine in brodo</plural>
+		<plural>Pastina in brodo</plural>
 	</word>
 	<word>
 		<base>Riso e verze</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric198</id>
-		<plural>Risi e verze</plural>
+		<plural>Riso e verze</plural>
 	</word>
 	<word>
 		<base>Stracciatella con le zucchine</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric199</id>
-		<plural>Stracciatelle con le zucchine</plural>
+		<plural>Stracciatella con le zucchine</plural>
 	</word>
 	<word>
 		<base>Stracciatella romana</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric200</id>
-		<plural>Stracciatelle romana</plural>
+		<plural>Stracciatella romana</plural>
 	</word>
 	<word>
-		<base>Tortellino in brodo</base>
+		<base>Tortellini in brodo</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric201</id>
 		<plural>Tortellini in brodo</plural>
 	</word>
@@ -1446,75 +1417,75 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric202</id>
-		<plural>Trippe saporite</plural>
+		<plural>Trippa saporita</plural>
 	</word>
 	<word>
 		<base>Vellutata al profumo di limone</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric203</id>
-		<plural>Vellutate al profumo di limone</plural>
+		<plural>Vellutata al profumo di limone</plural>
 	</word>
 	<word>
 		<base>Vellutata di pollo al prezzemolo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric204</id>
-		<plural>Vellutate di pollo al prezzemolo</plural>
+		<plural>Vellutata di pollo al prezzemolo</plural>
 	</word>
 	<word>
 		<base>Zuppa campagnola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric205</id>
-		<plural>Zuppe campagnola</plural>
+		<plural>Zuppa campagnola</plural>
 	</word>
 	<word>
 		<base>Zuppa d´orzo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric206</id>
-		<plural>Zuppe d´orzo</plural>
+		<plural>Zuppa d´orzo</plural>
 	</word>
 	<word>
 		<base>Zuppa di cicoria</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric207</id>
-		<plural>Zuppe di cicoria</plural>
+		<plural>Zuppa di cicoria</plural>
 	</word>
 	<word>
 		<base>Zuppa di cipolle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric208</id>
-		<plural>Zuppe di cipolle</plural>
+		<plural>Zuppa di cipolle</plural>
 	</word>
 	<word>
 		<base>Zuppa di fagioli e scarole</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric209</id>
-		<plural>Zuppe di fagioli e scarole</plural>
+		<plural>Zuppa di fagioli e scarole</plural>
 	</word>
 	<word>
 		<base>Zuppa di pomodori all´erba cipollina</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric210</id>
-		<plural>Zuppe di pomodori all´erba cipollina</plural>
+		<plural>Zuppa di pomodori all´erba cipollina</plural>
 	</word>
 	<word>
 		<base>Zuppetta di scarola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric211</id>
-		<plural>Zuppette di scarola</plural>
+		<plural>Zuppetta di scarola</plural>
 	</word>
 	<word>
-		<base>Asparago alla parmigiana</base>
+		<base>Asparagi alla parmigiana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric212</id>
 		<plural>Asparagi alla parmigiana</plural>
 	</word>
@@ -1523,59 +1494,59 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric213</id>
-		<plural>Caponate di melanzane</plural>
+		<plural>Caponata di melanzane</plural>
 	</word>
 	<word>
-		<base>Carciofo alla giudea</base>
+		<base>Carciofi alla giudea</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric214</id>
 		<plural>Carciofi alla giudea</plural>
 	</word>
 	<word>
-		<base>Carciofo alla romana</base>
+		<base>Carciofi alla romana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric215</id>
 		<plural>Carciofi alla romana</plural>
 	</word>
 	<word>
-		<base>Cardo alla parmigiana</base>
+		<base>Cardi alla parmigiana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric216</id>
 		<plural>Cardi alla parmigiana</plural>
 	</word>
 	<word>
-		<base>Carota a scapece</base>
+		<base>Carote a scapece</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric217</id>
 		<plural>Carote a scapece</plural>
 	</word>
 	<word>
-		<base>Cetriolo allo yogurt</base>
+		<base>Cetrioli allo yogurt</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric218</id>
 		<plural>Cetrioli allo yogurt</plural>
 	</word>
 	<word>
-		<base>Cima di rapa stufate</base>
+		<base>Cime di rapa stufate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric219</id>
 		<plural>Cime di rapa stufate</plural>
 	</word>
 	<word>
-		<base>Crocchetta di patate</base>
+		<base>Crocchette di patate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric220</id>
 		<plural>Crocchette di patate</plural>
 	</word>
 	<word>
-		<base>Patata fritta</base>
+		<base>Patate fritte</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric221</id>
@@ -1586,87 +1557,87 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric222</id>
-		<plural>Peperonate</plural>
+		<plural>Peperonata</plural>
 	</word>
 	<word>
-		<base>Peperone con acciughe</base>
+		<base>Peperoni con acciughe</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric223</id>
 		<plural>Peperoni con acciughe</plural>
 	</word>
 	<word>
-		<base>Pisello con pancetta</base>
+		<base>Piselli con pancetta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric224</id>
 		<plural>Piselli con pancetta</plural>
 	</word>
 	<word>
-		<base>Pomodoro gratinati</base>
+		<base>Pomodori gratinati</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric225</id>
 		<plural>Pomodori gratinati</plural>
 	</word>
 	<word>
-		<base>Pomodoro ripieno di spuma di formaggio</base>
+		<base>Pomodori ripieni di spuma di formaggio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric226</id>
 		<plural>Pomodori ripieni di spuma di formaggio</plural>
 	</word>
 	<word>
 		<base>Pomodoro a sorpresa</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric227</id>
-		<plural>Pomodori a sorpresa</plural>
+		<plural>Pomodoro a sorpresa</plural>
 	</word>
 	<word>
-		<base>Porro al latte</base>
+		<base>Porri al latte</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric228</id>
 		<plural>Porri al latte</plural>
 	</word>
 	<word>
-		<base>Costatina alla salsa di finocchio</base>
+		<base>Costatine alla salsa di finocchio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric229</id>
 		<plural>Costatine alla salsa di finocchio</plural>
 	</word>
 	<word>
-		<base>Costoletta alle castagne</base>
+		<base>Costolette alle castagne</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric230</id>
 		<plural>Costolette alle castagne</plural>
 	</word>
 	<word>
-		<base>Costoletta di agnello ai buoni aromi</base>
+		<base>Costolette di agnello ai buoni aromi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric231</id>
 		<plural>Costolette di agnello ai buoni aromi</plural>
 	</word>
 	<word>
-		<base>Costoletta di capretto ai peperoni</base>
+		<base>Costolette di capretto ai peperoni</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric232</id>
 		<plural>Costolette di capretto ai peperoni</plural>
 	</word>
 	<word>
-		<base>Costoletta di capriolo alla crema</base>
+		<base>Costolette di capriolo alla crema</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric233</id>
 		<plural>Costolette di capriolo alla crema</plural>
 	</word>
 	<word>
-		<base>Costoletta di maiale con uva</base>
+		<base>Costolette di maiale con uva</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric234</id>
@@ -1675,91 +1646,91 @@
 	<word>
 		<base>Cotechino con fagioli alla paesana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric235</id>
-		<plural>Cotechini con fagioli alla paesana</plural>
+		<plural>Cotechino con fagioli alla paesana</plural>
 	</word>
 	<word>
-		<base>Crostone ai peperoni filanti</base>
+		<base>Crostoni ai peperoni filanti</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric236</id>
 		<plural>Crostoni ai peperoni filanti</plural>
 	</word>
 	<word>
-		<base>Fagiolo all´uccelletto</base>
+		<base>Fagioli all´uccelletto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric237</id>
 		<plural>Fagioli all´uccelletto</plural>
 	</word>
 	<word>
-		<base>Fagiolo in umido</base>
+		<base>Fagioli in umido</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric238</id>
 		<plural>Fagioli in umido</plural>
 	</word>
 	<word>
-		<base>Fagiolino al pomodoro</base>
+		<base>Fagiolini al pomodoro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric239</id>
 		<plural>Fagiolini al pomodoro</plural>
 	</word>
 	<word>
-		<base>Fagiolino all´agro</base>
+		<base>Fagiolini all´agro</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric240</id>
 		<plural>Fagiolini all´agro</plural>
 	</word>
 	<word>
-		<base>Fava al guanciale</base>
+		<base>Fave al guanciale</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric241</id>
 		<plural>Fave al guanciale</plural>
 	</word>
 	<word>
-		<base>Finocchio al forno</base>
+		<base>Finocchi al forno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric242</id>
 		<plural>Finocchi al forno</plural>
 	</word>
 	<word>
-		<base>Finocchio in insalata</base>
+		<base>Finocchi in insalata</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric243</id>
 		<plural>Finocchi in insalata</plural>
 	</word>
 	<word>
-		<base>Fiore di zucca alla ligure</base>
+		<base>Fiori di zucca alla ligure</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric244</id>
 		<plural>Fiori di zucca alla ligure</plural>
 	</word>
 	<word>
-		<base>Fiore di zucca ripieni</base>
+		<base>Fiori di zucca ripieni</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric245</id>
 		<plural>Fiori di zucca ripieni</plural>
 	</word>
 	<word>
-		<base>Fiore di zucchina ripieni</base>
+		<base>Fiori di zucchina ripieni</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric246</id>
 		<plural>Fiori di zucchina ripieni</plural>
 	</word>
 	<word>
-		<base>Fungo porcino trifolato</base>
+		<base>Funghi porcini trifolati</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric247</id>
 		<plural>Funghi porcini trifolati</plural>
 	</word>
@@ -1768,94 +1739,94 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric248</id>
-		<plural>Indivie alla parmigiana</plural>
+		<plural>Indivia alla parmigiana</plural>
 	</word>
 	<word>
 		<base>Insalata</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric249</id>
-		<plural>Insalate</plural>
+		<plural>Insalata</plural>
 	</word>
 	<word>
 		<base>Insalata capricciosa</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric250</id>
-		<plural>Insalate capricciosa</plural>
+		<plural>Insalata capricciosa</plural>
 	</word>
 	<word>
 		<base>Insalata di carciofi e funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric251</id>
-		<plural>Insalate di carciofi e funghi</plural>
+		<plural>Insalata di carciofi e funghi</plural>
 	</word>
 	<word>
 		<base>Insalata di carote julienne</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric252</id>
-		<plural>Insalate di carote julienne</plural>
+		<plural>Insalata di carote julienne</plural>
 	</word>
 	<word>
 		<base>Insalata di cavolfiore</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric253</id>
-		<plural>Insalate di cavolfiore</plural>
+		<plural>Insalata di cavolfiore</plural>
 	</word>
 	<word>
 		<base>Insalata di champignon crudi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric254</id>
-		<plural>Insalate di champignon crudi</plural>
+		<plural>Insalata di champignon crudi</plural>
 	</word>
 	<word>
 		<base>Insalata di finocchi e arance</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric255</id>
-		<plural>Insalate di finocchi e arance</plural>
+		<plural>Insalata di finocchi e arance</plural>
 	</word>
 	<word>
 		<base>Insalata mista</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric256</id>
-		<plural>Insalate miste</plural>
+		<plural>Insalata mista</plural>
 	</word>
 	<word>
-		<base>Involtino di verza</base>
+		<base>Involtini di verza</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric257</id>
 		<plural>Involtini di verza</plural>
 	</word>
 	<word>
-		<base>Lenticchia per contorno</base>
+		<base>Lenticchie per contorno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric258</id>
 		<plural>Lenticchie per contorno</plural>
 	</word>
 	<word>
-		<base>Melanzana al funghetto</base>
+		<base>Melanzane al funghetto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric259</id>
 		<plural>Melanzane al funghetto</plural>
 	</word>
 	<word>
-		<base>Melanzana alla griglia</base>
+		<base>Melanzane alla griglia</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric260</id>
 		<plural>Melanzane alla griglia</plural>
 	</word>
 	<word>
-		<base>Melanzana alla parmigiana</base>
+		<base>Melanzane alla parmigiana</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric261</id>
@@ -1866,17 +1837,17 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric262</id>
-		<plural>Misture di verdure crude con salsa gialla</plural>
+		<plural>Mistura di verdure crude con salsa gialla</plural>
 	</word>
 	<word>
-		<base>Olivotta alla marchigiana</base>
+		<base>Olivotte alla marchigiana</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric263</id>
 		<plural>Olivotte alla marchigiana</plural>
 	</word>
 	<word>
-		<base>Patata al forno</base>
+		<base>Patate al forno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric264</id>
@@ -1887,7 +1858,7 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric265</id>
-		<plural>Puree di patate</plural>
+		<plural>Purea di patate</plural>
 	</word>
 	<word>
 		<base>Ratatouille</base>
@@ -1901,19 +1872,19 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric267</id>
-		<plural>Scarole imbottita</plural>
+		<plural>Scarola imbottita</plural>
 	</word>
 	<word>
 		<base>Sformato di lenticchie e spinaci</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric268</id>
-		<plural>Sformati di lenticchie e spinaci</plural>
+		<plural>Sformato di lenticchie e spinaci</plural>
 	</word>
 	<word>
-		<base>Spinacio all´aglio e olio</base>
+		<base>Spinaci all´aglio e olio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric269</id>
 		<plural>Spinaci all´aglio e olio</plural>
 	</word>
@@ -1922,38 +1893,38 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric270</id>
-		<plural>Torte di patate</plural>
+		<plural>Torta di patate</plural>
 	</word>
 	<word>
 		<base>Tortina di melanzane, pomodori e basilico</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric271</id>
-		<plural>Tortine di melanzane, pomodori e basilico</plural>
+		<plural>Tortina di melanzane, pomodori e basilico</plural>
 	</word>
 	<word>
 		<base>Zucca alla scapece</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric272</id>
-		<plural>Zucche alla scapece</plural>
+		<plural>Zucca alla scapece</plural>
 	</word>
 	<word>
 		<base>Zucca fritta</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric273</id>
-		<plural>Zucche fritta</plural>
+		<plural>Zucca fritta</plural>
 	</word>
 	<word>
-		<base>Zucchina e fiore di zucca fritto</base>
+		<base>Zucchine e fiori di zucca fritti</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric274</id>
 		<plural>Zucchine e fiori di zucca fritti</plural>
 	</word>
 	<word>
-		<base>Zucchina trifolata</base>
+		<base>Zucchine trifolate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric275</id>
@@ -1962,82 +1933,82 @@
 	<word>
 		<base>Agnello ai carciofi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric276</id>
-		<plural>Agnelli ai carciofi</plural>
+		<plural>Agnello ai carciofi</plural>
 	</word>
 	<word>
 		<base>Arrosto di tacchino al vino bianco</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric277</id>
-		<plural>Arrosti di tacchino al vino bianco</plural>
+		<plural>Arrosto di tacchino al vino bianco</plural>
 	</word>
 	<word>
 		<base>Arrosto di vitello al forno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric278</id>
-		<plural>Arrosti di vitello al forno</plural>
+		<plural>Arrosto di vitello al forno</plural>
 	</word>
 	<word>
 		<base>Arrotolato multicolore</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric279</id>
-		<plural>Arrotolati multicolore</plural>
+		<plural>Arrotolato multicolore</plural>
 	</word>
 	<word>
 		<base>Bistecca alla tartara</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric280</id>
-		<plural>Bistecche alla tartara</plural>
+		<plural>Bistecca alla tartara</plural>
 	</word>
 	<word>
-		<base>Bistecca ai ferri</base>
+		<base>Bistecche ai ferri</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric281</id>
 		<plural>Bistecche ai ferri</plural>
 	</word>
 	<word>
-		<base>Bistecca alla pizzaiola</base>
+		<base>Bistecche alla pizzaiola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric282</id>
 		<plural>Bistecche alla pizzaiola</plural>
 	</word>
 	<word>
-		<base>Bocconcino di petto di pollo del ghiottone</base>
+		<base>Bocconcini di petto di pollo del ghiottone</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric283</id>
 		<plural>Bocconcini di petto di pollo del ghiottone</plural>
 	</word>
 	<word>
 		<base>Bollito misto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric284</id>
-		<plural>Bolliti misti</plural>
+		<plural>Bollito misto</plural>
 	</word>
 	<word>
-		<base>Braciola di maiale al vino bianco</base>
+		<base>Braciole di maiale al vino bianco</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric285</id>
 		<plural>Braciole di maiale al vino bianco</plural>
 	</word>
 	<word>
-		<base>Bracioletta d´abbacchio impanate e fritte</base>
+		<base>Braciolette d´abbacchio impanate e fritte</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric286</id>
 		<plural>Braciolette d´abbacchio impanate e fritte</plural>
 	</word>
 	<word>
-		<base>Bracioletta d´agnello coi carciofi</base>
+		<base>Braciolette d´agnello coi carciofi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric287</id>
@@ -2046,89 +2017,89 @@
 	<word>
 		<base>Brasato di manzo</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric288</id>
-		<plural>Brasati di manzo</plural>
+		<plural>Brasato di manzo</plural>
 	</word>
 	<word>
 		<base>Cappone arrosto tartufato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric289</id>
-		<plural>Capponi arrosto tartufato</plural>
+		<plural>Cappone arrosto tartufato</plural>
 	</word>
 	<word>
 		<base>Capretto al forno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric290</id>
-		<plural>Capretti al forno</plural>
+		<plural>Capretto al forno</plural>
 	</word>
 	<word>
 		<base>Capretto cacio e uova</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric291</id>
-		<plural>Capretti cacio e uova</plural>
+		<plural>Capretto cacio e uova</plural>
 	</word>
 	<word>
 		<base>Carpaccio con finocch.selv.e semi di cumino</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric292</id>
-		<plural>Carpacci con finocch.selv.e semi di cumino</plural>
+		<plural>Carpaccio con finocch.selv.e semi di cumino</plural>
 	</word>
 	<word>
 		<base>Carpaccio in salsa</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric293</id>
-		<plural>Carpacci in salsa</plural>
+		<plural>Carpaccio in salsa</plural>
 	</word>
 	<word>
 		<base>Cassoeula</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric294</id>
-		<plural>Cassoeule</plural>
+		<plural>Cassoeula</plural>
 	</word>
 	<word>
 		<base>Cavolfiore gratinato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric295</id>
-		<plural>Cavolfiori gratinati</plural>
+		<plural>Cavolfiore gratinato</plural>
 	</word>
 	<word>
 		<base>Coda di bue alla vaccinara</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric296</id>
-		<plural>Code di bue alla vaccinara</plural>
+		<plural>Coda di bue alla vaccinara</plural>
 	</word>
 	<word>
 		<base>Coniglio alla cacciatora</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric297</id>
-		<plural>Conigli alla cacciatora</plural>
+		<plural>Coniglio alla cacciatora</plural>
 	</word>
 	<word>
 		<base>Coniglio in fricassea</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric298</id>
-		<plural>Conigli in fricassea</plural>
+		<plural>Coniglio in fricassea</plural>
 	</word>
 	<word>
-		<base>Coscetta di pollo agli aromi</base>
+		<base>Coscette di pollo agli aromi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric299</id>
 		<plural>Coscette di pollo agli aromi</plural>
 	</word>
 	<word>
-		<base>Coscetta di pollo al limone</base>
+		<base>Coscette di pollo al limone</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric300</id>
@@ -2139,19 +2110,19 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric301</id>
-		<plural>Cotolette alla milanese</plural>
+		<plural>Cotoletta alla milanese</plural>
 	</word>
 	<word>
 		<base>Fagiano arrosto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric302</id>
-		<plural>Fagiani arrosti</plural>
+		<plural>Fagiano arrosto</plural>
 	</word>
 	<word>
-		<base>Fagottino di pollo prelibati</base>
+		<base>Fagottini di pollo prelibati</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric303</id>
 		<plural>Fagottini di pollo prelibati</plural>
 	</word>
@@ -2160,38 +2131,38 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric304</id>
-		<plural>Faraone al cartoccio</plural>
+		<plural>Faraona al cartoccio</plural>
 	</word>
 	<word>
 		<base>Faraona allo spumante secco</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric305</id>
-		<plural>Faraone allo spumante secco</plural>
+		<plural>Faraona allo spumante secco</plural>
 	</word>
 	<word>
-		<base>Fegatino con i fichi</base>
+		<base>Fegatini con i fichi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric306</id>
 		<plural>Fegatini con i fichi</plural>
 	</word>
 	<word>
 		<base>Fegato alla veneziana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric307</id>
-		<plural>Fegati alla veneziana</plural>
+		<plural>Fegato alla veneziana</plural>
 	</word>
 	<word>
 		<base>Fegato di vitello con piselli e porri</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric308</id>
-		<plural>Fegati di vitello con piselli e porri</plural>
+		<plural>Fegato di vitello con piselli e porri</plural>
 	</word>
 	<word>
-		<base>Fettina di vitello con finocchi e olive</base>
+		<base>Fettine di vitello con finocchi e olive</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric309</id>
@@ -2200,35 +2171,35 @@
 	<word>
 		<base>Filetto di cavallo alla calabrese</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric311</id>
-		<plural>Filetti di cavallo alla calabrese</plural>
+		<plural>Filetto di cavallo alla calabrese</plural>
 	</word>
 	<word>
 		<base>Filetto di vitello dell´ortolano</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric312</id>
-		<plural>Filetti di vitello dell´ortolano</plural>
+		<plural>Filetto di vitello dell´ortolano</plural>
 	</word>
 	<word>
 		<base>Fonduta</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric313</id>
-		<plural>Fondute</plural>
+		<plural>Fonduta</plural>
 	</word>
 	<word>
 		<base>Gulasch triestino</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric314</id>
 		<plural>Gulasch triestino</plural>
 	</word>
 	<word>
 		<base>Hamburger</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric315</id>
 		<plural>Hamburger</plural>
 	</word>
@@ -2237,26 +2208,26 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric316</id>
-		<plural>Indivie belga al prosciutto</plural>
+		<plural>Indivia belga al prosciutto</plural>
 	</word>
 	<word>
 		<base>Insalata di tacchino e funghi alla rucola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric317</id>
-		<plural>Insalate di tacchino e funghi alla rucola</plural>
+		<plural>Insalata di tacchino e funghi alla rucola</plural>
 	</word>
 	<word>
-		<base>Involtino di vitello al prosciutto</base>
+		<base>Involtini di vitello al prosciutto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric318</id>
 		<plural>Involtini di vitello al prosciutto</plural>
 	</word>
 	<word>
-		<base>Involtino di maiale dorati</base>
+		<base>Involtini di maiale dorati</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric319</id>
 		<plural>Involtini di maiale dorati</plural>
 	</word>
@@ -2265,87 +2236,87 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric320</id>
-		<plural>Lepri in salmi´</plural>
+		<plural>Lepre in salmi´</plural>
 	</word>
 	<word>
-		<base>Osso buco di tacchino in umido</base>
+		<base>Ossi buchi di tacchino in umido</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric321</id>
 		<plural>Ossi buchi di tacchino in umido</plural>
 	</word>
 	<word>
 		<base>Ossobuco gremolato alla milanese</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric322</id>
-		<plural>Ossibuchi gremolato alla milanese</plural>
+		<plural>Ossobuco gremolato alla milanese</plural>
 	</word>
 	<word>
-		<base>Petto di pollo in salsa verde</base>
+		<base>Petti di pollo in salsa verde</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric323</id>
 		<plural>Petti di pollo in salsa verde</plural>
 	</word>
 	<word>
-		<base>Petto di pollo ripieni</base>
+		<base>Petti di pollo ripieni</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric324</id>
 		<plural>Petti di pollo ripieni</plural>
 	</word>
 	<word>
-		<base>Piedino di maiale con salsa verde</base>
+		<base>Piedini di maiale con salsa verde</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric325</id>
 		<plural>Piedini di maiale con salsa verde</plural>
 	</word>
 	<word>
 		<base>Pollo al limone</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric326</id>
-		<plural>Polli al limone</plural>
+		<plural>Pollo al limone</plural>
 	</word>
 	<word>
 		<base>Pollo alla cacciatora</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric327</id>
-		<plural>Polli alla cacciatora</plural>
+		<plural>Pollo alla cacciatora</plural>
 	</word>
 	<word>
 		<base>Pollo arrosto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric328</id>
-		<plural>Polli arrosto</plural>
+		<plural>Pollo arrosto</plural>
 	</word>
 	<word>
 		<base>Pollo con le acciughe</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric329</id>
-		<plural>Polli con le acciughe</plural>
+		<plural>Pollo con le acciughe</plural>
 	</word>
 	<word>
-		<base>Polpetta in agrodolce</base>
+		<base>Polpette in agrodolce</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric330</id>
 		<plural>Polpette in agrodolce</plural>
 	</word>
 	<word>
-		<base>Polpettina alla crema</base>
+		<base>Polpettine alla crema</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric331</id>
 		<plural>Polpettine alla crema</plural>
 	</word>
 	<word>
-		<base>Polpettina in umido</base>
+		<base>Polpettine in umido</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric332</id>
@@ -2354,33 +2325,33 @@
 	<word>
 		<base>Polpettone all´americana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric333</id>
-		<plural>Polpettoni all´americana</plural>
+		<plural>Polpettone all´americana</plural>
 	</word>
 	<word>
-		<base>Pomodoro ripieno di carne</base>
+		<base>Pomodori ripieni di carne</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric334</id>
 		<plural>Pomodori ripieni di carne</plural>
 	</word>
 	<word>
 		<base>Prosciutto al vino bianco</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric335</id>
-		<plural>Prosciutti al vino bianco</plural>
+		<plural>Prosciutto al vino bianco</plural>
 	</word>
 	<word>
-		<base>Puntina di maiale al forno</base>
+		<base>Puntine di maiale al forno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric336</id>
 		<plural>Puntine di maiale al forno</plural>
 	</word>
 	<word>
-		<base>Quaglia arrosto</base>
+		<base>Quaglie arrosto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric337</id>
@@ -2389,40 +2360,40 @@
 	<word>
 		<base>Roast beef</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric338</id>
 		<plural>Roast beef</plural>
 	</word>
 	<word>
 		<base>Rognone di vitello alla paesana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric339</id>
-		<plural>Rognoni di vitello alla paesana</plural>
+		<plural>Rognone di vitello alla paesana</plural>
 	</word>
 	<word>
 		<base>Salsiccia ai ferri</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric340</id>
-		<plural>Salsicce ai ferri</plural>
+		<plural>Salsiccia ai ferri</plural>
 	</word>
 	<word>
 		<base>Saltimbocca alla romana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric341</id>
 		<plural>Saltimbocca alla romana</plural>
 	</word>
 	<word>
-		<base>Scaloppina al marsala</base>
+		<base>Scaloppine al marsala</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric342</id>
 		<plural>Scaloppine al marsala</plural>
 	</word>
 	<word>
-		<base>Scaloppina alla pizzaiola</base>
+		<base>Scaloppine alla pizzaiola</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric343</id>
@@ -2431,40 +2402,40 @@
 	<word>
 		<base>Spezzatino con piselli</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric344</id>
-		<plural>Spezzatini con piselli</plural>
+		<plural>Spezzatino con piselli</plural>
 	</word>
 	<word>
 		<base>Vitello tonnato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric345</id>
-		<plural>Vitelli tonnati</plural>
+		<plural>Vitello tonnato</plural>
 	</word>
 	<word>
 		<base>Zampone (o borsotto)</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric346</id>
-		<plural>Zamponi (o borsotti)</plural>
+		<plural>Zampone (o borsotto)</plural>
 	</word>
 	<word>
-		<base>Acciuga al limone</base>
+		<base>Acciughe al limone</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric347</id>
 		<plural>Acciughe al limone</plural>
 	</word>
 	<word>
-		<base>Acciuga marinate</base>
+		<base>Acciughe marinate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric348</id>
 		<plural>Acciughe marinate</plural>
 	</word>
 	<word>
-		<base>Alice in tortiera</base>
+		<base>Alici in tortiera</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric349</id>
@@ -2501,89 +2472,89 @@
 	<word>
 		<base>Brodetto di pesce all´anconetana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric354</id>
-		<plural>Brodetti di pesce all´anconetana</plural>
+		<plural>Brodetto di pesce all´anconetana</plural>
 	</word>
 	<word>
-		<base>Calamaro ripieno</base>
+		<base>Calamari ripieni</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric355</id>
 		<plural>Calamari ripieni</plural>
 	</word>
 	<word>
 		<base>Cefalo alla griglia alla toscana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric356</id>
-		<plural>Cefali alla griglia alla toscana</plural>
+		<plural>Cefalo alla griglia alla toscana</plural>
 	</word>
 	<word>
 		<base>Cefalo profumato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric357</id>
-		<plural>Cefali profumato</plural>
+		<plural>Cefalo profumato</plural>
 	</word>
 	<word>
 		<base>Coccio al forno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric358</id>
-		<plural>Cocci al forno</plural>
+		<plural>Coccio al forno</plural>
 	</word>
 	<word>
-		<base>Cotoletta di palombo</base>
+		<base>Cotolette di palombo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric359</id>
 		<plural>Cotolette di palombo</plural>
 	</word>
 	<word>
-		<base>Cozza alla marinara</base>
+		<base>Cozze alla marinara</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric360</id>
 		<plural>Cozze alla marinara</plural>
 	</word>
 	<word>
-		<base>Cozza gratinate impanate</base>
+		<base>Cozze gratinate impanate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric361</id>
 		<plural>Cozze gratinate impanate</plural>
 	</word>
 	<word>
-		<base>Crostone alla ligure</base>
+		<base>Crostoni alla ligure</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric362</id>
 		<plural>Crostoni alla ligure</plural>
 	</word>
 	<word>
 		<base>Dentice al gratin</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric363</id>
-		<plural>Dentici al gratin</plural>
+		<plural>Dentice al gratin</plural>
 	</word>
 	<word>
-		<base>Filetto di rombo gratinati alle erbe</base>
+		<base>Filetti di rombo gratinati alle erbe</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric364</id>
 		<plural>Filetti di rombo gratinati alle erbe</plural>
 	</word>
 	<word>
 		<base>Fragolino al cartoccio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric365</id>
-		<plural>Fragolini al cartoccio</plural>
+		<plural>Fragolino al cartoccio</plural>
 	</word>
 	<word>
-		<base>Frittella di baccala´</base>
+		<base>Frittelle di baccala´</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric366</id>
@@ -2594,94 +2565,94 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric367</id>
-		<plural>Fritture di molluschi e crostacei</plural>
+		<plural>Frittura di molluschi e crostacei</plural>
 	</word>
 	<word>
 		<base>Involtini di pesce spada</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric368</id>
 		<plural>Involtini di pesce spada</plural>
 	</word>
 	<word>
 		<base>Merluzzo in umido</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric369</id>
-		<plural>Merluzzi in umido</plural>
+		<plural>Merluzzo in umido</plural>
 	</word>
 	<word>
 		<base>Palombo al forno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric370</id>
-		<plural>Palombi al forno</plural>
+		<plural>Palombo al forno</plural>
 	</word>
 	<word>
 		<base>Palombo con olive</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric371</id>
-		<plural>Palombi con olive</plural>
+		<plural>Palombo con olive</plural>
 	</word>
 	<word>
 		<base>Pesce all´acqua pazza</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric372</id>
-		<plural>Pesci all´acqua pazza</plural>
+		<plural>Pesce all´acqua pazza</plural>
 	</word>
 	<word>
 		<base>Pesce spada con il salmoriglio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric373</id>
-		<plural>Pesci spada con il salmoriglio</plural>
+		<plural>Pesce spada con il salmoriglio</plural>
 	</word>
 	<word>
 		<base>Pesce spada in tegame</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric374</id>
 		<plural>Pesce spada in tegame</plural>
 	</word>
 	<word>
 		<base>Polpo alla luciana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric375</id>
-		<plural>Polpi alla luciana</plural>
+		<plural>Polpo alla luciana</plural>
 	</word>
 	<word>
-		<base>Sarda a beccafico</base>
+		<base>Sarde a beccafico</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric376</id>
 		<plural>Sarde a beccafico</plural>
 	</word>
 	<word>
-		<base>Sarda impanata</base>
+		<base>Sarde impanate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric377</id>
 		<plural>Sarde impanate</plural>
 	</word>
 	<word>
-		<base>Sarda ripiena</base>
+		<base>Sarde ripiene</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric378</id>
 		<plural>Sarde ripiene</plural>
 	</word>
 	<word>
-		<base>Seppia in umido</base>
+		<base>Seppie in umido</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric379</id>
 		<plural>Seppie in umido</plural>
 	</word>
 	<word>
-		<base>Seppia in umido con piselli</base>
+		<base>Seppie in umido con piselli</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric380</id>
@@ -2690,33 +2661,33 @@
 	<word>
 		<base>Sgombro gratinato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric381</id>
-		<plural>Sgombri gratinato</plural>
+		<plural>Sgombro gratinato</plural>
 	</word>
 	<word>
 		<base>Sogliola alla calabrese</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric382</id>
-		<plural>Sogliole alla calabrese</plural>
+		<plural>Sogliola alla calabrese</plural>
 	</word>
 	<word>
 		<base>Sogliola alla mugnaia</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric383</id>
-		<plural>Sogliole alla mugnaia</plural>
+		<plural>Sogliola alla mugnaia</plural>
 	</word>
 	<word>
 		<base>Stoccafisso con le olive</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric384</id>
-		<plural>Stoccafissi con le olive</plural>
+		<plural>Stoccafisso con le olive</plural>
 	</word>
 	<word>
-		<base>Triglia alla livornese</base>
+		<base>Triglie alla livornese</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric385</id>
@@ -2727,10 +2698,10 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric386</id>
-		<plural>Trote al forno</plural>
+		<plural>Trota al forno</plural>
 	</word>
 	<word>
-		<base>Trota al cartoccio</base>
+		<base>Trote al cartoccio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric387</id>
@@ -2741,49 +2712,49 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric388</id>
-		<plural>Trotelle lessata al burro fuso</plural>
+		<plural>Trotella lessata al burro fuso</plural>
 	</word>
 	<word>
 		<base>Frittata con prosciutto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric389</id>
-		<plural>Frittate con prosciutto</plural>
+		<plural>Frittata con prosciutto</plural>
 	</word>
 	<word>
 		<base>Frittata di cipolle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric390</id>
-		<plural>Frittate di cipolle</plural>
+		<plural>Frittata di cipolle</plural>
 	</word>
 	<word>
 		<base>Frittata di formaggio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric391</id>
-		<plural>Frittate di formaggio</plural>
+		<plural>Frittata di formaggio</plural>
 	</word>
 	<word>
 		<base>Frittata di funghi</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric392</id>
-		<plural>Frittate di funghi</plural>
+		<plural>Frittata di funghi</plural>
 	</word>
 	<word>
 		<base>Mozzarella e pomodoro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric393</id>
-		<plural>Mozzarelle e pomodori</plural>
+		<plural>Mozzarella e pomodoro</plural>
 	</word>
 	<word>
 		<base>Mozzarella in carrozza</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric394</id>
-		<plural>Mozzarelle in carrozza</plural>
+		<plural>Mozzarella in carrozza</plural>
 	</word>
 	<word>
 		<base>Omelette al prosciutto</base>
@@ -2793,7 +2764,7 @@
 		<plural>Omelette al prosciutto</plural>
 	</word>
 	<word>
-		<base>Pallina di ricotta al pistacchio</base>
+		<base>Palline di ricotta al pistacchio</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric396</id>
@@ -2851,68 +2822,68 @@
 	<word>
 		<base>Baci di dama</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric404</id>
-		<plural>Bacio di dama</plural>
+		<plural>Baci di dama</plural>
 	</word>
 	<word>
 		<base>Bavarese con le pesche</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric405</id>
-		<plural>Bavaresi con le pesche</plural>
+		<plural>Bavarese con le pesche</plural>
 	</word>
 	<word>
 		<base>Bigne´</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric406</id>
 		<plural>Bigne´</plural>
 	</word>
 	<word>
 		<base>Bonet al cioccolato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric407</id>
 		<plural>Bonet al cioccolato</plural>
 	</word>
 	<word>
 		<base>Budino di cioccolato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric408</id>
-		<plural>Budini di cioccolato</plural>
+		<plural>Budino di cioccolato</plural>
 	</word>
 	<word>
 		<base>Budino di ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric409</id>
-		<plural>Budini di ricotta</plural>
+		<plural>Budino di ricotta</plural>
 	</word>
 	<word>
 		<base>Budino di savoiardi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric410</id>
-		<plural>Budini di savoiardi</plural>
+		<plural>Budino di savoiardi</plural>
 	</word>
 	<word>
-		<base>Cannolo alla siciliana</base>
+		<base>Cannoli alla siciliana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric411</id>
 		<plural>Cannoli alla siciliana</plural>
 	</word>
 	<word>
-		<base>Cannoncino alla crema</base>
+		<base>Cannoncini alla crema</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric412</id>
 		<plural>Cannoncini alla crema</plural>
 	</word>
 	<word>
-		<base>Cartellata</base>
+		<base>Cartellate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric413</id>
@@ -2921,9 +2892,9 @@
 	<word>
 		<base>Castagnaccio</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric414</id>
-		<plural>Castagnacci</plural>
+		<plural>Castagnaccio</plural>
 	</word>
 	<word>
 		<base>Crema pasticcera</base>
@@ -2935,7 +2906,7 @@
 	<word>
 		<base>Creme caramel</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric416</id>
 		<plural>Creme caramel</plural>
 	</word>
@@ -2944,19 +2915,19 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric417</id>
-		<plural>Crostate all´arancia</plural>
+		<plural>Crostata all´arancia</plural>
 	</word>
 	<word>
 		<base>Crostata di ricotta</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric418</id>
-		<plural>Crostate di ricotta</plural>
+		<plural>Crostata di ricotta</plural>
 	</word>
 	<word>
-		<base>Fagottino dolci con ricotta</base>
+		<base>Fagottini dolci con ricotta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric419</id>
 		<plural>Fagottini dolci con ricotta</plural>
 	</word>
@@ -2965,7 +2936,7 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric420</id>
-		<plural>Gelati alla crema</plural>
+		<plural>Gelato alla crema</plural>
 	</word>
 	<word>
 		<base>Mousse di cioccolato</base>
@@ -2977,28 +2948,28 @@
 	<word>
 		<base>Pan di spagna</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric422</id>
 		<plural>Pan di spagna</plural>
 	</word>
 	<word>
 		<base>Souffle´ gelato alla vaniglia</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric423</id>
 		<plural>Souffle´ gelato alla vaniglia</plural>
 	</word>
 	<word>
 		<base>Strudel di frutta secca</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric424</id>
 		<plural>Strudel di frutta secca</plural>
 	</word>
 	<word>
 		<base>Strudel di mele</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric425</id>
 		<plural>Strudel di mele</plural>
 	</word>
@@ -3007,94 +2978,94 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric426</id>
-		<plural>Torte alle albicocche</plural>
+		<plural>Torta alle albicocche</plural>
 	</word>
 	<word>
 		<base>Torta di castagne</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric427</id>
-		<plural>Torte di castagne</plural>
+		<plural>Torta di castagne</plural>
 	</word>
 	<word>
 		<base>Torta di ciliegie</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric428</id>
-		<plural>Torte di ciliegie</plural>
+		<plural>Torta di ciliegie</plural>
 	</word>
 	<word>
 		<base>Torta di mandorle</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric429</id>
-		<plural>Torte di mandorle</plural>
+		<plural>Torta di mandorle</plural>
 	</word>
 	<word>
 		<base>Torta di mele</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric430</id>
-		<plural>Torte di mele</plural>
+		<plural>Torta di mele</plural>
 	</word>
 	<word>
 		<base>Torta di more</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric431</id>
-		<plural>Torte di more</plural>
+		<plural>Torta di more</plural>
 	</word>
 	<word>
 		<base>Torta di noci</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric432</id>
-		<plural>Torte di noci</plural>
+		<plural>Torta di noci</plural>
 	</word>
 	<word>
 		<base>Torta di pane con le mele</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric433</id>
-		<plural>Torte di pane con le mele</plural>
+		<plural>Torta di pane con le mele</plural>
 	</word>
 	<word>
 		<base>Torta margherita</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric434</id>
-		<plural>Torte margherita</plural>
+		<plural>Torta margherita</plural>
 	</word>
 	<word>
 		<base>Torta primavera</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric435</id>
-		<plural>Torte primavera</plural>
+		<plural>Torta primavera</plural>
 	</word>
 	<word>
 		<base>Torta quattro quarti</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric436</id>
-		<plural>Torte quattro quarti</plural>
+		<plural>Torta quattro quarti</plural>
 	</word>
 	<word>
 		<base>Trancio al cioccolato</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric437</id>
-		<plural>Tranci al cioccolato</plural>
+		<plural>Trancio al cioccolato</plural>
 	</word>
 	<word>
 		<base>Zabaione</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric438</id>
-		<plural>Zabaioni</plural>
+		<plural>Zabaione</plural>
 	</word>
 	<word>
-		<base>Banana alla fiamma</base>
+		<base>Banane alla fiamma</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric439</id>
@@ -3108,21 +3079,21 @@
 		<plural>Charlotte di fragole</plural>
 	</word>
 	<word>
-		<base>Fagottello di pera</base>
+		<base>Fagottelli di pera</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric441</id>
 		<plural>Fagottelli di pera</plural>
 	</word>
 	<word>
-		<base>Fragola con panna</base>
+		<base>Fragole con panna</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric442</id>
 		<plural>Fragole con panna</plural>
 	</word>
 	<word>
-		<base>Frittella di mele</base>
+		<base>Frittelle di mele</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric443</id>
@@ -3131,26 +3102,26 @@
 	<word>
 		<base>Frullato di frutta</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric444</id>
-		<plural>Frullati di frutta</plural>
+		<plural>Frullato di frutta</plural>
 	</word>
 	<word>
 		<base>Macedonia d´estate</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric445</id>
-		<plural>Macedonie d´estate</plural>
+		<plural>Macedonia d´estate</plural>
 	</word>
 	<word>
-		<base>Mela al forno</base>
+		<base>Mele al forno</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric446</id>
 		<plural>Mele al forno</plural>
 	</word>
 	<word>
-		<base>Meringa a freddo</base>
+		<base>Meringhe a freddo</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric447</id>
@@ -3164,7 +3135,7 @@
 		<plural>Mousse di albicocche</plural>
 	</word>
 	<word>
-		<base>Pera al cioccolato</base>
+		<base>Pere al cioccolato</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric449</id>
@@ -3180,23 +3151,23 @@
 	<word>
 		<base>Semifreddo alle fragole</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric451</id>
-		<plural>Semifreddi alle fragole</plural>
+		<plural>Semifreddo alle fragole</plural>
 	</word>
 	<word>
 		<base>Sorbetto al limone</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric452</id>
-		<plural>Sorbetti al limone</plural>
+		<plural>Sorbetto al limone</plural>
 	</word>
 	<word>
 		<base>Besciamella</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric453</id>
-		<plural>Besciamelle</plural>
+		<plural>Besciamella</plural>
 	</word>
 	<word>
 		<base>Citronnete</base>
@@ -3208,37 +3179,37 @@
 	<word>
 		<base>Condimento ai quattro formaggi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric455</id>
-		<plural>Condimenti ai quattro formaggi</plural>
+		<plural>Condimento ai quattro formaggi</plural>
 	</word>
 	<word>
 		<base>Condimento al gongorzola</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric456</id>
-		<plural>Condimenti al gongorzola</plural>
+		<plural>Condimento al gongorzola</plural>
 	</word>
 	<word>
 		<base>Condimento alle melanzane</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric457</id>
 		<plural>Condimento alle melanzane</plural>
 	</word>
 	<word>
 		<base>Intingolo di tonno</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric458</id>
-		<plural>Intingoli di tonno</plural>
+		<plural>Intingolo di tonno</plural>
 	</word>
 	<word>
 		<base>Maionese</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric459</id>
-		<plural>Maionesi</plural>
+		<plural>Maionese</plural>
 	</word>
 	<word>
 		<base>Mousse di tonno</base>
@@ -3250,14 +3221,14 @@
 	<word>
 		<base>Pesto</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric461</id>
-		<plural>Pesti</plural>
+		<plural>Pesto</plural>
 	</word>
 	<word>
 		<base>Ragu´ ai funghi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric462</id>
 		<plural>Ragu´ ai funghi</plural>
 	</word>
@@ -3266,84 +3237,84 @@
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric463</id>
-		<plural>Salse agli aromi</plural>
+		<plural>Salsa agli aromi</plural>
 	</word>
 	<word>
 		<base>Salsa ai funghi coltivati</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric464</id>
-		<plural>Salse ai funghi coltivati</plural>
+		<plural>Salsa ai funghi coltivati</plural>
 	</word>
 	<word>
 		<base>Salsa bearnaise</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric465</id>
-		<plural>Salse bearnaise</plural>
+		<plural>Salsa bearnaise</plural>
 	</word>
 	<word>
 		<base>Salsa di pomodoro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric466</id>
-		<plural>Salse di pomodoro</plural>
+		<plural>Salsa di pomodoro</plural>
 	</word>
 	<word>
 		<base>Salsa tartara</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric467</id>
-		<plural>Salse tartara</plural>
+		<plural>Salsa tartara</plural>
 	</word>
 	<word>
 		<base>Salsa verde</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric468</id>
-		<plural>Salse verdi</plural>
+		<plural>Salsa verde</plural>
 	</word>
 	<word>
 		<base>Sugo ai funghi</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric469</id>
-		<plural>Sughi ai funghi</plural>
+		<plural>Sugo ai funghi</plural>
 	</word>
 	<word>
 		<base>Sugo all´amatriciana</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric470</id>
-		<plural>Sughi all´amatriciana</plural>
+		<plural>Sugo all´amatriciana</plural>
 	</word>
 	<word>
 		<base>Sugo alla puttanesca</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric471</id>
-		<plural>Sughi alla puttanesca</plural>
+		<plural>Sugo alla puttanesca</plural>
 	</word>
 	<word>
 		<base>Sugo alle vongole</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric472</id>
-		<plural>Sughi alle vongole</plural>
+		<plural>Sugo alle vongole</plural>
 	</word>
 	<word>
 		<base>Sugo alle zucchine</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric473</id>
-		<plural>Sughi alle zucchine</plural>
+		<plural>Sugo alle zucchine</plural>
 	</word>
 	<word>
 		<base>Sugo di piselli</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric474</id>
-		<plural>Sughi di piselli</plural>
+		<plural>Sugo di piselli</plural>
 	</word>
 	<word>
 		<base>Vinaigrette all´acciuga</base>
@@ -3355,30 +3326,30 @@
 	<word>
 		<base>Brodo vegetale</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric476</id>
-		<plural>Brodi vegetali</plural>
+		<plural>Brodo vegetale</plural>
 	</word>
 	<word>
 		<base>Cappuccino</base>
 		<category>noun</category>
-		<gender>masculine</gender>
+		<gender>feminine</gender>
 		<id>ric477</id>
-		<plural>Cappuccini</plural>
+		<plural>Cappuccino</plural>
 	</word>
 	<word>
 		<base>Cioccolata calda</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric478</id>
-		<plural>Cioccolate calde</plural>
+		<plural>Cioccolata calda</plural>
 	</word>
 	<word>
 		<base>Crema al burro</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric479</id>
-		<plural>Creme al burro</plural>
+		<plural>Crema al burro</plural>
 	</word>
 	<word>
 		<base>Crepes</base>
@@ -3388,74 +3359,74 @@
 		<plural>Crepes</plural>
 	</word>
 	<word>
-		<base>Paste biscotto</base>
+		<base>Pasta biscotto</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric481</id>
-		<plural>Paste biscotto</plural>
+		<plural>Pasta biscotto</plural>
 	</word>
 	<word>
 		<base>Pasta brioche</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric482</id>
-		<plural>Paste brioche</plural>
+		<plural>Pasta brioche</plural>
 	</word>
 	<word>
 		<base>Pasta brisee</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric483</id>
-		<plural>Paste brisee</plural>
+		<plural>Pasta brisee</plural>
 	</word>
 	<word>
 		<base>Pasta frolla</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric484</id>
-		<plural>Paste frolla</plural>
+		<plural>Pasta frolla</plural>
 	</word>
 	<word>
 		<base>Pasta per bigne´</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric485</id>
-		<plural>Paste per bigne´</plural>
+		<plural>Pasta per bigne´</plural>
 	</word>
 	<word>
 		<base>Pasta per pizza</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric486</id>
-		<plural>Paste per pizza</plural>
+		<plural>Pasta per pizza</plural>
 	</word>
 	<word>
 		<base>Pasta sfoglia</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric487</id>
-		<plural>Paste sfoglie</plural>
+		<plural>Pasta sfoglia</plural>
 	</word>
 	<word>
 		<base>Polenta</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric488</id>
-		<plural>Polente</plural>
+		<plural>Polenta</plural>
 	</word>
 	<word>
 		<base>Insalata di gamberetti e fagiolini</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric489</id>
-		<plural>Insalate di gamberetti e fagiolini</plural>
+		<plural>Insalata di gamberetti e fagiolini</plural>
 	</word>
 	<word>
 		<base>Anatra all´arancia</base>
 		<category>noun</category>
 		<gender>feminine</gender>
 		<id>ric490</id>
-		<plural>Anatre all´arancia</plural>
+		<plural>Anatra all´arancia</plural>
 	</word>
 	<word>
 		<base>Purea di mele</base>
@@ -3464,152 +3435,3 @@
 		<id>ric491</id>
 		<plural>Purea di mele</plural>
 	</word>
-	<word>
-		<base>buonasera</base>
-		<category>noun</category>
-		<gender>feminine</gender>
-		<id>good-evening</id>
-		<plural>buonasera</plural>
-	</word>
-	
-	<word>
-		<base>carboidrato</base>
-		<category>noun</category>
-		<gender>masculine</gender>
-		<id>carb</id>
-		<plural>carboidrati</plural>
-	</word>
-	<word>
-		<base>carbonio</base>
-		<category>noun</category>
-		<gender>masculine</gender>
-		<id>carbon</id>
-		<plural>carboni</plural>
-	</word>
-	<word>
-		<base>ciao</base>
-		<category>noun</category>
-		<gender>masculine</gender>
-		<id>hello_1</id>
-		<plural>ciao</plural>
-	</word>
-	<word>
-		<base>congratulazioni</base>
-		<category>noun</category>
-		<gender>masculine</gender>
-		<id>congratulations</id>
-		<plural>congratulazioni</plural>
-	</word>
-	<word>
-		<base> med score </base>
-		<category> noun </category>
-		<id> mscore </id>
-		<plural> med score </plural>
-		<gender> masculine </gender>
-	</word>
-	<word>
-		<base> latticino </base>
-		<category> noun </category>
-		<id> ffdp </id>
-		<plural> latticini </plural>
-		<gender> masculine </gender>
-	</word>
-	<word>
-		<base> lipide </base>
-		<category> noun </category>
-		<id> lip </id>
-		<plural> lipidi </plural>
-		<gender> masculine </gender>
-	</word>
-	<word>
-		<base> quantita </base>
-		<category> noun </category>
-		<id> portion2 </id>
-		<plural> quantita </plural>
-		<gender> feminine </gender>
-	</word>
-	<word>
-		<base> quantità </base>
-		<category> noun </category>
-		<id> portion1 </id>
-		<plural> quantità </plural>
-		<gender> feminine </gender>
-	</word>
-	<word>
-		<base>salve</base>
-		<category>noun</category>
-		<gender>masculine</gender>
-		<id>hello_2</id>
-		<plural>salve</plural>
-	</word>
-	<word>
-		<base> settimana </base>
-		<category> noun </category>
-		<id> week </id>
-		<plural> settimane </plural>
-		<gender> feminine </gender>
-	</word>
-<!-- ADVERBS -->
-<word>
-  <base>più</base>
-  <category>adverb</category>
-</word>
-<word>
-  <base>lievemente</base>
-  <category>adverb</category>
-</word>
-<word>
-  <base>debolmente</base>
-  <category>adverb</category>
-</word>
-<word>
-  <base>pressochè</base>
-  <category>adverb</category>
-</word>
-<!-- VERBS -->
-<word>
-  <base>totalizzo</base>
-  <category>verb</category>
-  <id>to-obtain_2</id>
-  <present1s>totalizzo</present1s>
-  <present2s>totalizzi</present2s>
-  <present3s>totalizza</present3s>
-  <present1p>totalizziamo</present1p>
-  <present2p>totalizzate</present2p>
-  <present3p>totalizzano</present3p>
-  <subjunctive1s>totalizzi</subjunctive1s>
-  <subjunctive2s>totalizzi</subjunctive2s>
-  <subjunctive3s>totalizzi</subjunctive3s>
-  <subjunctive1p>totalizziamo</subjunctive1p>
-  <subjunctive2p>totalizziate</subjunctive2p>
-  <subjunctive3p>totalizzino</subjunctive3p>
-  <future1s>totalizzerò</future1s>
-  <future2s>totalizzerai</future2s>
-  <future3s>totalizzerà</future3s>
-  <future1p>totalizzeremo</future1p>
-  <future2p>totalizzerete</future2p>
-  <future3p>totalizzeranno</future3p>
-  <cond1s>totalizzerei</cond1s>
-  <cond2s>totalizzeresti</cond2s>
-  <cond3s>totalizzereste</cond3s>
-  <cond1p>totalizzeremmo</cond1p>
-  <cond2p>totalizzereste</cond2p>
-  <cond3p>totalizzerebbero</cond3p>
-  <impf1s>totalizzavo</impf1s>
-  <impf2s>totalizzavi</impf2s>
-  <impf3s>totalizzava</impf3s>
-  <impf1p>totalizzavamo</impf1p>
-  <impf2p>totalizzavate</impf2p>
-  <impf3p>totalizzavano</impf3p>
-  <pastParticiple>totalizzato</pastParticiple>
-  <feminine_past_participle>totalizzata</feminine_past_participle>
-  <remote_past1s>totalizzai</remote_past1s>
-  <remote_past2s>totalizzasti</remote_past2s>
-  <remote_past3s>totalizzò</remote_past3s>
-  <remote_past1p>totalizzammo</remote_past1p>
-  <remote_past2p>totalizzaste</remote_past2p>
-  <remote_past3p>totalizzarono</remote_past3p>
-</word>
-
-	
-</lexicon>

@@ -500,13 +500,18 @@ public class SentencePlanner {
 		}
 		
 		if(etaUtente>18 && lingua.equals("italiano"))	
-			setFormalPhrase();
+			setFormalPhrases();
 	}
 	
-	private void setFormalPhrase() {
+	private void setFormalPhrases() {
 		for (Phrase p:phrases) {
 			p.setFormal(true);
-			if(p.getCoordinatedPhrase()!=null)	p.getCoordinatedPhrase().setFormal(true);			
+			if(p.getCoordinatedPhrase()!=null)	
+				p.getCoordinatedPhrase().setFormal(true);		
+			if(p.getRelativeSubjectPhrase()!=null)	
+				p.getRelativeSubjectPhrase().setFormal(true);	
+			if(p.getRelativeObjectPhrase()!=null)	
+				p.getRelativeObjectPhrase().setFormal(true);				
 		}
 	}
 	
@@ -646,7 +651,7 @@ public class SentencePlanner {
 		ArrayList<String> subject2 = new ArrayList<>();
 		subject2.add(getWord(badMacronutrienteEnvironment));
 		ArrayList<String> subjectArgs = new ArrayList<>();
-		subjectArgs.add(getWord("consumed"));
+		if(lingua.equals("italiano"))	subjectArgs.add(getWord("consumed"));
 		ArrayList<String> object2 = new ArrayList<>();
 		object2.add(getWord("impact"));
 		ArrayList<String> adjp2 = new ArrayList<>();
@@ -691,6 +696,7 @@ public class SentencePlanner {
 		
 		
 		sub = new ArrayList<>();
+		sub.add("");
 		if(lingua.equals("english")) {
 			if(!isDietician())		sub.add(getWord("you"));
 		}
@@ -702,9 +708,11 @@ public class SentencePlanner {
 		phraseWelcome2.setTense(Tense.PAST);
 		if(lingua.equals("italiano"))	phraseWelcome2.setPerfect(true);
 		ArrayList<String> args = new ArrayList<>();
-		args.add(Integer.toString(indiceMed));
+		args.add(Integer.toString(indiceMed)+" "+getWord("out-of")+" 55");
 		phraseWelcome2.setPostModifierPhrase(getWord("equal"));
 		phraseWelcome2.setPhraseArgs(args);
+		String postModifierPhrase = "";
+		//phraseWelcome2.setPostModifierPhrase(getWord("out-of")+" 55");
 
 		Phrase indPhrase = lexicaliseIndiceMed();
 		
@@ -742,12 +750,14 @@ public class SentencePlanner {
 		}
 		
 		ArrayList<String> adj = new ArrayList<>();
+		ArrayList<String> subTemp = new ArrayList<>();
 		if(indiceMed<lastIndiceMed) {
 			//p.setVerb(getWord("to-get-worse"));
 			//p.setModal(getWord("to-be"));
 			if(lingua.equals("italiano")) 	
 				adj.add(getWord("improved"));
-			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("congratulation"),new ArrayList<String>());
+			subTemp.add(getWord("congratulation"));
+			temp = new Phrase(PhraseType.EXCLAMATION,subTemp,"",new ArrayList<String>());
 			if(lingua.equals("italiano")) temp.setForm(Form.INFINITIVE);
 			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
 		}else {
@@ -757,7 +767,8 @@ public class SentencePlanner {
 			else 
 				p.setNegative(true);
 			
-			temp = new Phrase(PhraseType.EXCLAMATION,sub,getWord("to-give-up"),new ArrayList<String>());
+			subTemp.add(getWord("to-not-give-up"));
+			temp = new Phrase(PhraseType.EXCLAMATION,subTemp,"",new ArrayList<String>());
 			temp.setNegative(true);
 			if(lingua.equals("italiano")) temp.setForm(Form.INFINITIVE);
 			if(etaUtente>18  && lingua.equals("italiano"))	temp.setFormal(true);
@@ -768,10 +779,14 @@ public class SentencePlanner {
 		else	p.setAdjpGender(Gender.MASCULINE);
 		
 		p.setType(PhraseType.WELCOME);
+		ArrayList<String> subP = new ArrayList<>();
+		subP.add("");
+		p.setSubject(subP);
 		
 		ArrayList<String> args = new ArrayList<>();
 		args.add(getWord("last-week"));
-		p.setPostModifierPhrase(getWord("since"));
+		if(lingua.equals("italiano"))	p.setPostModifierPhrase(getWord("since-fem"));
+		else	p.setPostModifierPhrase(getWord("since"));
 		p.setPhraseArgs(args);
 		
 		return p;
@@ -781,6 +796,7 @@ public class SentencePlanner {
 	private Phrase lexicaliseVeryGood(String connection) {
 		Phrase phraseVeryGood;
 		ArrayList<String> subject = new ArrayList<>();
+		subject.add("");
 		if(lingua.equals("english")) 	subject.add(getWord("you"));
 		String verb = getWord("to-do");
 		ArrayList<String> object = new ArrayList<String>();
@@ -795,7 +811,7 @@ public class SentencePlanner {
 		phraseVeryGood.setPerfect(true);
 		phraseVeryGood.setPreModifierPhrase(connection);
 		ArrayList<String> adjp = new ArrayList<String>();
-		adjp.add(getWord("very-good"));
+		adjp.add(getWord("fantastic"));
 		phraseVeryGood.setAdjp(adjp);
 		phraseVeryGood.setObjectArticle(getWord("a"));
 		phraseVeryGood.setPostModifierPhrase(getWord("with"));
@@ -959,6 +975,7 @@ public class SentencePlanner {
 		if(isDietician()) //IF dietista
 			subject.add(nomeUtente);
 		else if(lingua.equals("english"))	subject.add(getWord("you"));
+		else subject.add("");
 		
 		String verb = getWord("to-eat");
 		ArrayList<String> object = new ArrayList<String>();
@@ -1062,7 +1079,7 @@ public class SentencePlanner {
 		Phrase p = lexicaliseVeryBad("");
 		Phrase phraseVeryBad;
 		ArrayList<String> subject = new ArrayList<>();
-		if(lingua.equals("english")) 	subject.add(getWord("you"));
+		subject.add(getWord("patient"));
 		String verb = getWord("to-obtain");
 		ArrayList<String> subjectArgs = new ArrayList<String>();
 		for (String m: macronutrientiVeryBad) {
@@ -1092,6 +1109,7 @@ public class SentencePlanner {
 	private Phrase lexicaliseVeryGoodPasto(String connection) {
 		Phrase p = null;
 		ArrayList<String> subject1 = new ArrayList<>();
+		
 		
 		String temp = "";
 		switch(veryGoodPasto.getSlot()) {
@@ -1165,6 +1183,9 @@ public class SentencePlanner {
 		p.setConjunction(conjunction);
 		coordinatedPhraseMore.setSubjectArticle(getWord("the"));
 		coordinatedPhraseMore.setAdjp(adjp2);
+
+		if(lingua.equals("italiano"))	coordinatedPhraseMore.setSubjectAdjp(getWord("dish"));
+		
 		ArrayList<String> objectArgsMore = new ArrayList<>();
 		ArrayList<String> objectArgsLess = new ArrayList<>();
 		
@@ -1223,6 +1244,9 @@ public class SentencePlanner {
 			p.setFormal(true);
 		
 		p.setObjectArticle(getWord("the"));
+		ArrayList<String> preModifierObject = new ArrayList<>();
+		preModifierObject.add(getWord("dish"));
+		if(lingua.equals("italiano"))	p.setPreModifierObject(preModifierObject);
 		p.setSubjectArticle(getWord("the"));
 		p.setSubjectPlural(true);
 		if(lingua.equals("italiano"))	p.setTense(Tense.CONDITIONAL);
@@ -1260,6 +1284,7 @@ public class SentencePlanner {
 		String verb2 = getWord("to-eat");
 		ArrayList<String> sub2 = new ArrayList<>();
 		if(lingua.equals("english"))	sub2.add(getWord("you"));
+		else sub2.add("");
 		Phrase relativePhrase = new Phrase(PhraseType.MEAL, sub2, verb2,  obj2, new ArrayList<>());
 		if(lingua.equals("italiano")) {
 			relativePhrase.setObjectArticle(getWord("the"));

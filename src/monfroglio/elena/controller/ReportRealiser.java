@@ -102,6 +102,8 @@ public class ReportRealiser {
 				String substring2 = output.substring(18);
 			    output = substring1+substring2;
 		    }
+		    output = output.replace(" furthermore", ", furthermore");
+		    output = output.replace(" perché,", " perché");
 			System.out.print(output+" ");
 		}
 	}
@@ -117,7 +119,7 @@ public class ReportRealiser {
 		//VERBO 
 		if(p.getVerb()!="") 
 			createAndSetVerb(clause,p);
-		
+
 		//OGGETTO
 		NLGElement object = null;
 		if(!p.getObject().isEmpty()) {
@@ -127,11 +129,10 @@ public class ReportRealiser {
 		}
 		else if(!p.getAdjp().isEmpty()) 
 			createAndSetAdjp(clause,p);
-		
+
 		//"CON CEREALI, VERDURE ECC.."
 		if(p.getSubjectArgs()!=null && !p.getSubjectArgs().isEmpty()) 
 			createAndSetArgs(clause,p,p.getSubjectArgs(),subject,p.getPostModifierSubject());
-		
 		
 		if(p.getPhraseArgs()!=null && !p.getPhraseArgs().isEmpty()) 
 			createAndSetArgs(clause,p,p.getPhraseArgs(),null,p.getPostModifierPhrase());			
@@ -144,16 +145,19 @@ public class ReportRealiser {
 		if(p.getRelativeSubjectPhrase()!=null)
 			createAndSetRelativePhrase(clause,p.getRelativeSubjectPhrase(),subject);
 		
+		if(p.getType()==PhraseType.EXCLAMATION) {
+			clause.addPostModifier("!");
+		}
 		clause.addFrontModifier(p.getPreModifierPhrase());
-			
 		return clause;
 	}
 	
 	private VPPhraseSpec createAndSetVerb(SPhraseSpec clause, Phrase p) {
 		VPPhraseSpec verb = nlgFactory.createVerbPhrase(p.getVerb());
+
 		//verb.setFeature(Feature.AGGREGATE_AUXILIARY, p.getAuxiliary());
+		
 		if(p.getType()==PhraseType.EXCLAMATION) {
-			clause.addPostModifier("!");
 			if(!p.isFormal())	
 				clause.setFeature(Feature.FORM, Form.INFINITIVE);
 			else {				
@@ -167,10 +171,12 @@ public class ReportRealiser {
 			if(lingua.equals("english"))
 				verb.setFeature(Feature.PERSON, Person.SECOND);
 		}
-		verb.setFeature(Feature.PERSON, Person.THIRD);
-		clause.setFeature(Feature.NEGATED, p.isNegative());
+		if(!p.isFormal() && lingua.equals("italiano"))	
+			clause.setFeature(Feature.PERSON, Person.FIRST);
+		verb.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
 		clause.setFeature(Feature.PERFECT, p.isPerfect());
+		
 		clause.setVerb(verb);
 		return verb;
 	}
@@ -190,6 +196,8 @@ public class ReportRealiser {
 				if(p.getSubjectGender()!=null)	subject.setFeature(LexicalFeature.GENDER,p.getSubjectGender());
 			}
 			if(!p.getSubjectAdjp().equals(""))	subject.addPreModifier(p.getSubjectAdjp());
+			if(p.getSubject().get(0).equals("") && !p.isFormal() && lingua.equals("italiano"))	
+				subject.setFeature(Feature.PERSON, Person.SECOND);
 			//subject.addModifier(p.getAdjp());
 		}
 		subject.setPlural(p.getSubjectPlural());
