@@ -696,9 +696,11 @@ public class SentencePlanner {
 		
 		
 		sub = new ArrayList<>();
-		sub.add("");
-		if(lingua.equals("english")) {
-			if(!isDietician())		sub.add(getWord("you"));
+		if(!isDietician()) {
+			if(lingua.equals("english"))		sub.add(getWord("you"));
+			else	sub.add("");
+		}else {
+			sub.add(getWord("patient"));
 		}
 		ArrayList<String> obj = new ArrayList<>();
 		obj.add(getWord("mscore"));
@@ -717,7 +719,6 @@ public class SentencePlanner {
 		Phrase indPhrase = lexicaliseIndiceMed();
 		
 		if(isDietician()) {
-			sub.add(getWord("patient"));
 			phraseWelcome2.setSubject(sub);
 			phraseWelcome2.setSubjectArticle(getWord("the"));
 		}
@@ -780,7 +781,12 @@ public class SentencePlanner {
 		
 		p.setType(PhraseType.WELCOME);
 		ArrayList<String> subP = new ArrayList<>();
-		subP.add("");
+		if(lingua.equals("italiano")) {
+			subP.add("");
+		}else {
+			if(sessoUtente.equals("F"))	subP.add(getWord("she"));
+			else		subP.add(getWord("he"));
+		}
 		p.setSubject(subP);
 		
 		ArrayList<String> args = new ArrayList<>();

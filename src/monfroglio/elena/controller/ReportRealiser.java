@@ -283,13 +283,12 @@ public class ReportRealiser {
 		
 		for(String m: args) {
 			NPPhraseSpec temp = nlgFactory.createNounPhrase(m);
-			if(getGender(m)!=null) {
-				temp.setFeature(LexicalFeature.GENDER, getGender(m));
-				temp.setPlural(isPlural(m));
-				plural = isPlural(m);
-				if(args.size()==1 && !p.getArgsArticle().equals(""))	temp.setSpecifier(p.getArgsArticle());
+			
+			temp.setFeature(LexicalFeature.GENDER, getGender(m));
+			temp.setPlural(isPlural(m));
+			plural = isPlural(m);
+			if(args.size()==1 && !p.getArgsArticle().equals(""))	temp.setSpecifier(p.getArgsArticle());
 				
-			}
 			
 			macronutrientiList.add(temp);
 		}
@@ -397,7 +396,7 @@ public class ReportRealiser {
 				|| macronutriente.equals("oil") || macronutriente.equals("white meat")) 
 			ret = false;
 		else if(macronutriente.equals("legumi") || macronutriente.equals("latticini") || macronutriente.equals("patate") 
-				|| macronutriente.equals("cereali") || macronutriente.equals("vegetable") || macronutriente.equals("cereal")
+				|| macronutriente.equals("cereali") || macronutriente.equals("vegetables") || macronutriente.equals("cereals")
 				|| macronutriente.equals("potato"))
 			ret = true;
 		return ret;
