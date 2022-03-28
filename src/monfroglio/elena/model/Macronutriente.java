@@ -41,7 +41,7 @@ public class Macronutriente {
 		boolean ret = true;
 		
 		if(isThisType("rmeat",dictionary) || 
-				isThisType("poul",dictionary) || isThisType("ffdp",dictionary))
+				isThisType("poul",dictionary) || isThisType("diary",dictionary))
 			ret = false;
 		
 		return ret;
@@ -112,8 +112,8 @@ public class Macronutriente {
 		else if(nome.equals("CarneRossa") && m.equals("rmeat"))	return true;
 		else if(m.equals("poul") && nome.equals("Pollame"))	return true;
 		else if(nome.equals("Pollame") && m.equals("poul"))	return true;
-		else if(m.equals("ffdp") && nome.equals("Latticini"))	return true;
-		else if(nome.equals("Latticini") && m.equals("ffdp"))	return true;
+		else if(m.equals("diary") && nome.equals("Latticini"))	return true;
+		else if(nome.equals("Latticini") && m.equals("diary"))	return true;
 		else if(m.equals("oil") && nome.equals("UsoOlioOliva"))	return true;
 		else if(nome.equals("UsoOlioOliva") && m.equals("oil"))	return true;
 		else return false;

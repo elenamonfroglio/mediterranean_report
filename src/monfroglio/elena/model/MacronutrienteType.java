@@ -10,7 +10,7 @@ public abstract class MacronutrienteType {
 	  public static final java.lang.String PESCE = "fish";
 	  public static final java.lang.String CARNEROSSA = "rmeat";
 	  public static final java.lang.String POLLAME = "poul";
-	  public static final java.lang.String LATTICINI = "ffdp";
+	  public static final java.lang.String LATTICINI = "diary";
 	  public static final java.lang.String USOOLIOOLIVA = "oil";
 	  
 }

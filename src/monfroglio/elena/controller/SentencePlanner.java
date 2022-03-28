@@ -60,10 +60,10 @@ public class SentencePlanner {
 	private double totalePunteggioEnvironment;
 	private HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
 	private ArrayList<String> order;
-	private ArrayList<String> macronutrientiVeryGood;
-	private ArrayList<String> macronutrientiGood;
-	private ArrayList<String> macronutrientiBad;
-	private ArrayList<String> macronutrientiVeryBad;
+	private ArrayList<String> macronutrientiVeryGood = new ArrayList<>();
+	private ArrayList<String> macronutrientiGood = new ArrayList<>();
+	private ArrayList<String> macronutrientiBad = new ArrayList<>();
+	private ArrayList<String> macronutrientiVeryBad = new ArrayList<>();
 	public ArrayList<Phrase> phrases;
 	private Phrase temp;
 	private SenticnetManager sm;
@@ -142,15 +142,15 @@ public class SentencePlanner {
 
 		JsonObject jsonObject = readJson();
 		
-		extractMacronutrienti(jsonObject);
+		extractMacronutrienti_v2(jsonObject);
 		extractLingua(jsonObject);
 		extractUtente(jsonObject);
 		
 		loadDictionary();
 		loadSenticnet();
-		aggregatorMacronutrienti();
-		extractBestMeal();
-		extractWorstMeal();
+		//aggregatorMacronutrienti();
+		extractBestMeal(jsonObject);
+		extractWorstMeal(jsonObject);
 		ArrayList<String> orderTemp = (ArrayList<String>) order.clone();
 		//RIMUOVO DALL'ORDINE GLOBALE NEL CASO IN CUI AVESSI MACRONUTRIENTI VUOTI
 		for(String m: orderTemp) {
@@ -195,13 +195,15 @@ public class SentencePlanner {
 		return ret;
 	}
 	
-	public void extractBestMeal() {
-		veryGoodPasto = thisWeek.getPastoWithGoodMacrosPareto(macronutrientiVeryGood,dictionary);
+	public void extractBestMeal(JsonObject object) {
+		int idBestPasto = object.getInt("best dish");
+		veryGoodPasto = thisWeek.getPastoFromId(idBestPasto);
 		//veryGoodPasto.print();	
 	}
 	
-	public void extractWorstMeal() {
-		veryBadPasto = thisWeek.getPastoWithWorstMacrosPareto(macronutrientiVeryBad,dictionary);
+	public void extractWorstMeal(JsonObject object) {
+		int idBestPasto = object.getInt("worst dish");
+		veryBadPasto = thisWeek.getPastoFromId(idBestPasto);
 		//veryBadPasto.print();	
 	}
 	
@@ -226,72 +228,123 @@ public class SentencePlanner {
 		JsonObject jsonObject = object.getJsonObject(MacronutrienteType.CEREALI);
 		Macronutriente cereali = new Macronutriente(MacronutrienteType.CEREALI,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(cereali);
 		
 		jsonObject = object.getJsonObject(MacronutrienteType.PATATE);
 		Macronutriente patate = new Macronutriente(MacronutrienteType.PATATE,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(patate);
 		
 		jsonObject = object.getJsonObject(MacronutrienteType.FRUTTA);
 		Macronutriente frutta = new Macronutriente(MacronutrienteType.FRUTTA,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(frutta);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.VERDURA);
 		Macronutriente verdura = new Macronutriente(MacronutrienteType.VERDURA,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(verdura);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.LEGUMI);
 		Macronutriente legumi = new Macronutriente(MacronutrienteType.LEGUMI,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(legumi);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.PESCE);
 		Macronutriente pesce = new Macronutriente(MacronutrienteType.PESCE,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pesce);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.USOOLIOOLIVA);
 		Macronutriente usoOlioOliva = new Macronutriente(MacronutrienteType.USOOLIOOLIVA,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(usoOlioOliva);
 		
 		jsonObject = object.getJsonObject(MacronutrienteType.CARNEROSSA);
 		Macronutriente carneRossa = new Macronutriente(MacronutrienteType.CARNEROSSA,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(carneRossa);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.POLLAME);
 		Macronutriente pollame = new Macronutriente(MacronutrienteType.POLLAME,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(pollame);
 
 		jsonObject = object.getJsonObject(MacronutrienteType.LATTICINI);
 		Macronutriente latticini = new Macronutriente(MacronutrienteType.LATTICINI,
 				jsonObject.getInt("punteggio"),
-				Double.parseDouble(jsonObject.getString("punteggioEnvironment")),
+				jsonObject.getJsonNumber("punteggioEnvironment").doubleValue(),
 				jsonObject.getBoolean("moreIsBetter"));
 		allMacronutrienti.add(latticini);
+	}
+	
+	private void extractMacronutrienti_v2(JsonObject object) {
+		indiceMed = object.getInt("indice Med");
+		lastIndiceMed = object.getInt("last indice Med");
+		totalePunteggioEnvironment = object.getInt("totalePunteggioEnvironment");
+		if(totalePunteggioEnvironment!=-1)	badMacronutrienteEnvironment = object.getString("badMacronutrienteEnvironment");
+		
+
+		JsonArray veryGoodArray = object.getJsonArray("very good");
+		
+		for(int i = 0;i<veryGoodArray.size();i++) {
+			JsonObject objVeryGood = veryGoodArray.getJsonObject(i);
+			String nome = objVeryGood.getString("nome");
+			int punteggio = objVeryGood.getInt("punteggio");
+			macronutrientiVeryGood.add(nome);
+		}
+		
+
+		JsonArray goodArray = object.getJsonArray("good");
+		
+		for(int i = 0;i<goodArray.size();i++) {
+			JsonObject objGood = goodArray.getJsonObject(i);
+			String nome = objGood.getString("nome");
+			int punteggio = objGood.getInt("punteggio");
+			macronutrientiGood.add(nome);
+		}
+		
+
+		JsonArray badArray = object.getJsonArray("bad");
+		
+		for(int i = 0;i<badArray.size();i++) {
+			JsonObject objBad = badArray.getJsonObject(i);
+			String nome = objBad.getString("nome");
+			int punteggio = objBad.getInt("punteggio");
+			macronutrientiBad.add(nome);
+		}
+		
+
+		JsonArray veryBadArray = object.getJsonArray("very bad");
+		
+		for(int i = 0;i<veryBadArray.size();i++) {
+			JsonObject objVeryBad = veryBadArray.getJsonObject(i);
+			String nome = objVeryBad.getString("nome");
+			int punteggio = objVeryBad.getInt("punteggio");
+			macronutrientiVeryBad.add(nome);
+		}
+		
+		
+		//System.out.println(totalePunteggioEnvironment);
+		//TODO
 	}
 	
 	private void loadSenticnet() {

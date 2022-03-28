@@ -23,6 +23,11 @@ public class TextPlanner {
 	private Settimana settimana;
 	private Settimana lastSettimana;
 	private ArrayList<String> order;
+
+	private ArrayList<Macronutriente> macronutrientiVeryGood;
+	private ArrayList<Macronutriente> macronutrientiGood;
+	private ArrayList<Macronutriente> macronutrientiBad;
+	private ArrayList<Macronutriente> macronutrientiVeryBad;
 	
 	public TextPlanner() {
 		lingua = "italiano";
@@ -54,23 +59,65 @@ public class TextPlanner {
 				.add("lingua", lingua)
 				.add("nome utente", user.getNome())
 				.add("eta utente", user.getEta())
-				.add("indice Med", settimana.getIndiceMed())
-				.add("last indice Med", lastSettimana.getIndiceMed())
 				.add("sesso utente", user.getSesso())
 				.add("stress utente", user.getStress())
-				.add("conoscenza dominio", user.getConoscenzaDominio());
+				.add("conoscenza dominio", user.getConoscenzaDominio())
+				.add("indice Med", settimana.getIndiceMed())
+				.add("last indice Med", lastSettimana.getIndiceMed());
 		
 		int k = 0;
 		for (Pasto p: settimana.getPasti()) {
 			int dayOfWeek = getOfWeek(p.getGiorno());
 		}
 		
+		aggregatorMacronutrienti();
+		
+		JsonArrayBuilder arrayBuilderVeryGood = Json.createArrayBuilder();
+		for(Macronutriente m:macronutrientiVeryGood) {
+			arrayBuilderVeryGood = arrayBuilderVeryGood.add(Json.createObjectBuilder()
+					.add("nome", m.getNome())
+					.add("punteggio", m.getPunteggio()));
+		}
+		builder.add("very good",arrayBuilderVeryGood);
+		
+		JsonArrayBuilder arrayBuilderGood = Json.createArrayBuilder();
+		for(Macronutriente m:macronutrientiGood) {
+			arrayBuilderGood = arrayBuilderGood.add(Json.createObjectBuilder()
+					.add("nome", m.getNome())
+					.add("punteggio", m.getPunteggio()));
+		}
+		builder.add("good",arrayBuilderGood);
+		
+		JsonArrayBuilder arrayBuilderBad = Json.createArrayBuilder();
+		for(Macronutriente m:macronutrientiBad) {
+			arrayBuilderBad = arrayBuilderBad.add(Json.createObjectBuilder()
+					.add("nome", m.getNome())
+					.add("punteggio", m.getPunteggio()));
+		}
+		builder.add("bad",arrayBuilderBad);
+		
+		JsonArrayBuilder arrayBuilderVeryBad = Json.createArrayBuilder();
+		for(Macronutriente m:macronutrientiVeryBad) {
+			arrayBuilderVeryBad = arrayBuilderVeryBad.add(Json.createObjectBuilder()
+					.add("nome", m.getNome())
+					.add("punteggio", m.getPunteggio()));
+		}
+		builder.add("very bad",arrayBuilderVeryBad);
+		/*
 		for (Macronutriente m:settimana.getMacronutrienti()) {
 			builder.add(m.getNome(), Json.createObjectBuilder()
 					.add("punteggio", m.getPunteggio())
-					.add("punteggioEnvironment", Double.toString(m.getPunteggioEnvironment()))
+					.add("punteggioEnvironment", m.getPunteggioEnvironment())
 					.add("moreIsBetter", m.getMoreIsBetter()));
-		}		
+		}	
+		*/
+		
+		Pasto bestDish = settimana.getPastoWithGoodMacrosPareto(macronutrientiVeryGood);
+		Pasto worstDish = settimana.getPastoWithWorstMacrosPareto(macronutrientiVeryBad);
+
+		builder.add("best dish", bestDish.getIdRicetta());
+		builder.add("worst dish", worstDish.getIdRicetta());
+		
 		if(user.getInteresseAmbientale())
 			setIndexAmbientalePerEmissioni(builder);
 			//builder.add("totalePunteggioEnvironment", getIndexAmbientalePerEmissioni());
@@ -136,6 +183,29 @@ public class TextPlanner {
 		return index;
 	}
 	
+	private void aggregatorMacronutrienti() {
+		
+		ArrayList<Macronutriente> allMacronutrienti = new ArrayList<>();
+		allMacronutrienti = settimana.getMacronutrienti();
+		
+		macronutrientiVeryGood = getAllMacronutrientiWithSamePoints_v2(5,allMacronutrienti);
+		macronutrientiGood = getAllMacronutrientiWithSamePoints_v2(3,allMacronutrienti);
+		macronutrientiBad = getAllMacronutrientiWithSamePoints_v2(1,allMacronutrienti);
+		macronutrientiVeryBad = getAllMacronutrientiWithSamePoints_v2(-1,allMacronutrienti);
+		
+	}
+	
+	private ArrayList<Macronutriente> getAllMacronutrientiWithSamePoints_v2(int valuation, ArrayList<Macronutriente> allMacronutrienti) {
+		ArrayList<Macronutriente> ret = new ArrayList<>();
+		
+		for (Macronutriente m:allMacronutrienti) 
+			//la condizione in or permette di considerare i good su due valori 2 e 3 e i bad su 1 e 2
+			if(m.getPunteggio()==valuation || m.getPunteggio()==(valuation+1))
+				ret.add(m);
+				//ret.add(getWord(m.getNome()));
+		
+		return ret;
+	}
 
 	public void textStructuring() {
 		//in questo metodo imposterò l'ordine e la struttura in base allo user model

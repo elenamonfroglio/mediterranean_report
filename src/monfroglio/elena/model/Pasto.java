@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import monfroglio.elena.controller.DatabaseManager;
+
 public class Pasto {
 	private String nome = "";
 	private int idRicetta = -1;
@@ -145,14 +147,14 @@ public class Pasto {
 		return ret;
 	}
 	
-	public ArrayList<Float> getSubScore(ArrayList<String> veryGoodMacros){
+	public ArrayList<Float> getSubScore(ArrayList<Macronutriente> veryGoodMacros){
 		ArrayList<Float> ret = new ArrayList<>();
-		for(String m:veryGoodMacros) {
-			boolean isMoreBetter = Macronutriente.isMoreBetter(m);
+		for(Macronutriente m:veryGoodMacros) {
+			boolean isMoreBetter = Macronutriente.isMoreBetter(m.getNome());
 			if(!isMoreBetter) {
 				int a = 0;
 			}
-			Float temp = (float) fromConsumptionToScore(punteggi.get(m),isMoreBetter);
+			Float temp = (float) fromConsumptionToScore(punteggi.get(m.getNome()),isMoreBetter);
 			ret.add(temp);
 		}
 		return ret;

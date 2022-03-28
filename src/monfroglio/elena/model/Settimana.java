@@ -87,6 +87,15 @@ public class Settimana {
 		}
 	}
 	
+	public Pasto getPastoFromId(int idPasto) {
+		Pasto ret = null;
+		for(Pasto p:pasti) {
+			if(p.getIdRicetta()==idPasto)
+				ret = p;
+		}
+		return ret;
+	}
+	
 	public ArrayList<Macronutriente> getAllMoreIsBetter() {
 		ArrayList<Macronutriente> ret = new ArrayList<Macronutriente>(7);
 		for(Macronutriente m: macronutrienti){
@@ -119,25 +128,7 @@ public class Settimana {
 		return ret;
 	}
 	
-	public Pasto getParetoOptimal(ArrayList<String> veryGoodMacros) {
-		Pasto bestPasto = null;
-		
-		createComparator(veryGoodMacros);
-		
-		for(Pasto p:pasti) {
-			HashMap<String,Float> consumption = p.getPunteggi();
-			//devo considerare i tipi verygood e trovare il pasto con il più alto punteggio per queste categorie
-			
-		}
-		
-		return bestPasto;
-	}
-	
-	public void createComparator(ArrayList<String> veryGoodMacros) {
-		ParetoComparator<Point> comparator = new ParetoComparator<Point>();
-	}
-	
-	public Pasto getPastoWithGoodMacrosPareto(ArrayList<String> veryGoodMacros,HashMap<String, ArrayList<String>> dictionary) {
+	public Pasto getPastoWithGoodMacrosPareto(ArrayList<Macronutriente> veryGoodMacros) {
 		Pasto bestPasto = null;
 		
 		ArrayList<Point> listOfPoints = new ArrayList<>();
@@ -174,7 +165,7 @@ public class Settimana {
 		return bestPasto;
 	}
 	
-	public Pasto getPastoWithWorstMacrosPareto(ArrayList<String> veryBadMacros,HashMap<String, ArrayList<String>> dictionary) {
+	public Pasto getPastoWithWorstMacrosPareto(ArrayList<Macronutriente> veryBadMacros) {
 		Pasto bestPasto = null;
 		
 		ArrayList<Point> listOfPoints = new ArrayList<>();
