@@ -3,24 +3,24 @@ package monfroglio.elena.model;
 public class Emotion {
 	private String nome;
 	private String type;
-	private int intensity;
+	private int polarity;
 	
 	public Emotion(String nome) {
 		this.nome = nome;
 		this.type = EmotionType.getType(nome);
-		this.intensity = EmotionName.getIntesity(nome);
+		this.polarity = EmotionName.getIntesity(nome);
 	}
 	
 	public boolean equals(Emotion e) {
-		return (this.nome.equals(e.nome) && this.type.equals(e.type) && this.intensity==e.intensity);
+		return (this.nome.equals(e.nome) && this.type.equals(e.type) && this.polarity==e.polarity);
 	}
 	
 	public String getNome() {
 		return nome;
 	}
 	
-	public int getIntesity() {
-		return intensity;
+	public int getPolarity() {
+		return polarity;
 	}
 	
 	public String getType() {

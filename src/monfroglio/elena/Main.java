@@ -35,16 +35,16 @@ public class Main {
 		Utente u9 = dbmgr.getUtente("CSTSLV04A41A031D"); // // STRESS = 1 INGLESE
 		Utente u10 = dbmgr.getUtente("BRBTZN85A01B406S"); // // STRESS = 1 ITALIANO
 		
-		utenti.add(u1);
-		utenti.add(u2);
-		utenti.add(u3);
-		utenti.add(u4);
-		utenti.add(u5);
-		utenti.add(u6);
+		//utenti.add(u1);
+		//utenti.add(u4);
+		//utenti.add(u2);
+		//utenti.add(u3);
+		//utenti.add(u5);
+		//utenti.add(u6);
 		utenti.add(u7);
-		utenti.add(u8);
-		utenti.add(u9);
-		utenti.add(u10);
+		//utenti.add(u8);
+		//utenti.add(u9);
+		//utenti.add(u10);
 		
 		for(Utente u:utenti) {
 			System.out.println("\n\n"+ u.getNome() + " "+ u.getCognome());
@@ -78,7 +78,7 @@ public class Main {
 			
 			//91000
 			//91299
-			int idTest = 91001 + (int)(Math.random() * ((91299 - 91001) + 1));
+			int idTest = 91001+ (int)(Math.random() * ((91299 - 91001) + 1));
 			int idTestPreviousWeek = idTest-1;
 			
 			//creo una settimana relativa all'utente u
@@ -96,7 +96,7 @@ public class Main {
 			sem.setIndiceMed(dbmgr.getIndiceMed(sem));
 			prevSem.setIndiceMed(dbmgr.getIndiceMed(prevSem));
 			sem.setMacronutrienti(dbmgr.getPunteggiComponenti(sem));
-			
+			sem.print();
 			//Create a textPlanner
 			String lingua = u.getLingua();
 			TextPlanner tp = new TextPlanner(lingua,u,sem,prevSem);

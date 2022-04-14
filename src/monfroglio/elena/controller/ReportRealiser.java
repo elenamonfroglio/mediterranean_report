@@ -158,7 +158,7 @@ public class ReportRealiser {
 		//verb.setFeature(Feature.AGGREGATE_AUXILIARY, p.getAuxiliary());
 		
 		if(p.getType()==PhraseType.EXCLAMATION) {
-			if(!p.isFormal())	
+			if(!p.isFormal() && p.getType()==PhraseType.EXCLAMATION)	
 				clause.setFeature(Feature.FORM, Form.INFINITIVE);
 			else {				
 				clause.setFeature(Feature.FORM, Form.SUBJUNCTIVE);
@@ -172,7 +172,7 @@ public class ReportRealiser {
 				verb.setFeature(Feature.PERSON, Person.SECOND);
 		}
 		if(!p.isFormal() && lingua.equals("italiano"))	
-			clause.setFeature(Feature.PERSON, Person.FIRST);
+			clause.setFeature(Feature.PERSON, Person.SECOND);
 		verb.setFeature(Feature.NEGATED, p.isNegative());
 		clause.setFeature(Feature.TENSE, p.getTense());
 		clause.setFeature(Feature.PERFECT, p.isPerfect());

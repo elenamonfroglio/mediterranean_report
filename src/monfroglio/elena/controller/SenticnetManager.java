@@ -8,13 +8,13 @@ import java.util.Scanner;
 
 import com.opencsv.CSVReader;
 
-import monfroglio.elena.model.Concept;  
+import monfroglio.elena.model.Lemma;  
 
 
 
 public class SenticnetManager {
 	private String language;
-	private ArrayList<Concept> concepts = new ArrayList<>();
+	private ArrayList<Lemma> concepts = new ArrayList<>();
 	private ArrayList<String> words = new ArrayList<>();
 	
 	public SenticnetManager(String language) {
@@ -30,19 +30,20 @@ public class SenticnetManager {
 		else 	fileName = "senticnet/senticnet.csv";
 		CSVReader reader = null;  
 		try {
-			Concept c = null;
+			Lemma c = null;
 			String [] nextLine;  
 			//parsing a CSV file into Scanner class constructor  
 			reader = new CSVReader(new FileReader(fileName));  
 			reader.readNext();
 			while ((nextLine = reader.readNext()) != null)  {  
 				for(String token : nextLine)  {  
-					if(!token.equals(""))
-						c = Concept.createConceptFromLine(token);
+					if(!token.equals("")) {
+						c = Lemma.createLemmaFromLine(token);
 						if(c!=null) {
 							concepts.add(c);
 							words.add(c.getTitle());
 						}
+					}
 				}  
 			}  
 		} catch (Exception e)   {  
@@ -53,7 +54,7 @@ public class SenticnetManager {
 		
 	}
 	
-	public ArrayList<Concept> getConcepts(){
+	public ArrayList<Lemma> getLemmas(){
 		return concepts;
 	}
 	
